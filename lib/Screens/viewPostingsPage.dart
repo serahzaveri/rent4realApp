@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Screens/bookPostingPage.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
+import 'package:househunter/Screens/viewProfilePage.dart';
 import 'package:househunter/Views/TextWidgets.dart';
 import 'package:househunter/Views/formWidgets.dart';
 import 'package:househunter/Views/listWidgets.dart';
@@ -27,8 +32,15 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
     'Oven',
   ];
 
-  void _submit() {
-    Navigator.pushNamed(context, GuestHomePage.routeName);
+  LatLng _centerLatLng = LatLng(45.5048, -73.5772);
+  Completer<GoogleMapController> _completer;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _completer = Completer();
+    super.initState();
   }
 
   @override
@@ -88,7 +100,12 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                         children: <Widget>[
                           MaterialButton(
                             color: Colors.redAccent,
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context,
+                                  BookPostingPage.routeName,
+                              );
+                            },
                             child: Text(
                               'Book Now',
                               style: TextStyle(
@@ -129,9 +146,17 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                             CircleAvatar(
                               radius: MediaQuery.of(context).size.width / 12.5,
                               backgroundColor: Colors.black,
-                              child: CircleAvatar(
-                                backgroundImage: AssetImage('assets/images/default_avatar.png'),
-                                radius: MediaQuery.of(context).size.width / 13,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    ViewProfilePage.routeName,
+                                  );
+                                },
+                                child: CircleAvatar(
+                                  backgroundImage: AssetImage('assets/images/default_avatar.png'),
+                                  radius: MediaQuery.of(context).size.width / 13,
+                                ),
                               ),
                             ),
                             Padding(
@@ -218,6 +243,23 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                     padding: const EdgeInsets.only(bottom: 25.0),
                     child: Container(
                       height: MediaQuery.of(context).size.height / 3,
+                      child: GoogleMap(
+                        onMapCreated: (controller) {
+                          _completer.complete(controller);
+                        },
+                        mapType: MapType.normal,
+                        initialCameraPosition: CameraPosition(
+                          target: _centerLatLng,
+                          zoom: 14,
+                        ),
+                        markers: <Marker> {
+                          Marker(
+                            markerId: MarkerId('Home Location'),
+                            position: _centerLatLng,
+                            icon: BitmapDescriptor.defaultMarker
+                          ),
+                        },
+                      ),
                     ),
                   ),
                   Text(

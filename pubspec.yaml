@@ -14,7 +14,7 @@ description: Apartment hosting app
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -27,6 +27,8 @@ dependencies:
   auto_size_text: ^2.1.0
   #flutter_rating takes care of our rating system for the host
   flutter_rating: ^0.0.2
+
+  google_maps_flutter: ^0.5.21
 
 dev_dependencies:
   flutter_test:
