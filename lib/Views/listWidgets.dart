@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Screens/viewProfilePage.dart';
 
 class ReviewListTile extends StatefulWidget{
 
@@ -53,6 +55,183 @@ class _ReviewListTileState extends State<ReviewListTile> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class ConversationListTile extends StatefulWidget {
+
+  ConversationListTile({Key key}): super(key: key);
+
+  @override
+  _ConversationListTileState createState() => _ConversationListTileState();
+
+}
+
+class _ConversationListTileState extends State<ConversationListTile> {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return ListTile(
+      leading: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            ViewProfilePage.routeName,
+          );
+        },
+        child: CircleAvatar(
+          backgroundImage: AssetImage('assets/images/default_avatar.png'),
+          radius: MediaQuery.of(context).size.width / 14.0,
+        ),
+      ),
+      title: Text(
+        'Alisha',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 22.5,
+        ),
+      ),
+      subtitle: Text(
+        'I love you!',
+        style: TextStyle(
+          fontSize: 20.0,
+        ),
+      ),
+      trailing: Text(
+        'June 13th',
+        style: TextStyle(
+          fontSize: 15.0,
+        ),
+      ),
+      contentPadding: EdgeInsets.fromLTRB(25.0, 15.0, 25.0, 15.0),
+    );
+  }
+
+}
+
+class MessageListTile extends StatelessWidget {
+
+  MessageListTile({Key key}): super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    /*return Padding(
+      padding: const EdgeInsets.fromLTRB(15, 15, 35, 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                  context,
+                  ViewProfilePage.routeName,
+              );
+            },
+            child: CircleAvatar(
+              backgroundImage: AssetImage('assets/images/default_avatar.png'),
+              radius: MediaQuery.of(context).size.width / 20,
+            ),
+          ),
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Container(
+                padding: EdgeInsets.all(15.0),
+                decoration: BoxDecoration(
+                  color: Colors.yellow,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Text(
+                        'Test messssage',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                        ),
+                        textWidthBasis: TextWidthBasis.parent,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                        child: Text(
+                          'June 13',
+                          style: TextStyle(
+                            fontSize: 15.0,
+                          ),
+                        )
+                    )
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );*/
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(35, 15, 15, 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: Container(
+                padding: EdgeInsets.all(15.0),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Text(
+                        'Test messssage',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                        ),
+                        textWidthBasis: TextWidthBasis.parent,
+                      ),
+                    ),
+                    Align(
+                        alignment: Alignment.bottomRight,
+                        child: Text(
+                          'June 13',
+                          style: TextStyle(
+                            fontSize: 15.0,
+                          ),
+                        )
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                ViewProfilePage.routeName,
+              );
+            },
+            child: CircleAvatar(
+              backgroundImage: AssetImage('assets/images/default_avatar.png'),
+              radius: MediaQuery.of(context).size.width / 20,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

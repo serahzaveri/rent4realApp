@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Screens/conversationPage.dart';
 import 'package:househunter/Views/TextWidgets.dart';
+import 'package:househunter/Views/listWidgets.dart';
 
 class InboxPage extends StatefulWidget {
 
@@ -15,8 +17,23 @@ class _InboxPageState extends State<InboxPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Inbox Page'),
+    return Padding(
+      padding: const EdgeInsets.only(top: 15.0),
+      child: ListView.builder(
+        itemCount: 2,
+        itemExtent: MediaQuery.of(context).size.height / 7,
+        itemBuilder: (context, index) {
+          return InkResponse(
+            child: ConversationListTile(),
+            onTap: () {
+              Navigator.pushNamed(
+                  context,
+                  ConversationPage.routeName,
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

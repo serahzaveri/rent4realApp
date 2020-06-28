@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Screens/bookPostingPage.dart';
+import 'package:househunter/Screens/conversationPage.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
 import 'package:househunter/Screens/loginPage.dart';
 import 'package:househunter/Screens/personalInfoPage.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         ViewProfilePage.routeName: (context) => ViewProfilePage(),
         ViewPostingsPage.routeName: (context) => ViewPostingsPage(),
         BookPostingPage.routeName: (context) => BookPostingPage(),
+        ConversationPage.routeName: (context) => ConversationPage(),
       },
     );
   }
