@@ -6,6 +6,8 @@ class AppConstants {
   static final String GoogleMapsAPIKey = 'AIzaSyC_zl_ZDYuCLTb20duz8T9VaochcXg3CSM';
   static final Color selectedIconColor = Colors.deepOrange;
   static final Color nonSelectedIconColor = Colors.black;
+  //keeps rack fo whether guest or host
+  static bool isHosting = false;
 
   static final Map<int, String> monthDict = {
     1: "January",
