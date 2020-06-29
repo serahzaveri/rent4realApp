@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Screens/bookPostingPage.dart';
 import 'package:househunter/Screens/conversationPage.dart';
+import 'package:househunter/Screens/createPostingPage.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
 import 'package:househunter/Screens/hostHomePage.dart';
 import 'package:househunter/Screens/loginPage.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         BookPostingPage.routeName: (context) => BookPostingPage(),
         ConversationPage.routeName: (context) => ConversationPage(),
         HostHomePage.routeName: (context) => HostHomePage(),
+        CreatePostingPage.routeName: (context) => CreatePostingPage(),
       },
     );
   }
