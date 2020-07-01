@@ -1,11 +1,14 @@
 
 import 'package:flutter/material.dart';
+import 'package:househunter/Models/userObjects.dart';
 
 class AppConstants {
   static final String appName = 'House Hunter';
   static final String GoogleMapsAPIKey = 'AIzaSyC_zl_ZDYuCLTb20duz8T9VaochcXg3CSM';
   static final Color selectedIconColor = Colors.deepOrange;
   static final Color nonSelectedIconColor = Colors.black;
+  //make sure to initialize this at some point
+  static User currentUser;
   //keeps rack fo whether guest or host
   static bool isHosting = false;
 
