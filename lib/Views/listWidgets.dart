@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/messagingObjects.dart';
+import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Models/reviewObjects.dart';
 import 'package:househunter/Screens/viewProfilePage.dart';
 
@@ -32,9 +34,19 @@ class _ReviewListTileState extends State<ReviewListTile> {
       children: <Widget>[
         Row(
           children: <Widget>[
-            CircleAvatar(
-              backgroundImage: _review.contact.displayImage,
-              radius: MediaQuery.of(context).size.width / 15,
+            InkResponse(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ViewProfilePage(contact: _review.contact),
+                    )
+                );
+              },
+              child: CircleAvatar(
+                backgroundImage: _review.contact.displayImage,
+                radius: MediaQuery.of(context).size.width / 15,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 15.0, right: 15.0),
@@ -72,7 +84,9 @@ class _ReviewListTileState extends State<ReviewListTile> {
 
 class ConversationListTile extends StatefulWidget {
 
-  ConversationListTile({Key key}): super(key: key);
+  final Conversation conversation;
+
+  ConversationListTile({this.conversation, Key key}): super(key: key);
 
   @override
   _ConversationListTileState createState() => _ConversationListTileState();
@@ -80,37 +94,47 @@ class ConversationListTile extends StatefulWidget {
 }
 
 class _ConversationListTileState extends State<ConversationListTile> {
+
+  Conversation _conversation;
+
+  @override
+  void initState() {
+    this._conversation = widget.conversation;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return ListTile(
       leading: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(
-            context,
-            ViewProfilePage.routeName,
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ViewProfilePage(contact: _conversation.otherContact,),
+              )
           );
         },
         child: CircleAvatar(
-          backgroundImage: AssetImage('assets/images/default_avatar.png'),
+          backgroundImage: _conversation.otherContact.displayImage,
           radius: MediaQuery.of(context).size.width / 14.0,
         ),
       ),
       title: Text(
-        'Alisha',
+        _conversation.otherContact.getFullName(),
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 22.5,
         ),
       ),
-      subtitle: Text(
-        'I love you!',
-        style: TextStyle(
-          fontSize: 20.0,
-        ),
+      subtitle: AutoSizeText(
+        _conversation.getLastMessageText(),
+        minFontSize: 20.0,
+        overflow: TextOverflow.ellipsis,
       ),
       trailing: Text(
-        'June 13th',
+        _conversation.getLastMessageDateTime(),
         style: TextStyle(
           fontSize: 15.0,
         ),
@@ -123,134 +147,145 @@ class _ConversationListTileState extends State<ConversationListTile> {
 
 class MessageListTile extends StatelessWidget {
 
-  MessageListTile({Key key}): super(key: key);
+  final Message message;
+
+  MessageListTile({this.message, Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    /*return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 15, 35, 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(
-                  context,
-                  ViewProfilePage.routeName,
-              );
-            },
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/images/default_avatar.png'),
-              radius: MediaQuery.of(context).size.width / 20,
-            ),
-          ),
-          Flexible(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Container(
-                padding: EdgeInsets.all(15.0),
-                decoration: BoxDecoration(
-                  color: Colors.yellow,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      child: Text(
-                        'Test messssage',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                        ),
-                        textWidthBasis: TextWidthBasis.parent,
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
+    if (message.sender.firstName == AppConstants.currentUser.firstName) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(35, 15, 15, 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Container(
+                  padding: EdgeInsets.all(15.0),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
                         child: Text(
-                          'June 13',
+                          message.text,
                           style: TextStyle(
-                            fontSize: 15.0,
+                            fontSize: 20.0,
                           ),
-                        )
-                    )
-                  ],
+                          textWidthBasis: TextWidthBasis.parent,
+                        ),
+                      ),
+                      Align(
+                          alignment: Alignment.bottomRight,
+                          child: Text(
+                            message.getMessageDateTime(),
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            ),
+                          )
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          )
-        ],
-      ),
-    );*/
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(35, 15, 15, 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          Flexible(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: Container(
-                padding: EdgeInsets.all(15.0),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      child: Text(
-                        'Test messssage',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                        ),
-                        textWidthBasis: TextWidthBasis.parent,
-                      ),
-                    ),
-                    Align(
-                        alignment: Alignment.bottomRight,
-                        child: Text(
-                          'June 13',
-                          style: TextStyle(
-                            fontSize: 15.0,
-                          ),
-                        )
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ViewProfilePage(contact: AppConstants.currentUser.createContactFromUser(),),
                     )
-                  ],
-                ),
+                );
+              },
+              child: CircleAvatar(
+                backgroundImage: AppConstants.currentUser.displayImage,
+                radius: MediaQuery.of(context).size.width / 20,
               ),
             ),
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                ViewProfilePage.routeName,
-              );
-            },
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/images/default_avatar.png'),
-              radius: MediaQuery.of(context).size.width / 20,
+          ],
+        ),
+      );
+    }
+    else {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(15, 15, 35, 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ViewProfilePage(contact: message.sender,),
+                    )
+                );
+              },
+              child: CircleAvatar(
+                backgroundImage: message.sender.displayImage,
+                radius: MediaQuery.of(context).size.width / 20,
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Container(
+                  padding: EdgeInsets.all(15.0),
+                  decoration: BoxDecoration(
+                    color: Colors.yellow,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: Text(
+                          message.text,
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          ),
+                          textWidthBasis: TextWidthBasis.parent,
+                        ),
+                      ),
+                      Align(
+                          alignment: Alignment.bottomRight,
+                          child: Text(
+                            message.getMessageDateTime(),
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            ),
+                          )
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    }
   }
-
 }
+
 
 class MyPostingListTile extends StatefulWidget {
 
-  MyPostingListTile({Key key}): super(key: key);
+  final Posting posting;
+
+  MyPostingListTile({this.posting, Key key}): super(key: key);
 
   @override
   _MyPostingListTileState createState() => _MyPostingListTileState();
@@ -258,6 +293,15 @@ class MyPostingListTile extends StatefulWidget {
 }
 
 class _MyPostingListTileState extends State<MyPostingListTile> {
+
+  Posting _posting;
+
+  @override
+  void initState() {
+    this._posting = widget.posting;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -265,7 +309,7 @@ class _MyPostingListTileState extends State<MyPostingListTile> {
       leading: Padding(
         padding: const EdgeInsets.only(left: 10.0),
         child: AutoSizeText(
-          'Awesome apartment',
+          _posting.name,
           maxLines: 2,
           minFontSize: 20.0,
           style: TextStyle(
@@ -276,7 +320,7 @@ class _MyPostingListTileState extends State<MyPostingListTile> {
       trailing: AspectRatio(
         aspectRatio: 3/2,
         child: Image(
-          image: AssetImage('assets/images/apartment1.jpg'),
+          image: _posting.displayImages.first,
           fit: BoxFit.fitWidth,
         ),
       ),

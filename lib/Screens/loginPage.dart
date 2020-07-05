@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   //the following function helps navigate to the Login Page when user clicks Login button
   void _login(){
     PracticeData.populateFields();
-    AppConstants.currentUser = PracticeData.users[0];
+    AppConstants.currentUser = PracticeData.users[1];
 
     Navigator.pushNamed(context, GuestHomePage.routeName);
   }

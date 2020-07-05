@@ -6,8 +6,9 @@ import 'package:househunter/Models/AppConstants.dart';
 class CalendarMonthWidget extends StatefulWidget {
 
   final int monthIndex;
+  final List<DateTime> bookedDates;
 
-  CalendarMonthWidget({Key key, this.monthIndex}): super(key: key);
+  CalendarMonthWidget({Key key, this.monthIndex, this.bookedDates}): super(key: key);
 
   @override
   _CalendarMonthState createState() => _CalendarMonthState();
@@ -72,6 +73,14 @@ class _CalendarMonthState extends State<CalendarMonthWidget>{
           ),
           itemBuilder: (context, index) {
             MonthTile monthTile = _monthTiles[index];
+            if(widget.bookedDates.contains(monthTile.dateTime)){
+              return MaterialButton(
+                onPressed: null,
+                child: monthTile,
+                color: Colors.yellow,
+                disabledColor: Colors.yellow,
+              );
+            }
             return MaterialButton(
               onPressed: () {},
               child: monthTile,

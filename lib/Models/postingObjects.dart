@@ -132,5 +132,16 @@ class Booking {
     this.posting = posting;
     this.contact = contact;
     this.dates = dates;
+    this.dates.sort();
+  }
+
+  String getFirstDate() {
+    String firstDateTime = dates.first.toIso8601String();
+    return firstDateTime.substring(0, 10);
+  }
+
+  String getLastDate() {
+    String lastDateTime = dates.last.toIso8601String();
+    return lastDateTime.substring(0, 10);
   }
 }

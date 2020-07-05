@@ -43,6 +43,7 @@ class User extends Contact {
   List<Review> reviews;
   List<Conversation> conversations;
   List<Posting> savedPostings;
+  List<Posting> myPostings;
 
   User({String firstName = "", String lastName = "", String imagePath = "", this.email = "",
   this.bio = "", this.city = "", this.country = ""}):
@@ -53,6 +54,7 @@ class User extends Contact {
     this.reviews = [];
     this.conversations = [];
     this.savedPostings = [];
+    this.myPostings = [];
   }
 
   void changeCurrentlyHosting(bool isHosting){
@@ -76,6 +78,16 @@ class User extends Contact {
     this.bookings.add(booking);
   }
 
+  List<DateTime> getAllBookedDates() {
+    List<DateTime> allBookedDates = [];
+    this.myPostings.forEach((posting) {
+      posting.bookings.forEach((booking) {
+        allBookedDates.addAll(booking.dates);
+      });
+    });
+    return allBookedDates;
+  }
+
   void addSavedPosting(Posting posting) {
     this.savedPostings.add(posting);
   }
@@ -86,6 +98,26 @@ class User extends Contact {
         this.savedPostings.removeAt(i);
       }
     }
+  }
+
+  List<Booking> getPreviousTrips() {
+    List<Booking> previousTrips = [];
+    this.bookings.forEach((booking) {
+      if(booking.dates.last.compareTo(DateTime.now()) <= 0){
+        previousTrips.add(booking);
+      }
+    });
+    return previousTrips;
+  }
+
+  List<Booking> getUpcomingTrips() {
+    List<Booking> upcomingTrips = [];
+    this.bookings.forEach((booking) {
+      if(booking.dates.last.compareTo(DateTime.now()) > 0){
+        upcomingTrips.add(booking);
+      }
+    });
+    return upcomingTrips;
   }
 
   double getCurrentRating() {

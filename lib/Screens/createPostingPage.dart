@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Screens/hostHomePage.dart';
 import 'package:househunter/Views/TextWidgets.dart';
 
 class CreatePostingPage extends StatefulWidget {
 
+  final Posting posting;
+
   static final String routeName = '/createPostingPageRoute';
 
-  CreatePostingPage({Key key}) : super(key: key);
+  CreatePostingPage({this.posting, Key key}) : super(key: key);
 
   @override
   _CreatePostingPageState createState() => _CreatePostingPageState();
@@ -15,12 +18,63 @@ class CreatePostingPage extends StatefulWidget {
 
 class _CreatePostingPageState extends State<CreatePostingPage> {
 
-  String _houseType;
   final List<String> _houseTypes = [
     'Condo',
     'Apartment',
     'Townhouse'
   ];
+
+  TextEditingController _nameController;
+  TextEditingController _priceController;
+  TextEditingController _descriptionController;
+  TextEditingController _addressController;
+  TextEditingController _cityController;
+  TextEditingController _countryController;
+  TextEditingController _amenitiesController;
+  String _houseType;
+  Map<String, int> _beds;
+  Map<String, int> _bathrooms;
+  List<AssetImage> _images;
+
+  void _setUpInitialValues() {
+    if(widget.posting == null) {
+      _nameController = TextEditingController();
+      _priceController = TextEditingController();
+      _descriptionController = TextEditingController();
+      _addressController = TextEditingController();
+      _cityController = TextEditingController();
+      _countryController = TextEditingController();
+      _amenitiesController = TextEditingController();
+      _beds = {
+        'small': 0,
+        'medium': 0,
+        'large': 0,
+      };
+      _bathrooms = {
+        'full': 0,
+        'half': 0,
+      };
+      _images = [];
+    } else {
+      _nameController = TextEditingController(text: widget.posting.name);
+      _priceController = TextEditingController(text: widget.posting.price.toString());
+      _descriptionController = TextEditingController(text: widget.posting.description);
+      _addressController = TextEditingController(text: widget.posting.address);
+      _cityController = TextEditingController(text: widget.posting.city);
+      _countryController = TextEditingController(text: widget.posting.country);
+      _amenitiesController = TextEditingController(text: widget.posting.getAmenitiesString());
+      _beds = widget.posting.beds;
+      _bathrooms = widget.posting.bathrooms;
+      _images = widget.posting.displayImages;
+    }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    _setUpInitialValues();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +122,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                             style: TextStyle(
                               fontSize: 20.0,
                             ),
+                            controller: _nameController,
                           ),
                         ),
                         Padding(
@@ -110,6 +165,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                                     fontSize: 20.0,
                                   ),
                                   keyboardType: TextInputType.number,
+                                  controller: _priceController,
                                 ),
                               ),
                               Padding(
@@ -133,6 +189,9 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                             style: TextStyle(
                               fontSize: 20.0,
                             ),
+                            controller: _descriptionController,
+                            maxLines: 3,
+                            minLines: 1,
                           ),
                         ),
                         Padding(
@@ -144,6 +203,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                             style: TextStyle(
                               fontSize: 20.0,
                             ),
+                            controller: _addressController,
                           ),
                         ),
                         Padding(
@@ -155,6 +215,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                             style: TextStyle(
                               fontSize: 20.0,
                             ),
+                            controller: _cityController,
                           ),
                         ),
                         Padding(
@@ -166,6 +227,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                             style: TextStyle(
                               fontSize: 20.0,
                             ),
+                            controller: _countryController,
                           ),
                         ),
                         Padding(
@@ -182,9 +244,9 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                             padding: const EdgeInsets.fromLTRB(15, 25, 15, 0),
                             child:  Column(
                                 children: <Widget>[
-                                  FacilitiesWidget(type: 'Twin/Single', startValue: 0,),
-                                  FacilitiesWidget(type: 'Double', startValue: 0,),
-                                  FacilitiesWidget(type: 'Queen/King', startValue: 0,),
+                                  FacilitiesWidget(type: 'Twin/Single', startValue: _beds['small'],),
+                                  FacilitiesWidget(type: 'Double', startValue: _beds['medium'],),
+                                  FacilitiesWidget(type: 'Queen/King', startValue: _beds['large'],),
                                 ],
                               ),
                         ),
@@ -202,8 +264,8 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                             padding: const EdgeInsets.fromLTRB(15, 25, 15, 0),
                             child: Column(
                               children: <Widget>[
-                                FacilitiesWidget(type: 'Half', startValue: 0,),
-                                FacilitiesWidget(type: 'Full', startValue: 0,),
+                                FacilitiesWidget(type: 'Half', startValue: _bathrooms['half'],),
+                                FacilitiesWidget(type: 'Full', startValue: _bathrooms['full'],),
                               ],
                             )
                         ),
@@ -216,6 +278,9 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                             style: TextStyle(
                               fontSize: 20.0,
                             ),
+                            controller: _amenitiesController,
+                            maxLines: 3,
+                            minLines: 1,
                           ),
                         ),
                         Padding(
@@ -232,7 +297,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           padding: const EdgeInsets.only(top: 25.0, bottom: 25.0),
                           child: GridView.builder(
                               shrinkWrap: true,
-                              itemCount: 2,
+                              itemCount: _images.length + 1,
                               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 mainAxisSpacing: 25,
@@ -240,7 +305,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                                 childAspectRatio: 3/2,
                               ),
                               itemBuilder: (context, index) {
-                                if(index == 1) {
+                                if(index == _images.length) {
                                   return IconButton(
                                       icon: Icon(Icons.add),
                                       onPressed: () {},
@@ -249,7 +314,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                                 return MaterialButton(
                                   onPressed: () {} ,
                                   child: Image(
-                                    image: AssetImage('assets/images/apartment1.jpg'),
+                                    image: _images[index],
                                     fit: BoxFit.fill,
                                   ),
                                 );

@@ -79,7 +79,10 @@ class _PostingGridTileState extends State<PostingGridTile> {
 }
 
 class HomeGridTile extends StatefulWidget {
-  HomeGridTile({Key key}): super(key: key);
+
+  final Booking booking;
+
+  HomeGridTile({this.booking, Key key}): super(key: key);
 
   @override
   _HomeGridTileState createState() => _HomeGridTileState();
@@ -87,6 +90,15 @@ class HomeGridTile extends StatefulWidget {
 }
 
 class _HomeGridTileState extends State<HomeGridTile> {
+
+  Booking _booking;
+
+  @override
+  void initState() {
+    this._booking = widget.booking;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -98,34 +110,34 @@ class _HomeGridTileState extends State<HomeGridTile> {
           child: Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/apartment1.jpg'),
+                  image: _booking.posting.displayImages.first,
                   fit: BoxFit.fill,
                 )
             ),
           ),
         ),
         AutoSizeText(
-          'Awesome apartment',
+          _booking.posting.name,
           style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.bold,
           ),
         ),
         AutoSizeText(
-          'Montreal, CA',
+          '${_booking.posting.city} ${_booking.posting.country}',
           style: TextStyle(
             fontSize: 16,
           ),
         ),
-        Text('\$1000 / month'),
+        Text('\$${_booking.posting.price} / month'),
         Text(
-          'Lease start: September 2019',
+          'Lease start: ${_booking.getFirstDate()}',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
         Text(
-          'Lease end: August 2020',
+          'Lease end: ${_booking.getLastDate()}',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),

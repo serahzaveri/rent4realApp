@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Screens/viewPostingsPage.dart';
 import 'package:househunter/Views/TextWidgets.dart';
 import 'package:househunter/Views/gridWidgets.dart';
@@ -22,7 +23,7 @@ class _SavedPageState extends State<SavedPage> {
       child: GridView.builder(
           physics: ScrollPhysics(),
           shrinkWrap: true,
-          itemCount: 2,
+          itemCount: AppConstants.currentUser.savedPostings.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             //cross Axis count tells us the number of listings we want sideways on screen
             crossAxisCount: 1,
@@ -31,15 +32,18 @@ class _SavedPageState extends State<SavedPage> {
             childAspectRatio: 4.8/5,
           ),
           itemBuilder: (context, index) {
+            Posting currentPosting = AppConstants.currentUser.savedPostings[index];
             return Stack(
                 children: [
                   InkResponse(
                     enableFeedback: true,
-                    child: PostingGridTile(),
+                    child: PostingGridTile(posting: currentPosting,),
                     onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        ViewPostingsPage.routeName,
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewPostingsPage(posting: currentPosting,),
+                          )
                       );
                     }
                   ),

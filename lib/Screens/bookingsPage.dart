@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Views/calendarWidgets.dart';
 import 'package:househunter/Views/listWidgets.dart';
 
@@ -14,6 +15,14 @@ class BookingsPage extends StatefulWidget {
 }
 
 class _BookingsPageState extends State<BookingsPage> {
+
+  List<DateTime> _bookedDates = [];
+
+  @override
+  void initState() {
+    this._bookedDates = AppConstants.currentUser.getAllBookedDates();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +53,7 @@ class _BookingsPageState extends State<BookingsPage> {
                   //no of months it will display
                   itemCount: 12,
                   itemBuilder: (context, index) {
-                    return CalendarMonthWidget(monthIndex: index,);
+                    return CalendarMonthWidget(monthIndex: index, bookedDates: this._bookedDates,);
                   },
                 ),
               ),
@@ -77,7 +86,7 @@ class _BookingsPageState extends State<BookingsPage> {
           padding: const EdgeInsets.only(top: 25.0, bottom: 25.0),
           child: ListView.builder(
               shrinkWrap: true,
-              itemCount: 2,
+              itemCount: AppConstants.currentUser.myPostings.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 25.0),
@@ -91,7 +100,7 @@ class _BookingsPageState extends State<BookingsPage> {
                           ),
                         borderRadius: BorderRadius.circular(5.0),
                         ),
-                      child: MyPostingListTile(),
+                      child: MyPostingListTile(posting: AppConstants.currentUser.myPostings[index],),
                       ),
                     ),
                   );

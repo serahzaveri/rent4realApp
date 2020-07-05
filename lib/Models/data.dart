@@ -116,13 +116,13 @@ class PracticeData {
     booking1.createBooking(
       posting2,
       user1.createContactFromUser(),
-      [DateTime(2019, 08, 20),DateTime(2019, 08, 21),DateTime(2019, 08, 22),],
+      [DateTime(2020, 08, 20),DateTime(2020, 08, 21),DateTime(2020, 08, 22),],
     );
     Booking booking2 = Booking();
     booking2.createBooking(
-      posting2,
+      posting1,
       user1.createContactFromUser(),
-      [DateTime(2019, 10, 10),DateTime(2019, 10, 11),],
+      [DateTime(2020, 06, 10),DateTime(2020, 06, 11),],
     );
     posting2.bookings.add(booking1);
     posting2.bookings.add(booking2);
@@ -138,6 +138,8 @@ class PracticeData {
 
     user1.bookings.add(booking1);
     user1.bookings.add(booking2);
+    user1.myPostings.add(posting1);
+    user2.myPostings.add(posting2);
     user1.savedPostings.add(posting2);
   }
 

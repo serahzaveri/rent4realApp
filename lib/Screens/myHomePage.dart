@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Screens/viewPostingsPage.dart';
 import 'package:househunter/Views/TextWidgets.dart';
 import 'package:househunter/Views/gridWidgets.dart';
@@ -38,22 +39,26 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.only(top: 15.0, bottom: 25.0),
               child: Container(
                 height: MediaQuery.of(context).size.height / 2.3,
+                width: double.infinity,
                 child: ListView.builder(
-                  itemCount: 1,
+                  itemCount: AppConstants.currentUser.getUpcomingTrips().length,
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
+                    Booking currentBooking = AppConstants.currentUser.getUpcomingTrips()[index];
                     return Padding(
                       padding: const EdgeInsets.only(right: 15.0),
                       child: Container(
                         width: MediaQuery.of(context).size.width / 1.5,
                           child: InkResponse(
                               enableFeedback: true,
-                              child: HomeGridTile(),
+                              child: HomeGridTile(booking: currentBooking,),
                               onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  ViewPostingsPage.routeName,
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ViewPostingsPage(posting: currentBooking.posting,),
+                                    )
                                 );
                               }
                           ),
@@ -74,22 +79,26 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.only(top: 15.0, bottom: 25.0),
               child: Container(
                 height: MediaQuery.of(context).size.height / 2.3,
+                width: double.infinity,
                 child: ListView.builder(
-                  itemCount: 1,
+                  itemCount: AppConstants.currentUser.getPreviousTrips().length,
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
+                    Booking currentBooking = AppConstants.currentUser.getPreviousTrips()[index];
                     return Padding(
                       padding: const EdgeInsets.only(right: 15.0),
                       child: Container(
                           width: MediaQuery.of(context).size.width / 1.5,
                           child: InkResponse(
                               enableFeedback: true,
-                              child: HomeGridTile(),
+                              child: HomeGridTile(booking: currentBooking,),
                               onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  ViewPostingsPage.routeName,
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ViewPostingsPage(posting: currentBooking.posting,),
+                                    )
                                 );
                               }
                           ),

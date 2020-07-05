@@ -110,9 +110,11 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                           MaterialButton(
                             color: Colors.redAccent,
                             onPressed: () {
-                              Navigator.pushNamed(
+                              Navigator.push(
                                   context,
-                                  BookPostingPage.routeName,
+                                  MaterialPageRoute(
+                                    builder: (context) => BookPostingPage(posting: this._posting,),
+                                  )
                               );
                             },
                             child: Text(
@@ -157,9 +159,11 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                               backgroundColor: Colors.black,
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    ViewProfilePage.routeName,
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ViewProfilePage(contact: _posting.host,),
+                                      )
                                   );
                                 },
                                 child: CircleAvatar(
