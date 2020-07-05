@@ -5,18 +5,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/postingObjects.dart';
+import 'package:househunter/Models/reviewObjects.dart';
 import 'package:househunter/Screens/bookPostingPage.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
 import 'package:househunter/Screens/viewProfilePage.dart';
 import 'package:househunter/Views/TextWidgets.dart';
 import 'package:househunter/Views/formWidgets.dart';
 import 'package:househunter/Views/listWidgets.dart';
+import 'package:geolocator/geolocator.dart';
 
 class ViewPostingsPage extends StatefulWidget {
 
   static final String routeName = '/viewPostingsPageRoute';
+  final Posting posting;
 
-  ViewPostingsPage({Key key}) : super(key: key);
+  ViewPostingsPage({this.posting, Key key}) : super(key: key);
 
   @override
   _ViewPostingsPageState createState() => _ViewPostingsPageState();
@@ -24,22 +28,26 @@ class ViewPostingsPage extends StatefulWidget {
 
 class _ViewPostingsPageState extends State<ViewPostingsPage> {
 
-  List<String> _amenities = [
-    'Dishwasher',
-    'Dryer',
-    'Washer',
-    'Wifi',
-    'Oven',
-  ];
-
+  Posting _posting;
   LatLng _centerLatLng = LatLng(45.5048, -73.5772);
   Completer<GoogleMapController> _completer;
 
+  void _calculateLatAndLng(){
+    _centerLatLng = LatLng(45.5048, -73.5772);
+    Geolocator().placemarkFromAddress(_posting.getFullAddress()).then((placemarks) {
+      placemarks.forEach((placemark) {
+        setState(() {
+          _centerLatLng = LatLng(placemark.position.latitude, placemark.position.longitude);
+        });
+      });
+    });
+  }
 
   @override
   void initState() {
-    // TODO: implement initState
+    this._posting = widget.posting;
     _completer = Completer();
+    _calculateLatAndLng();
     super.initState();
   }
 
@@ -61,10 +69,11 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
             AspectRatio(
                 aspectRatio: 3/2,
               child: PageView.builder(
-                itemCount: 5,
+                itemCount: _posting.displayImages.length,
                 itemBuilder:(context, index) {
+                  AssetImage currentImage = _posting.displayImages[index];
                   return Image(
-                    image: AssetImage('assets/images/apartment1.jpg'),
+                    image: currentImage,
                     fit: BoxFit.fill,
                   );
                 },
@@ -86,7 +95,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                           Container(
                             width: MediaQuery.of(context).size.width / 1.75,
                             child: AutoSizeText(
-                              'Awesome apartment',
+                              _posting.name,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 30.0,
@@ -114,7 +123,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                             ),
                           ),
                           Text(
-                            '\$ 1000 / month',
+                            '\$${_posting.price} / month',
                             style: TextStyle(
                               fontSize: 15.0,
                             ),
@@ -132,7 +141,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                         Container(
                           width: MediaQuery.of(context).size.width / 1.75,
                           child: AutoSizeText(
-                            'A quiet cozy place in downton Mtl. 5 minute walk to McGill university',
+                            _posting.description,
                             style: TextStyle(
 
                             ),
@@ -154,7 +163,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                                   );
                                 },
                                 child: CircleAvatar(
-                                  backgroundImage: AssetImage('assets/images/default_avatar.png'),
+                                  backgroundImage: _posting.host.displayImage,
                                   radius: MediaQuery.of(context).size.width / 13,
                                 ),
                               ),
@@ -162,7 +171,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 10.0),
                               child: Text(
-                                'Host Name',
+                                _posting.host.getFullName(),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -180,18 +189,18 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                       children: <Widget>[
                         PostingInfoTile(
                           iconData: Icons.home,
-                          category: 'Apartment',
-                          categoryInfo: '2 guests',
+                          category: _posting.type,
+                          categoryInfo: '${_posting.getNumGuests()} guests',
                         ),
                         PostingInfoTile(
                           iconData: Icons.hotel,
-                          category: '2 Bedrooms',
-                          categoryInfo: '2 king size beds',
+                          category: 'Bedrooms',
+                          categoryInfo: _posting.getBedroomText(),
                         ),
                         PostingInfoTile(
                           iconData: Icons.wc,
-                          category: '1 Bathroom',
-                          categoryInfo: '1 full',
+                          category: 'Bathrooms',
+                          categoryInfo: _posting.getBathroomText(),
                         )
                       ],
                     ),
@@ -210,10 +219,11 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                       crossAxisCount: 2,
                       childAspectRatio: 4/1,
                       children: List.generate(
-                          _amenities.length,
+                          _posting.amenities.length,
                           (index) {
+                            String currentAmenity = _posting.amenities[index];
                             return Text(
-                              _amenities[index],
+                                currentAmenity,
                               style: TextStyle(
                                 fontSize: 20.0
                               )
@@ -232,7 +242,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                   Padding(
                     padding: const EdgeInsets.only(top: 25.0, bottom: 25.0),
                     child: Text(
-                      '1430 City Councillors',
+                      _posting.getFullAddress(),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20.0,
@@ -276,17 +286,17 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                   Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: ListView.builder(
-                        itemCount: 2,
+                        itemCount: _posting.reviews.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
+                          Review currentReview = _posting.reviews[index];
                           return Padding(
                             padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                            child: ReviewListTile(),
+                            child: ReviewListTile(review: currentReview,),
                           );
                         },
                       )
                   ),
-                  //ListView.builder(itemBuilder: null)
                 ],
               )
             )

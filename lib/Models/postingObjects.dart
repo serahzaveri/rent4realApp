@@ -49,6 +49,10 @@ class Posting {
     });
   }
 
+  String getFullAddress() {
+    return this.address + ", " + this.city + ", " + this.country;
+  }
+
   String getAmenitiesString() {
     if(this.amenities.isEmpty) { return ""; }
     String amenitiesString = this.amenities.toString();

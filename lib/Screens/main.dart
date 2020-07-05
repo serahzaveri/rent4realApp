@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
         GuestHomePage.routeName: (context) => GuestHomePage(),
         PersonalInfoPage.routeName: (context) => PersonalInfoPage(),
         ViewProfilePage.routeName: (context) => ViewProfilePage(),
-        ViewPostingsPage.routeName: (context) => ViewPostingsPage(),
         BookPostingPage.routeName: (context) => BookPostingPage(),
         ConversationPage.routeName: (context) => ConversationPage(),
         HostHomePage.routeName: (context) => HostHomePage(),

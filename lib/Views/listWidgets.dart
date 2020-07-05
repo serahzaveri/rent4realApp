@@ -3,11 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/reviewObjects.dart';
 import 'package:househunter/Screens/viewProfilePage.dart';
 
 class ReviewListTile extends StatefulWidget{
+  final Review review;
 
-  ReviewListTile({Key key}): super(key: key);
+  ReviewListTile({this.review, Key key}): super(key: key);
 
   @override
   _ReviewListTileState createState() => _ReviewListTileState();
@@ -15,6 +17,15 @@ class ReviewListTile extends StatefulWidget{
 }
 
 class _ReviewListTileState extends State<ReviewListTile> {
+
+  Review _review;
+
+  @override
+  void initState() {
+    this._review = widget.review;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,13 +33,13 @@ class _ReviewListTileState extends State<ReviewListTile> {
         Row(
           children: <Widget>[
             CircleAvatar(
-              backgroundImage: AssetImage('assets/images/default_avatar.png'),
+              backgroundImage: _review.contact.displayImage,
               radius: MediaQuery.of(context).size.width / 15,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 15.0, right: 15.0),
               child: AutoSizeText(
-                'Serah',
+                _review.contact.firstName,
                 style: TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
@@ -41,14 +52,14 @@ class _ReviewListTileState extends State<ReviewListTile> {
               color: AppConstants.selectedIconColor,
               borderColor: Colors.grey,
               onRatingChanged: null,
-              rating: 4.5,
+              rating: _review.rating,
             )
           ],
         ),
         Padding(
           padding: const EdgeInsets.only(top: 10.0, bottom: 15.0),
           child: AutoSizeText(
-            'Loved the place! Really enjoyed staying here',
+            _review.text,
             style: TextStyle(
               fontSize: 18.0,
             ),

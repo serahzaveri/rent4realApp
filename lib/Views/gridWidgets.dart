@@ -2,12 +2,16 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/postingObjects.dart';
 
 // This file is used to create tiles for the explore page
 //the second class is used to create tiles for the home page
 
 class PostingGridTile extends StatefulWidget {
-  PostingGridTile({Key key}): super(key: key);
+
+  final Posting posting;
+
+  PostingGridTile({this.posting, Key key}): super(key: key);
 
   @override
   _PostingGridTileState createState() => _PostingGridTileState();
@@ -15,6 +19,16 @@ class PostingGridTile extends StatefulWidget {
 }
 
 class _PostingGridTileState extends State<PostingGridTile> {
+
+  Posting _posting;
+
+  @override
+  void initState() {
+    //any changes to be made should be done here
+    this._posting = widget.posting;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,26 +40,26 @@ class _PostingGridTileState extends State<PostingGridTile> {
           child: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/images/apartment1.jpg'),
+                  image: this._posting.displayImages.first,
                   fit: BoxFit.fill,
               )
             ),
           ),
         ),
         AutoSizeText(
-          'Apartment - Montreal, CA',
+          '${_posting.type} - ${_posting.city} - ${_posting.country}',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 17,
           ),
         ),
         AutoSizeText(
-          'Awesome apartment',
+          _posting.name,
         style: TextStyle(
           fontSize: 16,
         ),
         ),
-        Text('\$100 / month'),
+        Text('\$${_posting.price} / month'),
         Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -55,7 +69,7 @@ class _PostingGridTileState extends State<PostingGridTile> {
               color: AppConstants.selectedIconColor,
               borderColor: Colors.grey,
               onRatingChanged: null,
-              rating: 4.5,
+              rating: _posting.getCurrentRating(),
             ),
           ],
         )

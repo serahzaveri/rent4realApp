@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/data.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
 import 'package:househunter/Screens/signUpPage.dart';
 
@@ -21,6 +22,9 @@ class _LoginPageState extends State<LoginPage> {
   }
   //the following function helps navigate to the Login Page when user clicks Login button
   void _login(){
+    PracticeData.populateFields();
+    AppConstants.currentUser = PracticeData.users[0];
+
     Navigator.pushNamed(context, GuestHomePage.routeName);
   }
 

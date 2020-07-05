@@ -27,14 +27,15 @@ class _AccountPageState extends State<AccountPage> {
   }
 
   void _changeHosting() {
-    if(AppConstants.isHosting) {
-      AppConstants.isHosting = false;
+
+    if(AppConstants.currentUser.isCurrentlyHosting) {
+      AppConstants.currentUser.isCurrentlyHosting = false;
       Navigator.pushNamed(
         context,
         GuestHomePage.routeName,
       );
     } else {
-      AppConstants.isHosting = true;
+      AppConstants.currentUser.isCurrentlyHosting = true;
       Navigator.pushNamed(
         context,
         HostHomePage.routeName,
@@ -46,7 +47,7 @@ class _AccountPageState extends State<AccountPage> {
   @override
   void initState() {
 
-    if(AppConstants.isHosting) {
+    if(AppConstants.currentUser.isCurrentlyHosting) {
       _hostingTitle = 'To Guest Dashboard';
     } else {
       _hostingTitle = 'To Host Dashboard';
@@ -76,7 +77,7 @@ class _AccountPageState extends State<AccountPage> {
                     backgroundColor: Colors.black,
                     radius: MediaQuery.of(context).size.width / 9.5,
                     child: CircleAvatar(
-                      backgroundImage: AssetImage('assets/images/serah.JPG'),
+                      backgroundImage: AppConstants.currentUser.displayImage,
                       radius: MediaQuery.of(context).size.width / 10,
                     ),
                   ),
@@ -87,14 +88,14 @@ class _AccountPageState extends State<AccountPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       AutoSizeText(
-                        'Serah Zaveri',
+                        AppConstants.currentUser.getFullName(),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 25,
                         ),
                       ),
                       AutoSizeText(
-                        'serah.zaveri@mail.mcgill.ca',
+                        AppConstants.currentUser.email,
                         style: TextStyle(
                           fontSize: 15,
                         ),

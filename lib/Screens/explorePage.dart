@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/data.dart';
+import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Screens/viewPostingsPage.dart';
 import 'package:househunter/Views/TextWidgets.dart';
 import 'package:househunter/Views/gridWidgets.dart';
@@ -14,6 +16,14 @@ class ExplorePage extends StatefulWidget {
 }
 
 class _ExplorePageState extends State<ExplorePage> {
+
+  List<Posting> _postings;
+
+  @override
+  void initState() {
+    _postings = PracticeData.postings;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +56,7 @@ class _ExplorePageState extends State<ExplorePage> {
                 GridView.builder(
                     physics: ScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: 5,
+                    itemCount: _postings.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       //cross Axis count tells us the number of listings we want sideways on screen
                       crossAxisCount: 1,
@@ -55,13 +65,16 @@ class _ExplorePageState extends State<ExplorePage> {
                       childAspectRatio: 4.8/5,
                     ),
                     itemBuilder: (context, index) {
+                      Posting currentPosting = _postings[index];
                       return InkResponse(
                         enableFeedback: true,
-                        child: PostingGridTile(),
+                        child: PostingGridTile(posting: currentPosting,),
                         onTap: () {
-                          Navigator.pushNamed(
+                          Navigator.push(
                               context,
-                              ViewPostingsPage.routeName,
+                              MaterialPageRoute(
+                                builder: (context) => ViewPostingsPage(posting: currentPosting,),
+                              )
                           );
                         }
                       );
