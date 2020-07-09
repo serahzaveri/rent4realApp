@@ -25,6 +25,9 @@ class _ReviewListTileState extends State<ReviewListTile> {
   @override
   void initState() {
     this._review = widget.review;
+    this._review.contact.getImageFromStorage().whenComplete(() {
+      setState(() {});
+    });
     super.initState();
   }
 
@@ -43,9 +46,13 @@ class _ReviewListTileState extends State<ReviewListTile> {
                     )
                 );
               },
-              child: CircleAvatar(
-                backgroundImage: _review.contact.displayImage,
-                radius: MediaQuery.of(context).size.width / 15,
+              child: Container(
+                child: (_review.contact.displayImage == null) ? Container(
+                  width: MediaQuery.of(context).size.width / 7.5,
+                ) : CircleAvatar(
+                  backgroundImage: _review.contact.displayImage,
+                  radius: MediaQuery.of(context).size.width / 15,
+                ),
               ),
             ),
             Padding(

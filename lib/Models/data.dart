@@ -11,22 +11,20 @@ class PracticeData {
   static populateFields() {
 
     User user1 = User(
-      firstName: "Shalaka",
-      lastName: "Mehta",
-      imagePath: "assets/images/shalaka.JPG",
+      firstName: "Alisha",
+      lastName: "Zaveri",
       email: "shalmypal@gmail.com",
-      bio: "I'm on the deans list at UIUC. I think that says it all.",
+      bio: "Living the life and killing it!!",
       city: "Champaign",
       country: "USA"
     );
     user1.isHost = true;
 
     User user2 = User(
-      firstName: "Amiya",
-      lastName: "Raina",
-      imagePath: "assets/images/default_avatar.png",
-      email: "amiya.raina@mail.mcgill.ca",
-      bio: "I'm an honours poli sci student",
+      firstName: "Serah",
+      lastName: "Zaveri",
+      email: "serah.zaveri@mail.mcgill.ca",
+      bio: "Building my first vey app. Student at McGill University",
       city: "Montreal",
       country: "Canada"
     );
@@ -75,7 +73,7 @@ class PracticeData {
       country: 'USA',
       host: user1.createContactFromUser(),
     );
-    posting1.setImages(['assets/images/apartment1.jpg']);
+    //posting1.setImages(['assets/images/apartment1.jpg']);
     posting1.amenities = ['washer', 'dryer'];
     posting1.beds = {
       'small': 0,
@@ -97,7 +95,7 @@ class PracticeData {
       country: "USA",
       host: user2.createContactFromUser(),
     );
-    posting2.setImages(['assets/images/apartment2.jpg']);
+    //posting2.setImages(['assets/images/apartment2.jpg']);
     posting2.amenities = ['dishwasher', 'Cable', 'WiFi'];
     posting2.beds = {
       'small': 1,

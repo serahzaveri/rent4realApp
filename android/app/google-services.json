@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1094651206475",
+    "firebase_url": "https://house-hunter-39d5d.firebaseio.com",
+    "project_id": "house-hunter-39d5d",
+    "storage_bucket": "house-hunter-39d5d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1094651206475:android:0a2efd4c23328a4aa566ce",
+        "android_client_info": {
+          "package_name": "com.example.househunter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1094651206475-1nl47ruqor7if6amcppqlm20o93lahm7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh05HlCkE-lxG-dO0fXduPe5RNIZLSh6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1094651206475-1nl47ruqor7if6amcppqlm20o93lahm7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1094651206475-50d9bp9ln0vcqndj460558q31v38do4i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.househunter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

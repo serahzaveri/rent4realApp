@@ -71,7 +71,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
               child: PageView.builder(
                 itemCount: _posting.displayImages.length,
                 itemBuilder:(context, index) {
-                  AssetImage currentImage = _posting.displayImages[index];
+                  MemoryImage currentImage = _posting.displayImages[index];
                   return Image(
                     image: currentImage,
                     fit: BoxFit.fill,

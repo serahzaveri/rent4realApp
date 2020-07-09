@@ -34,7 +34,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
   String _houseType;
   Map<String, int> _beds;
   Map<String, int> _bathrooms;
-  List<AssetImage> _images;
+  List<MemoryImage> _images;
 
   void _setUpInitialValues() {
     if(widget.posting == null) {

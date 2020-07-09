@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Models/data.dart';
+import 'package:househunter/Models/userObjects.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
 import 'package:househunter/Screens/signUpPage.dart';
 
@@ -16,16 +18,36 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
   //the following function helps navigate to the signUp Page when user clicks Sign Up button
   void _signUp() {
     Navigator.pushNamed(context, SignUpPage.routeName);
   }
   //the following function helps navigate to the Login Page when user clicks Login button
   void _login(){
-    PracticeData.populateFields();
-    AppConstants.currentUser = PracticeData.users[1];
+    if(_formKey.currentState.validate()){
+      String email = _emailController.text;
+      String password = _passwordController.text;
+      //here we authenticate the user by checking our database
+      FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+      ).then((firebaseUser) {
+        String userID = firebaseUser.uid;
+        AppConstants.currentUser = User(id: userID);
+        //asynchronous function so we use when complete
+        AppConstants.currentUser.getUserInfoFromFirestore().whenComplete(() {
+          AppConstants.currentUser.getImageFromStorage().whenComplete(() {
+            Navigator.pushNamed(context, GuestHomePage.routeName);
+          });
+        });
+      });
+    }
 
-    Navigator.pushNamed(context, GuestHomePage.routeName);
   }
 
   @override
@@ -40,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
-                'Welcome to ${AppConstants.appName}!',
+                '${AppConstants.appName}!',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30.0,
@@ -48,17 +70,25 @@ class _LoginPageState extends State<LoginPage> {
                 textAlign: TextAlign.center,
               ),
               Form(
+                key: _formKey,
                 child: Column(
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(top: 35.0),
                       child: TextFormField(
                         decoration: InputDecoration(
-                          labelText: 'Username/email'
+                          labelText: 'Email'
                         ),
                         style: TextStyle(
                           fontSize: 20.0,
                         ),
+                        validator: (text) {
+                          if(!text.contains('@')) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
+                        controller: _emailController,
                       ),
                     ),
                     Padding(
@@ -70,6 +100,14 @@ class _LoginPageState extends State<LoginPage> {
                         style: TextStyle(
                           fontSize: 20.0,
                         ),
+                        obscureText: true,
+                        validator: (text) {
+                          if(text.length < 6) {
+                            return 'Password must be atleast 6 characters long';
+                          }
+                          return null;
+                        },
+                        controller: _passwordController,
                       ),
                     )
                   ],

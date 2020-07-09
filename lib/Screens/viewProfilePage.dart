@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
@@ -28,18 +29,16 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
 
   @override
   void initState() {
-//    this._user = widget.contact.createUserFromContact();
-    _loadUser();
+    if(widget.contact.id == AppConstants.currentUser.id) {
+      this._user = AppConstants.currentUser;
+    } else {
+      //if we are viewing someone else's profile
+      this._user = widget.contact.createUserFromContact();
+      this._user.getUserInfoFromFirestore().whenComplete(() {
+        setState(() {});
+      });
+    }
     super.initState();
-  }
-
-  void _loadUser() {
-    String contactName = widget.contact.firstName;
-    PracticeData.users.forEach((user) {
-      if(user.firstName == contactName) {
-        _user = user;
-      }
-    });
   }
 
   @override
@@ -144,15 +143,29 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
-                child: ListView.builder(
-                  itemCount: _user.reviews.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    Review currentReview = _user.reviews[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      child: ReviewListTile(review: currentReview,),
-                    );
+                child: StreamBuilder(
+                  stream: Firestore.instance.collection('users/${_user.id}/reviews').orderBy('dateTime', descending: true).snapshots(),
+                  builder: (context, snapshots) {
+                    switch(snapshots.connectionState) {
+                      case ConnectionState.waiting:
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      default:
+                        return ListView.builder(
+                          itemCount: snapshots.data.documents.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot snapshot = snapshots.data.documents[index];
+                            Review currentReview = Review();
+                            currentReview.getReviewInfoFromFirestore(snapshot);
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                              child: ReviewListTile(review: currentReview,),
+                            );
+                          },
+                        );
+                    }
                   },
                 )
               ),
