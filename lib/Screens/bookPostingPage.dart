@@ -20,10 +20,29 @@ class BookPostingPage extends StatefulWidget {
 class _BookPostingPageState extends State<BookPostingPage> {
 
   Posting _posting;
+  List<CalendarMonthWidget> _calendarWidgets = [];
+  List<DateTime> _bookedDates = [];
+
+  void _buildCalendarWidgets() {
+    _calendarWidgets = [];
+    for(int i =0; i<12; i++) {
+      _calendarWidgets.add(CalendarMonthWidget(monthIndex: i, bookedDates: _bookedDates,));
+    }
+    setState(() {});
+  }
+
+  void _loadBookedDates() {
+    _bookedDates = [];
+    this._posting.getAllBookingsFromFirestore().whenComplete(() {
+      this._bookedDates = this._posting.getAllBookedDates();
+      this._buildCalendarWidgets();
+    });
+  }
 
   @override
   void initState() {
     this._posting = widget.posting;
+    this._loadBookedDates();
     super.initState();
   }
 
@@ -31,7 +50,7 @@ class _BookPostingPageState extends State<BookPostingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: AppBarText(text: 'Book a Posting')
+          title: AppBarText(text: 'Book ${this._posting.name}')
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
@@ -53,11 +72,11 @@ class _BookPostingPageState extends State<BookPostingPage> {
             ),
             Container(
               height: MediaQuery.of(context).size.height / 1.8,
-              child: PageView.builder(
+              child: (_calendarWidgets.isEmpty) ? Container() : PageView.builder(
                 //no of months it will display
-                itemCount: 12,
+                itemCount: _calendarWidgets.length,
                 itemBuilder: (context, index) {
-                  return CalendarMonthWidget(monthIndex: index, bookedDates: _posting.getAllBookedDates(),);
+                  return _calendarWidgets[index];
                 },
               ),
             ),

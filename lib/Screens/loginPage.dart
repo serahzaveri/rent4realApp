@@ -39,11 +39,9 @@ class _LoginPageState extends State<LoginPage> {
       ).then((firebaseUser) {
         String userID = firebaseUser.uid;
         AppConstants.currentUser = User(id: userID);
-        //asynchronous function so we use when complete
-        AppConstants.currentUser.getUserInfoFromFirestore().whenComplete(() {
-          AppConstants.currentUser.getImageFromStorage().whenComplete(() {
-            Navigator.pushNamed(context, GuestHomePage.routeName);
-          });
+        //loads all info other than reviews and conversation since that is is stream builder
+        AppConstants.currentUser.getPersonalInfoFromFirestore().whenComplete(() {
+          Navigator.pushNamed(context, GuestHomePage.routeName);
         });
       });
     }

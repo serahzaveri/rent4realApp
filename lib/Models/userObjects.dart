@@ -48,6 +48,7 @@ class Contact {
 
 class User extends Contact {
 
+  DocumentSnapshot snapshot;
   String email;
   String bio;
   String city;
@@ -75,6 +76,7 @@ class User extends Contact {
 
   Future<void> getUserInfoFromFirestore() async {
     DocumentSnapshot snapshot = await Firestore.instance.collection('users').document(this.id).get();
+    this.snapshot = snapshot;
     this.firstName = snapshot['firstName'] ?? "";
     this.lastName = snapshot['lastName'] ?? "";
     this.email = snapshot['email'] ?? "";
@@ -82,9 +84,35 @@ class User extends Contact {
     this.city = snapshot['city'] ?? "";
     this.country = snapshot['country'] ?? "";
     this.isHost = snapshot['isHost'] ?? false;
-    List<String> conversationIDs = List<String>.from(snapshot['conversationIDs']) ?? [];
+  }
+
+  Future<void> getPersonalInfoFromFirestore() async {
+    await getUserInfoFromFirestore();
+    await getImageFromStorage();
+    await getMyPostingsFromFirestore();
+    await getSavedPostingsFromFirestore();
+    await getAllBookingsFromFirestore();
+  }
+
+  Future<void> getMyPostingsFromFirestore() async {
     List<String> myPostingIDs = List<String>.from(snapshot['myPostingIDs']) ?? [];
+    for(String postingID in myPostingIDs) {
+      Posting newPosting = Posting(id: postingID);
+      await newPosting.getPostingInfoFromFirestore();
+      await newPosting.getAllBookingsFromFirestore();
+      await newPosting.getAllImagesFromStorage();
+      this.myPostings.add(newPosting);
+    }
+  }
+
+  Future<void> getSavedPostingsFromFirestore() async {
     List<String> savedPostingIDs = List<String>.from(snapshot['savedPostingIDs']) ?? [];
+    for(String postingID in savedPostingIDs) {
+      Posting newPosting = Posting(id: postingID);
+      await newPosting.getPostingInfoFromFirestore();
+      await newPosting.getFirstImageFromStorage();
+      this.savedPostings.add(newPosting);
+    }
   }
 
   void changeCurrentlyHosting(bool isHosting){

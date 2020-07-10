@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
@@ -17,11 +18,8 @@ class ExplorePage extends StatefulWidget {
 
 class _ExplorePageState extends State<ExplorePage> {
 
-  List<Posting> _postings;
-
   @override
   void initState() {
-    _postings = PracticeData.postings;
     super.initState();
   }
 
@@ -53,33 +51,45 @@ class _ExplorePageState extends State<ExplorePage> {
                     ),
                   ),
                 ),
-                GridView.builder(
-                    physics: ScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: _postings.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      //cross Axis count tells us the number of listings we want sideways on screen
-                      crossAxisCount: 1,
-                      //crossAxisSpacing: 15,
-                      mainAxisSpacing: 15.0,
-                      childAspectRatio: 4.8/5,
-                    ),
-                    itemBuilder: (context, index) {
-                      Posting currentPosting = _postings[index];
-                      return InkResponse(
-                        enableFeedback: true,
-                        child: PostingGridTile(posting: currentPosting,),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ViewPostingsPage(posting: currentPosting,),
-                              )
-                          );
-                        }
-                      );
+                StreamBuilder(
+                  stream: Firestore.instance.collection('postings').snapshots(),
+                  builder: (context, snapshots) {
+                    switch (snapshots.connectionState) {
+                      case ConnectionState.waiting:
+                        return Center(child: CircularProgressIndicator(),);
+                      default:
+                        return GridView.builder(
+                            physics: ScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: snapshots.data.documents.length,
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              //cross Axis count tells us the number of listings we want sideways on screen
+                              crossAxisCount: 1,
+                              //crossAxisSpacing: 15,
+                              mainAxisSpacing: 15.0,
+                              childAspectRatio: 4.8/5,
+                            ),
+                            itemBuilder: (context, index) {
+                              DocumentSnapshot snapshot = snapshots.data.documents[index];
+                              Posting currentPosting = Posting(id: snapshot.documentID);
+                              currentPosting.getPostingInfoFromSnapshot(snapshot);
+                              return InkResponse(
+                                  enableFeedback: true,
+                                  child: PostingGridTile(posting: currentPosting,),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ViewPostingsPage(posting: currentPosting,),
+                                        )
+                                    );
+                                  }
+                              );
+                            }
+                        );
                     }
-                  ),
+                  },
+                ),
               ],
             ),
           ),

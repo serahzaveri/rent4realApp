@@ -58,15 +58,15 @@ class Posting {
 
     this.imageNames = List<String>.from(snapshot['imageNames']) ?? [];
     this.name = snapshot['name'] ?? "";
-    this.price = snapshot['price'] ?? 0.0;
-    this.rating = snapshot['rating'] ?? 2.5;
+    this.price = snapshot['price'].toDouble() ?? 0.0;
+    this.rating = snapshot['rating'].toDouble() ?? 2.5;
     this.type = snapshot['type'] ?? "";
   }
 
   Future<MemoryImage> getFirstImageFromStorage() async {
     if (this.displayImages.isNotEmpty) { return this.displayImages.first; }
     final String imagePath = "postingImages/${this.id}/${this.imageNames.first}";
-    final imageData = await FirebaseStorage.instance.ref().child(imagePath).getData(1024*1024);
+    final imageData = await FirebaseStorage.instance.ref().child(imagePath).getData(1024*1024*5);
     this.displayImages.add(MemoryImage(imageData));
     return this.displayImages.first;
   }
@@ -75,7 +75,7 @@ class Posting {
     this.displayImages = [];
     for(int i = 0; i<this.imageNames.length; i++) {
       final String imagePath = "postingImages/${this.id}/${this.imageNames[i]}";
-      final imageData = await FirebaseStorage.instance.ref().child(imagePath).getData(1024*1024);
+      final imageData = await FirebaseStorage.instance.ref().child(imagePath).getData(1024*1024*5);
       this.displayImages.add(MemoryImage(imageData));
     }
     return this.displayImages;
@@ -83,6 +83,7 @@ class Posting {
 
   Future<void> getHostFromFirestore() async {
     await this.host.getContactInfoFromFirestore();
+    await this.host.getImageFromStorage();
   }
 
   int getNumGuests() {
@@ -191,15 +192,24 @@ class Booking {
 
   Future<void> getBookingFromFirestoreFromUser(Contact contact, DocumentSnapshot snapshot) async {
     this.contact = contact;
-    this.dates = List<String>.from(snapshot['dates']) ?? [];
+    List<Timestamp> timestamps = List<Timestamp>.from(snapshot['dates']) ?? [];
+    this.dates = [];
+    timestamps.forEach((timestamp) {
+      this.dates.add(timestamp.toDate());
+    });
     String postingID = snapshot['postingID'] ?? "";
     this.posting = Posting(id: postingID);
     await this.posting.getPostingInfoFromFirestore();
+    await this.posting.getFirstImageFromStorage();
   }
 
   Future<void> getBookingFromFirestoreFromPosting(Posting posting, DocumentSnapshot snapshot) async {
     this.posting = posting;
-    this.dates = List<String>.from(snapshot['dates']) ?? [];
+    List<Timestamp> timestamps = List<Timestamp>.from(snapshot['dates']) ?? [];
+    this.dates = [];
+    timestamps.forEach((timestamp) {
+      this.dates.add(timestamp.toDate());
+    });
     String contactID = snapshot['userID'] ?? "";
     String fullName = snapshot['name'] ?? "";
     _loadContactInfo(contactID, fullName);
