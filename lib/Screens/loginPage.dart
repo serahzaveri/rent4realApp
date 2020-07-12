@@ -25,7 +25,14 @@ class _LoginPageState extends State<LoginPage> {
 
   //the following function helps navigate to the signUp Page when user clicks Sign Up button
   void _signUp() {
-    Navigator.pushNamed(context, SignUpPage.routeName);
+    if(_formKey.currentState.validate()) {
+      String email = _emailController.text;
+      String password = _passwordController.text;
+      AppConstants.currentUser = User();
+      AppConstants.currentUser.email = email;
+      AppConstants.currentUser.password = password;
+      Navigator.pushNamed(context, SignUpPage.routeName);
+    }
   }
   //the following function helps navigate to the Login Page when user clicks Login button
   void _login(){
