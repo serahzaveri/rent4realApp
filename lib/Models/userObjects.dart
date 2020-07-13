@@ -168,6 +168,17 @@ class User extends Contact {
     );
   }
 
+  Future<void> addPostingToMyPostings(Posting posting) async {
+    this.myPostings.add(posting);
+    List<String> myPostingIDs = [];
+    this.myPostings.forEach((posting) {
+      myPostingIDs.add(posting.id);
+    });
+    await Firestore.instance.document('users/${this.id}').updateData({
+      'myPostingIDs': myPostingIDs,
+    });
+  }
+
   Future<void> getAllBookingsFromFirestore() async {
     this.bookings = [];
     QuerySnapshot snapshots = await Firestore.instance.collection('users/${this.id}/bookings').getDocuments();

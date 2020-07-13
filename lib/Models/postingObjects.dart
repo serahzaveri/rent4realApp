@@ -63,6 +63,48 @@ class Posting {
     this.type = snapshot['type'] ?? "";
   }
 
+  Future<void> addPostingInfoToFirestore() async {
+    setImageNames();
+    Map<String,dynamic> data = {
+      "address": this.address,
+      "amenities": this.amenities,
+      "bathrooms": this.bathrooms,
+      "beds": this.beds,
+      "city": this.city,
+      "country": this.country,
+      "description": this.description,
+      "hostID": AppConstants.currentUser.id,
+      "imageNames": this.imageNames,
+      "name": this.name,
+      "price": this.price,
+      "rating": 2.5,
+      "type": this.type,
+    };
+    DocumentReference reference = await Firestore.instance.collection('postings').add(data);
+    this.id = reference.documentID;
+    await AppConstants.currentUser.addPostingToMyPostings(this);
+  }
+
+  Future<void> updatePostingInfoInFirestore() async {
+    setImageNames();
+    Map<String,dynamic> data = {
+      "address": this.address,
+      "amenities": this.amenities,
+      "bathrooms": this.bathrooms,
+      "beds": this.beds,
+      "city": this.city,
+      "country": this.country,
+      "description": this.description,
+      "hostID": AppConstants.currentUser.id,
+      "imageNames": this.imageNames,
+      "name": this.name,
+      "price": this.price,
+      "rating": this.rating,
+      "type": this.type,
+    };
+    await Firestore.instance.document('postings/${this.id}').updateData(data);
+  }
+
   Future<MemoryImage> getFirstImageFromStorage() async {
     if (this.displayImages.isNotEmpty) { return this.displayImages.first; }
     final String imagePath = "postingImages/${this.id}/${this.imageNames.first}";
@@ -79,6 +121,21 @@ class Posting {
       this.displayImages.add(MemoryImage(imageData));
     }
     return this.displayImages;
+  }
+
+  void setImageNames() {
+    this.imageNames = [];
+    for(int i =0; i < this.displayImages.length; i++) {
+      this.imageNames.add('pic$i.jpg');
+
+    }
+  }
+
+  Future<void> addImagesToFirestore() async {
+    for(int i = 0; i < this.displayImages.length; i++) {
+      StorageReference reference = FirebaseStorage.instance.ref().child('postingImages/${this.id}/${this.imageNames[i]}');
+      await reference.putData(this.displayImages[i].bytes).onComplete;
+    }
   }
 
   Future<void> getHostFromFirestore() async {

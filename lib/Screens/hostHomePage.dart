@@ -11,8 +11,9 @@ import 'package:househunter/Views/TextWidgets.dart';
 class HostHomePage extends StatefulWidget {
 
   static final String routeName = '/hostHomePageRoute';
+  final int index; //we have this variable to know which page to navigate to
 
-  HostHomePage({Key key}) : super(key: key);
+  HostHomePage({Key key, this.index}) : super(key: key);
 
   @override
   _HostHomePageState createState() => _HostHomePageState();
@@ -48,6 +49,13 @@ class _HostHomePageState extends State<HostHomePage> {
           ),
         )
     );
+  }
+
+  @override
+  void initState() {
+    //we do this so after creating a post it navigates to the myPostings tab and not profile tab
+    this._selectedIndex = widget.index ?? 3;
+    super.initState();
   }
 
   @override
