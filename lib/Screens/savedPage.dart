@@ -60,7 +60,11 @@ class _SavedPageState extends State<SavedPage> {
                         child: IconButton(
                           padding: EdgeInsets.all(0.0),
                             icon: Icon(Icons.clear, color: Colors.black,),
-                            onPressed: () {}
+                            onPressed: () {
+                            AppConstants.currentUser.removeSavedPosting(currentPosting).whenComplete(() {
+                              setState(() {});
+                            });
+                            }
                         ),
                       ),
                     ),

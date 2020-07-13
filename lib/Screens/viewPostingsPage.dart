@@ -66,7 +66,9 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.save, color: Colors.white),
-              onPressed: () {},
+              onPressed: () {
+                AppConstants.currentUser.addSavedPosting(this._posting);
+              },
           ),
         ],
       ),
