@@ -7,8 +7,10 @@ class CalendarMonthWidget extends StatefulWidget {
 
   final int monthIndex;
   final List<DateTime> bookedDates;
+  final Function selectDate;
+  final Function getSelectedDates;
 
-  CalendarMonthWidget({Key key, this.monthIndex, this.bookedDates}): super(key: key);
+  CalendarMonthWidget({Key key, this.monthIndex, this.bookedDates, this.selectDate, this.getSelectedDates}): super(key: key);
 
   @override
   _CalendarMonthState createState() => _CalendarMonthState();
@@ -17,6 +19,7 @@ class CalendarMonthWidget extends StatefulWidget {
 
 class _CalendarMonthState extends State<CalendarMonthWidget>{
 
+  List<DateTime> _selectedDates = [];
   List<MonthTile> _monthTiles;
   int _currentIntMonth;
   int _currentIntYear;
@@ -38,7 +41,22 @@ class _CalendarMonthState extends State<CalendarMonthWidget>{
       }
     });
 
-}
+  }
+
+  void _selectDate(DateTime date) {
+    if(this._selectedDates.contains(date)) {
+      this._selectedDates.remove(date);
+    } else {
+      this._selectedDates.add(date);
+    }
+    this._selectedDates.sort();
+    widget.selectDate(date);
+    setState(() {
+
+    });
+  }
+
+
 
   @override
   void initState() {
@@ -50,6 +68,7 @@ class _CalendarMonthState extends State<CalendarMonthWidget>{
     if(_currentIntYear < DateTime.now().month) {
       _currentIntYear += 1;
     }
+    _selectedDates.addAll(widget.getSelectedDates());
     _setUpMonthTiles();
 
     super.initState();
@@ -73,6 +92,12 @@ class _CalendarMonthState extends State<CalendarMonthWidget>{
           ),
           itemBuilder: (context, index) {
             MonthTile monthTile = _monthTiles[index];
+            if(monthTile.dateTime == null) {
+              return MaterialButton(
+                onPressed: null,
+                child: Text(""),
+              );
+            }
             if(widget.bookedDates.contains(monthTile.dateTime)){
               return MaterialButton(
                 onPressed: null,
@@ -82,8 +107,13 @@ class _CalendarMonthState extends State<CalendarMonthWidget>{
               );
             }
             return MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                _selectDate(monthTile.dateTime);
+              },
               child: monthTile,
+              color: (this._selectedDates.contains(monthTile.dateTime)) ?
+              Colors.blue :
+              Colors.white,
             );
           },
         ),

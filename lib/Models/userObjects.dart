@@ -189,8 +189,21 @@ class User extends Contact {
     }
   }
 
-  void makeNewBooking(Booking booking) {
+  Future<void> addBookingToFirestore(Booking booking) async {
+    Map<String, dynamic> data = {
+      'dates': booking.dates,
+      'postingID': booking.posting.id,
+    };
+    await Firestore.instance.document('users/${this.id}/bookings/${booking.id}').setData(data);
     this.bookings.add(booking);
+    await addBookingConversation(booking);
+  }
+
+  Future<void> addBookingConversation(Booking booking) async {
+    Conversation conversation = Conversation();
+    await conversation.addConversationToFirestore(booking.posting.host);
+    String text = "Hi, my name is ${AppConstants.currentUser.firstName} and I made a booking to ${booking.posting.name} from ${booking.dates.first} to ${booking.dates.last} ";
+    await conversation.addMessageToFirestore(text);
   }
 
   List<DateTime> getAllBookedDates() {
