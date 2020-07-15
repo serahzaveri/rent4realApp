@@ -228,15 +228,15 @@ class Posting {
     return rating;
   }
 
-  void postNewReview(String text, double rating) {
-    Review newReview = Review();
-    newReview.createReview(
-        AppConstants.currentUser.createContactFromUser(),
-        text,
-        rating,
-        DateTime.now(),
-    );
-    this.reviews.add(newReview);
+  Future<void> postNewReview(String text, double rating) async {
+    Map<String,dynamic> data = {
+      'dateTime': DateTime.now(),
+      'name': AppConstants.currentUser.getFullName(),
+      'rating': rating,
+      'text': text,
+      'userID': AppConstants.currentUser.id,
+    };
+    await Firestore.instance.collection('postings/${this.id}/reviews').add(data);
   }
 }
 
