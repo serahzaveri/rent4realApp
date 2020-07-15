@@ -136,12 +136,14 @@ class _ConversationListTileState extends State<ConversationListTile> {
         ),
       ),
       subtitle: AutoSizeText(
-        _conversation.getLastMessageText(),
+        //_conversation.getLastMessageText(),
+        _conversation.lastMessage.text,
         minFontSize: 20.0,
         overflow: TextOverflow.ellipsis,
       ),
       trailing: Text(
-        _conversation.getLastMessageDateTime(),
+        //_conversation.getLastMessageDateTime(),
+        _conversation.lastMessage.getMessageDateTime(),
         style: TextStyle(
           fontSize: 15.0,
         ),

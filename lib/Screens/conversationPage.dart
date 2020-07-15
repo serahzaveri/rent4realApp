@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
@@ -21,6 +22,18 @@ class ConversationPage extends StatefulWidget {
 class _ConversationPageState extends State<ConversationPage> {
 
   Conversation _conversation;
+  TextEditingController _controller = TextEditingController();
+
+  void _sendMessage() {
+    String text = _controller.text;
+    if(text.isEmpty) {return;}
+    this._conversation.addMessageToFirestore(text).whenComplete(() {
+      setState(() {
+        _controller.text = "";
+      });
+    });
+
+  }
 
   @override
   void initState() {
@@ -37,13 +50,30 @@ class _ConversationPageState extends State<ConversationPage> {
       body: Column(
         children: <Widget>[
           Expanded(
-              child: ListView.builder(
-                itemCount: _conversation.messages.length,
-                itemBuilder: (context, index) {
-                  Message currentMessage = _conversation.messages[index];
-                  return MessageListTile(message: currentMessage,);
-                },
-              )
+            child: StreamBuilder(
+              stream: Firestore.instance.collection('conversations/${this._conversation.id}/messages').orderBy('dateTime').snapshots(),
+              builder: (context, snapshots) {
+                switch (snapshots.connectionState) {
+                  case ConnectionState.waiting:
+                    return Center(child: CircularProgressIndicator());
+                  default:
+                    return ListView.builder(
+                      itemCount: snapshots.data.documents.length,
+                      itemBuilder: (context, index) {
+                        DocumentSnapshot snapshot = snapshots.data.documents[index];
+                        Message currentMessage = Message();
+                        currentMessage.getMessageInfoFromFirestore(snapshot);
+                        if (currentMessage.sender.id == AppConstants.currentUser.id) {
+                          currentMessage.sender = AppConstants.currentUser.createContactFromUser();
+                        } else {
+                          currentMessage.sender = this._conversation.otherContact;
+                        }
+                        return MessageListTile(message: currentMessage,);
+                      },
+                    );
+                }
+              },
+            ),
           ),
           Container(
             decoration: BoxDecoration(
@@ -67,11 +97,12 @@ class _ConversationPageState extends State<ConversationPage> {
                     style: TextStyle(
                       fontSize: 20.0
                     ),
+                    controller: _controller,
                   ),
                 ),
                 Expanded(
                   child: MaterialButton(
-                    onPressed: () {},
+                    onPressed: _sendMessage,
                     child: Text('Send'),
                   ),
                 )
