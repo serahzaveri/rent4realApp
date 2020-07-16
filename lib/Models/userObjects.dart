@@ -154,8 +154,12 @@ class User extends Contact {
     this.isCurrentlyHosting = isHosting;
   }
 
-  void becomeHost(){
+  Future<void> becomeHost() async {
     this.isHost = true;
+    Map<String,dynamic> data = {
+      'isHost': true,
+    };
+    await Firestore.instance.document('users/${this.id}').updateData(data);
     this.changeCurrentlyHosting(true);
   }
 

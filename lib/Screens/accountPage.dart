@@ -27,30 +27,41 @@ class _AccountPageState extends State<AccountPage> {
   }
 
   void _changeHosting() {
-
-    if(AppConstants.currentUser.isCurrentlyHosting) {
-      AppConstants.currentUser.isCurrentlyHosting = false;
-      Navigator.pushNamed(
-        context,
-        GuestHomePage.routeName,
-      );
+    if(AppConstants.currentUser.isHost) {
+      if(AppConstants.currentUser.isCurrentlyHosting) {
+        AppConstants.currentUser.isCurrentlyHosting = false;
+        Navigator.pushNamed(
+          context,
+          GuestHomePage.routeName,
+        );
+      } else {
+        AppConstants.currentUser.isCurrentlyHosting = true;
+        Navigator.pushNamed(
+          context,
+          HostHomePage.routeName,
+        );
+      }
     } else {
-      AppConstants.currentUser.isCurrentlyHosting = true;
-      Navigator.pushNamed(
-        context,
-        HostHomePage.routeName,
-      );
+      AppConstants.currentUser.becomeHost().whenComplete(() {
+        AppConstants.currentUser.isCurrentlyHosting = true;
+        Navigator.pushNamed(
+          context,
+          HostHomePage.routeName,
+        );
+      });
     }
-
   }
 
   @override
   void initState() {
-
-    if(AppConstants.currentUser.isCurrentlyHosting) {
-      _hostingTitle = 'To Guest Dashboard';
+    if(AppConstants.currentUser.isHost) {
+      if(AppConstants.currentUser.isCurrentlyHosting) {
+        _hostingTitle = 'To Guest Dashboard';
+      } else {
+        _hostingTitle = 'To Host Dashboard';
+      }
     } else {
-      _hostingTitle = 'To Host Dashboard';
+      _hostingTitle = 'Become a host';
     }
 
     super.initState();
