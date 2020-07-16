@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Views/calendarWidgets.dart';
 import 'package:househunter/Views/listWidgets.dart';
 
@@ -17,10 +18,32 @@ class BookingsPage extends StatefulWidget {
 class _BookingsPageState extends State<BookingsPage> {
 
   List<DateTime> _bookedDates = [];
+  List<DateTime> _allBookedDates = [];
+  Posting _selectedPosting;
+
+  List<DateTime> _getSelectedDates() {
+    return [];
+  }
+
+  void _selectDate(DateTime date) {}
+
+  void _selectAPosting(Posting posting) {
+    _selectedPosting = posting;
+    this._bookedDates = posting.getAllBookedDates();
+    setState(() {});
+  }
+
+  void _clearSelectedPosting() {
+    this._bookedDates = _allBookedDates;
+    this._selectedPosting = null;
+    setState(() {
+    });
+  }
 
   @override
   void initState() {
     this._bookedDates = AppConstants.currentUser.getAllBookedDates();
+    this._allBookedDates = AppConstants.currentUser.getAllBookedDates();
     super.initState();
   }
 
@@ -53,7 +76,7 @@ class _BookingsPageState extends State<BookingsPage> {
                   //no of months it will display
                   itemCount: 12,
                   itemBuilder: (context, index) {
-                    return CalendarMonthWidget(monthIndex: index, bookedDates: this._bookedDates,);
+                    return CalendarMonthWidget(monthIndex: index, bookedDates: this._bookedDates, selectDate: _selectDate, getSelectedDates: _getSelectedDates,);
                   },
                 ),
               ),
@@ -70,7 +93,7 @@ class _BookingsPageState extends State<BookingsPage> {
                     ),
                   ),
                   MaterialButton(
-                    onPressed: () {},
+                    onPressed: _clearSelectedPosting,
                     child: Text(
                       'Reset',
                       style: TextStyle(
@@ -91,11 +114,13 @@ class _BookingsPageState extends State<BookingsPage> {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 25.0),
                   child: InkResponse(
-                    onTap: () {},
+                    onTap: () {
+                      _selectAPosting(AppConstants.currentUser.myPostings[index]);
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.grey,
+                          color: _selectedPosting == AppConstants.currentUser.myPostings[index] ? Colors.yellow : Colors.grey,
                           width: 1.0,
                           ),
                         borderRadius: BorderRadius.circular(5.0),
