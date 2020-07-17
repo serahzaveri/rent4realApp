@@ -26,6 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _password2Controller = TextEditingController();
   TextEditingController _cityController = TextEditingController();
   TextEditingController _countryController = TextEditingController();
   TextEditingController _bioController = TextEditingController();
@@ -74,8 +75,9 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: AppBarText(text: 'Sign Up')
+        title: AppBarText(text: 'Create an account'),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it in the middle of the parent.
@@ -173,6 +175,26 @@ class _SignUpPageState extends State<SignUpPage> {
                             },
                             obscureText: true,
                             textCapitalization: TextCapitalization.words,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                                labelText: 'Confirm Password'
+                            ),
+                            style: TextStyle(
+                              fontSize: 20.0,
+                            ),
+                            controller: _password2Controller,
+                            obscureText: true,
+                            textCapitalization: TextCapitalization.words,
+                            validator: (text) {
+                              if(_passwordController.text != _password2Controller.text) {
+                                return 'Passwords do not match';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         Padding(

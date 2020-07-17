@@ -66,25 +66,37 @@ class _LoginPageState extends State<LoginPage> {
       body: SingleChildScrollView(
         child: Center(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(50, 100, 50, 0),
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Column(
                 //mainAxisAlignment centers the children vertically
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text(
+                  Container(
+                    height: MediaQuery.of(context).size.height / 2,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage('assets/images/finalBackground.jpg')
+                        )
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  /*Text(
                     'Welcome to ${AppConstants.appName}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.0,
                     ),
                     textAlign: TextAlign.center,
-                  ),
+                  ),*/
                   Form(
                     key: _formKey,
                     child: Column(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(top: 35.0),
+                          padding: const EdgeInsets.fromLTRB(50, 5, 50 , 10),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Email'
@@ -102,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(50, 0, 50 , 0),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: 'Password'
@@ -124,8 +136,11 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     )
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 40.0),
+                    padding: const EdgeInsets.fromLTRB(25, 35, 25 , 5),
                     child: MaterialButton(
                       onPressed: () {
                         _login();
@@ -138,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.black,
                         ),
                       ),
-                      color: Colors.blue,
+                      color: Colors.lightBlue,
                       //We get the height of the screen so the buttons adjust to size of phone
                       height: MediaQuery.of(context).size.height / 15,
                       minWidth: double.infinity,
@@ -148,20 +163,20 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
+                    padding: const EdgeInsets.fromLTRB(50, 0, 50 , 50),
                     child: MaterialButton(
                       onPressed: () {
                         _signUp();
                         },
                       child: Text(
-                        'Sign Up',
+                        'Dont have an account? Sign Up',
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
+                          //fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
                           color: Colors.black,
                         ),
                       ),
-                      color: Colors.grey,
+                      //color: Colors.grey,
                       //We get the height of the screen so the buttons adjust to size of phone
                       height: MediaQuery.of(context).size.height / 15,
                       minWidth: double.infinity,

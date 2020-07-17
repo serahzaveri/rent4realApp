@@ -71,22 +71,44 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           //mainAxisAlignment centers the children vertically
           mainAxisAlignment: MainAxisAlignment.center,
+          //crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Icon(
+            /*Icon(
               Icons.home,
               size: 80,
+            ),*/
+            Container(
+              height: 150,
+              width: 150,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: AssetImage('assets/images/finalLogo.png')
+                  )
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20.0),
+              padding: const EdgeInsets.only(top: 10.0),
               child: Text(
                 '${AppConstants.appName}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 40,
+                  fontSize: 20,
                 ),
                 textAlign: TextAlign.center,
               ),
-            ) //Text
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
+              child: Text(
+                'A better way to Rent',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
           ],
         ),
       ),
