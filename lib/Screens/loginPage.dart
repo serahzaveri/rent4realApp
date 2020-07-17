@@ -10,7 +10,7 @@ import 'package:househunter/Screens/signUpPage.dart';
 class LoginPage extends StatefulWidget {
 
   static final String routeName = '/loginPageRoute';
-
+  //a key is the identifier for widgets
   LoginPage({Key key}) : super(key: key);
 
   @override
@@ -19,20 +19,24 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
+  //providing a global key to the form uniquely identifies the form and allows validation
   final _formKey = GlobalKey<FormState>();
+  //text editing controllers to get text in the text fields
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
   //the following function helps navigate to the signUp Page when user clicks Sign Up button
   void _signUp() {
-    if(_formKey.currentState.validate()) {
+    /*if(_formKey.currentState.validate()) {
       String email = _emailController.text;
       String password = _passwordController.text;
       AppConstants.currentUser = User();
       AppConstants.currentUser.email = email;
       AppConstants.currentUser.password = password;
       Navigator.pushNamed(context, SignUpPage.routeName);
-    }
+    }*/
+    //we don't validate this form instead we just go to the signUp page
+    Navigator.pushNamed(context, SignUpPage.routeName);
   }
   //the following function helps navigate to the Login Page when user clicks Login button
   void _login(){
@@ -46,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
       ).then((firebaseUser) {
         String userID = firebaseUser.uid;
         AppConstants.currentUser = User(id: userID);
-        //loads all info other than reviews and conversation since that is is stream builder
+        //loads all info other than reviews and conversation since that is stream builder
         AppConstants.currentUser.getPersonalInfoFromFirestore().whenComplete(() {
           Navigator.pushNamed(context, GuestHomePage.routeName);
         });
@@ -58,118 +62,119 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Center(
-          // Center is a layout widget. It takes a single child and positions it in the middle of the parent.
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(50, 100, 50, 0),
-            child: Column(
-              //mainAxisAlignment centers the children vertically
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  '${AppConstants.appName}!',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30.0,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 35.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Email'
-                          ),
-                          style: TextStyle(
-                            fontSize: 20.0,
-                          ),
-                          validator: (text) {
-                            if(!text.contains('@')) {
-                              return 'Please enter a valid email';
-                            }
-                            return null;
-                          },
-                          controller: _emailController,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                              labelText: 'Password'
-                          ),
-                          style: TextStyle(
-                            fontSize: 20.0,
-                          ),
-                          obscureText: true,
-                          validator: (text) {
-                            if(text.length < 6) {
-                              return 'Password must be atleast 6 characters long';
-                            }
-                            return null;
-                          },
-                          controller: _passwordController,
-                        ),
-                      )
-                    ],
-                  )
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 40.0),
-                  child: MaterialButton(
-                    onPressed: () {
-                      _login();
-                    },
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        color: Colors.black,
-                      ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(50, 100, 50, 0),
+              child: Column(
+                //mainAxisAlignment centers the children vertically
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Welcome to ${AppConstants.appName}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30.0,
                     ),
-                    color: Colors.blue,
-                    //We get the height of the screen so the buttons adjust to size of phone
-                    height: MediaQuery.of(context).size.height / 15,
-                    minWidth: double.infinity,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)
-                    ),
+                    textAlign: TextAlign.center,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: MaterialButton(
-                    onPressed: () {
-                      _signUp();
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 35.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Email'
+                            ),
+                            style: TextStyle(
+                              fontSize: 20.0,
+                            ),
+                            validator: (text) {
+                              if(!text.contains('@')) {
+                                return 'Please enter a valid email';
+                              }
+                              return null;
+                            },
+                            controller: _emailController,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                                labelText: 'Password'
+                            ),
+                            style: TextStyle(
+                              fontSize: 20.0,
+                            ),
+                            //obscure text hides the text for password
+                            obscureText: true,
+                            validator: (text) {
+                              if(text.length < 6) {
+                                return 'Password must be atleast 6 characters long';
+                              }
+                              return null;
+                            },
+                            controller: _passwordController,
+                          ),
+                        )
+                      ],
+                    )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 40.0),
+                    child: MaterialButton(
+                      onPressed: () {
+                        _login();
                       },
-                    child: Text(
-                      'Sign Up',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        color: Colors.black,
+                      child: Text(
+                        'Login',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                      color: Colors.blue,
+                      //We get the height of the screen so the buttons adjust to size of phone
+                      height: MediaQuery.of(context).size.height / 15,
+                      minWidth: double.infinity,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
                       ),
                     ),
-                    color: Colors.grey,
-                    //We get the height of the screen so the buttons adjust to size of phone
-                    height: MediaQuery.of(context).size.height / 15,
-                    minWidth: double.infinity,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)
-                    ),
                   ),
-                )
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: MaterialButton(
+                      onPressed: () {
+                        _signUp();
+                        },
+                      child: Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                      color: Colors.grey,
+                      //We get the height of the screen so the buttons adjust to size of phone
+                      height: MediaQuery.of(context).size.height / 15,
+                      minWidth: double.infinity,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
-        ),
       ),
-    );
+      );
   }
 }

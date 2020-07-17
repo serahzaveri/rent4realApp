@@ -16,11 +16,16 @@ import 'package:househunter/Screens/viewProfilePage.dart';
 
 void main() => runApp(MyApp());
 // this is where the code starts from main method calling MyApp
+
+//A widget is either stateful or stateless.
+// If a widget can change when a user interacts with it then it's stateful. A stateless widget never changes.
+// When the widget's state changes, the state object calls setState() , telling the framework to redraw the widget.
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Rent4Real',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -51,15 +56,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-
     Timer(Duration(seconds: 2), () {
-      //here is how we navigate to the LoginPage screen which gets the route from MyApp routes{} and goes to class LoginPage()
+      //we navigate to the LoginPage screen
       Navigator.pushNamed(context, LoginPage.routeName);
     });
-
     super.initState();
   }
-
+  //Before we get the login page we see the name of the app for 2 seconds. below is where this is done
   @override
   Widget build(BuildContext context) {
     return Scaffold(

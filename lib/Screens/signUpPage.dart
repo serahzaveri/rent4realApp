@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/userObjects.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
 import 'package:househunter/Views/TextWidgets.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,6 +24,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _firstNameController = TextEditingController();
   TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   TextEditingController _cityController = TextEditingController();
   TextEditingController _countryController = TextEditingController();
   TextEditingController _bioController = TextEditingController();
@@ -39,9 +42,14 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void _submit() {
     if(!_formKey.currentState.validate() || this._imageFile == null) { return; }
+    String email = _emailController.text;
+    String password = _passwordController.text;
+    AppConstants.currentUser = User();
+    AppConstants.currentUser.email = email;
+    AppConstants.currentUser.password = password;
     FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: AppConstants.currentUser.email,
-      password: AppConstants.currentUser.password,
+      email: email,
+      password: password,
     ).then((firebaseUser) {
       String userID = firebaseUser.uid;
       AppConstants.currentUser.id = userID;
@@ -125,6 +133,45 @@ class _SignUpPageState extends State<SignUpPage> {
                               }
                               return null;
                             },
+                            textCapitalization: TextCapitalization.words,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                                labelText: 'Email'
+                            ),
+                            style: TextStyle(
+                              fontSize: 20.0,
+                            ),
+                            controller: _emailController,
+                            validator: (text) {
+                              if(!text.contains('@')) {
+                                return 'Please enter a valid email';
+                              }
+                              return null;
+                            },
+                            textCapitalization: TextCapitalization.words,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                                labelText: 'Password'
+                            ),
+                            style: TextStyle(
+                              fontSize: 20.0,
+                            ),
+                            controller: _passwordController,
+                            validator: (text) {
+                              if(text.length < 6) {
+                                return 'Password must be atleast 6 characters long';
+                              }
+                              return null;
+                            },
+                            obscureText: true,
                             textCapitalization: TextCapitalization.words,
                           ),
                         ),
