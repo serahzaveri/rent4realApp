@@ -3,7 +3,7 @@ import 'package:househunter/Models/messagingObjects.dart';
 import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Models/reviewObjects.dart';
 import 'package:househunter/Models/userObjects.dart';
-
+/*
 class PracticeData {
   static List<User> users = [];
   static List<Posting> postings =[];
@@ -75,11 +75,6 @@ class PracticeData {
     );
     //posting1.setImages(['assets/images/apartment1.jpg']);
     posting1.amenities = ['washer', 'dryer'];
-    posting1.beds = {
-      'small': 0,
-      'medium': 2,
-      'large': 0,
-    };
     posting1.bathrooms = {
       'full': 2,
       'half': 0,
@@ -143,4 +138,4 @@ class PracticeData {
 
 
 
-}
+}*/

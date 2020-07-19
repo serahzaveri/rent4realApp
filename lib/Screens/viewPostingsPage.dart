@@ -203,12 +203,12 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                         PostingInfoTile(
                           iconData: Icons.home,
                           category: _posting.type,
-                          categoryInfo: '${_posting.getNumGuests()} guests',
+                          categoryInfo: '${_posting.getNumBedrooms()} guests',
                         ),
                         PostingInfoTile(
                           iconData: Icons.hotel,
                           category: 'Bedrooms',
-                          categoryInfo: _posting.getBedroomText(),
+                          categoryInfo: '${_posting.getNumBedrooms()} bedrooms',
                         ),
                         PostingInfoTile(
                           iconData: Icons.wc,

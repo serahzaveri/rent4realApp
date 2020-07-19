@@ -37,8 +37,9 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
   TextEditingController _countryController;
   TextEditingController _amenitiesController;
   TextEditingController _zipCodeController;
+  TextEditingController _bedroomsController; //text editing controller added
+  int _bedroomsVar;
   String _houseType;
-  Map<String, int> _beds;
   Map<String, int> _bathrooms;
   List<MemoryImage> _images;
 
@@ -63,13 +64,14 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
     posting.name = _nameController.text;
     posting.price = double.parse(_priceController.text);
     posting.description = _descriptionController.text;
+    posting.streetNumber = double.parse(_streetNumberController.text);
     posting.address = _streetNameController.text;
     posting.city = _cityController.text;
     posting.country = _countryController.text;
     posting.zipCode = _zipCodeController.text;
     posting.amenities = _amenitiesController.text.split(",");
     posting.type = _houseType;
-    posting.beds = _beds;
+    posting.bedrooms = int.parse(_bedroomsController.text);
     posting.bathrooms = _bathrooms;
     posting.displayImages = _images;
     posting.host = AppConstants.currentUser.createContactFromUser();
@@ -112,6 +114,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
     if(widget.posting == null) {
       _nameController = TextEditingController();
       _priceController = TextEditingController();
+      _bedroomsController = TextEditingController();
       _descriptionController = TextEditingController();
       _streetNumberController = TextEditingController();
       _streetNameController = TextEditingController();
@@ -119,11 +122,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
       _countryController = TextEditingController();
       _amenitiesController = TextEditingController();
       _zipCodeController = TextEditingController();
-      _beds = {
-        'small': 0,
-        'medium': 0,
-        'large': 0,
-      };
+      _bedroomsVar = 0;
       _bathrooms = {
         'full': 0,
         'half': 0,
@@ -139,7 +138,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
       _zipCodeController = TextEditingController(text: widget.posting.zipCode);
       _streetNumberController = TextEditingController(text: widget.posting.streetNumber.toString());
       _amenitiesController = TextEditingController(text: widget.posting.getAmenitiesString());
-      _beds = widget.posting.beds;
+      _bedroomsController = TextEditingController(text: widget.posting.bedrooms.toString());
       _bathrooms = widget.posting.bathrooms;
       _images = widget.posting.displayImages;
       _houseType = widget.posting.type;
@@ -386,59 +385,22 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 35.0),
-                          child: Text(
-                            'Bedrooms',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 25, 15, 0),
-                            child:  Column(
-                                children: <Widget>[
-                                  FacilitiesWidget(
-                                    type: 'Twin/Single',
-                                    startValue: _beds['small'],
-                                    decreaseValue: () {
-                                      this._beds['small']--;
-                                      if(this._beds['small'] < 0) {
-                                        this._beds['small'] = 0;
-                                      }
-                                    },
-                                    increaseValue: () {
-                                      this._beds['small']++;
-                                    },
-                                  ),
-                                  FacilitiesWidget(
-                                    type: 'Double',
-                                    startValue: _beds['medium'],
-                                    decreaseValue: () {
-                                      this._beds['medium']--;
-                                      if(this._beds['medium'] < 0) {
-                                        this._beds['medium'] = 0;
-                                      }
-                                    },
-                                    increaseValue: () {
-                                      this._beds['medium']++;
-                                    },
-                                  ),
-                                  FacilitiesWidget(
-                                    type: 'Queen/King',
-                                    startValue: _beds['large'],
-                                    decreaseValue: () {
-                                      this._beds['large']--;
-                                      if(this._beds['large'] < 0) {
-                                        this._beds['large'] = 0;
-                                      }
-                                    },
-                                    increaseValue: () {
-                                      this._beds['large']++;
-                                    },
-                                  ),
-                                ],
-                              ),
+                          child: FacilitiesWidget(
+                            type: 'Bedrooms',
+                            startValue: 0,
+                            decreaseValue: () {
+                              _bedroomsVar--;
+                              this._bedroomsController.text = _bedroomsVar.toString();
+                              if(this._bedroomsVar < 0) {
+                                this._bedroomsVar = 0;
+                                this._bedroomsController.text = _bedroomsVar.toString();
+                              }
+                            },
+                            increaseValue: () {
+                              _bedroomsVar++;
+                              this._bedroomsController.text = _bedroomsVar.toString();
+                            },
+                          ),
                         ),
                         Padding(
                             padding: const EdgeInsets.only(top: 35.0),
@@ -589,7 +551,8 @@ class _FacilitiesWidgetState extends State<FacilitiesWidget> {
         Text(
           widget.type,
           style: TextStyle(
-            fontSize: 18.0,
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
         Row(

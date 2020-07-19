@@ -26,17 +26,17 @@ class Posting {
   List<Booking> bookings;
   List<Review> reviews;
 
-  Map<String, int> beds;
+  int bedrooms;
+
   Map<String, int> bathrooms;
 
   Posting({this.id="", this.name="", this.type="", this.price=0, this.description="", this.streetNumber = 0, this.address="",
-    this.city="", this.zipCode = "", this.country="", this.host}) {
+    this.city="", this.zipCode = "", this.country="", this.host, this.bedrooms=0}) {
     this.imageNames = [];
     this.displayImages = [];
     this.amenities = [];
     this.bookings = [];
     this.reviews = [];
-    this.beds = {};
     this.bathrooms = {};
     this.rating = 0;
   }
@@ -50,12 +50,12 @@ class Posting {
     this.address = snapshot['address'] ?? "";
     this.amenities = List<String>.from(snapshot['amenities']) ?? [];
     this.bathrooms = Map<String, int>.from(snapshot['bathrooms']) ?? {};
-    this.beds = Map<String, int>.from(snapshot['beds']) ?? {};
     this.city = snapshot['city'] ?? "";
     this.country = snapshot['country'] ?? "";
     this.description = snapshot['description'] ?? "";
     this.zipCode = snapshot['zip code'] ?? "";
     this.streetNumber = snapshot['street number'].toDouble() ?? 0.0;
+    this.bedrooms = snapshot['bedrooms'].toInt() ?? 0;
 
     String hostID = snapshot['hostID'] ?? "";
     this.host = Contact(id: hostID);
@@ -73,7 +73,7 @@ class Posting {
       "address": this.address,
       "amenities": this.amenities,
       "bathrooms": this.bathrooms,
-      "beds": this.beds,
+      "bedrooms": this.bedrooms.toInt(),
       "city": this.city,
       "country": this.country,
       "zip code": this.zipCode,
@@ -97,7 +97,7 @@ class Posting {
       "address": this.address,
       "amenities": this.amenities,
       "bathrooms": this.bathrooms,
-      "beds": this.beds,
+      "bedrooms": this.bedrooms,
       "city": this.city,
       "country": this.country,
       "zip code": this.zipCode,
@@ -151,14 +151,6 @@ class Posting {
     await this.host.getImageFromStorage();
   }
 
-  int getNumGuests() {
-    int numGuests = 0;
-    numGuests += this.beds['small'];
-    numGuests += this.beds['medium'] * 2;
-    numGuests += this.beds['large'] * 2;
-    return numGuests;
-  }
-
   String getFullAddress() {
     return this.streetNumber.toString() + this.address + ", " + this.city + ", " + this.country + "," + this.zipCode;
   }
@@ -167,24 +159,14 @@ class Posting {
     return this.zipCode;
   }
 
+  int getNumBedrooms() {
+    return this.bedrooms;
+  }
+
   String getAmenitiesString() {
     if(this.amenities.isEmpty) { return ""; }
     String amenitiesString = this.amenities.toString();
     return amenitiesString.substring(1, amenitiesString.length -1);
-  }
-
-  String getBedroomText() {
-    String text = "";
-    if(this.beds["small"] != 0) {
-      text += this.beds["small"].toString() + " single/twin ";
-    }
-    if(this.beds["medium"] != 0) {
-      text += this.beds["medium"].toString() + " double ";
-    }
-    if(this.beds["large"] != 0) {
-      text += this.beds["large"].toString() + " queen/king ";
-    }
-    return text;
   }
 
   String getBathroomText() {
