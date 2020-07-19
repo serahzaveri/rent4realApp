@@ -31,10 +31,12 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
   TextEditingController _nameController;
   TextEditingController _priceController;
   TextEditingController _descriptionController;
-  TextEditingController _addressController;
+  TextEditingController _streetNumberController;
+  TextEditingController _streetNameController;
   TextEditingController _cityController;
   TextEditingController _countryController;
   TextEditingController _amenitiesController;
+  TextEditingController _zipCodeController;
   String _houseType;
   Map<String, int> _beds;
   Map<String, int> _bathrooms;
@@ -61,9 +63,10 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
     posting.name = _nameController.text;
     posting.price = double.parse(_priceController.text);
     posting.description = _descriptionController.text;
-    posting.address = _addressController.text;
+    posting.address = _streetNameController.text;
     posting.city = _cityController.text;
     posting.country = _countryController.text;
+    posting.zipCode = _zipCodeController.text;
     posting.amenities = _amenitiesController.text.split(",");
     posting.type = _houseType;
     posting.beds = _beds;
@@ -110,10 +113,12 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
       _nameController = TextEditingController();
       _priceController = TextEditingController();
       _descriptionController = TextEditingController();
-      _addressController = TextEditingController();
+      _streetNumberController = TextEditingController();
+      _streetNameController = TextEditingController();
       _cityController = TextEditingController();
       _countryController = TextEditingController();
       _amenitiesController = TextEditingController();
+      _zipCodeController = TextEditingController();
       _beds = {
         'small': 0,
         'medium': 0,
@@ -128,9 +133,11 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
       _nameController = TextEditingController(text: widget.posting.name);
       _priceController = TextEditingController(text: widget.posting.price.toString());
       _descriptionController = TextEditingController(text: widget.posting.description);
-      _addressController = TextEditingController(text: widget.posting.address);
+      _streetNameController = TextEditingController(text: widget.posting.address);
       _cityController = TextEditingController(text: widget.posting.city);
       _countryController = TextEditingController(text: widget.posting.country);
+      _zipCodeController = TextEditingController(text: widget.posting.zipCode);
+      _streetNumberController = TextEditingController(text: widget.posting.streetNumber.toString());
       _amenitiesController = TextEditingController(text: widget.posting.getAmenitiesString());
       _beds = widget.posting.beds;
       _bathrooms = widget.posting.bathrooms;
@@ -290,12 +297,31 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           padding: const EdgeInsets.only(top: 20.0),
                           child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: 'Street Address'
+                                labelText: 'Street Number'
+                            ),
+                            keyboardType: TextInputType.number,
+                            style: TextStyle(
+                              fontSize: 20.0,
+                            ),
+                            controller: _streetNumberController,
+                            validator: (text) {
+                              if(text.isEmpty) {
+                                return "Please enter a street number";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                                labelText: 'Street Name'
                             ),
                             style: TextStyle(
                               fontSize: 20.0,
                             ),
-                            controller: _addressController,
+                            controller: _streetNameController,
                             validator: (text) {
                               if(text.isEmpty) {
                                 return "Please enter an address";
@@ -335,6 +361,24 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                             validator: (text) {
                               if(text.isEmpty) {
                                 return "Please enter a country";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                                labelText: 'Zip Code'
+                            ),
+                            style: TextStyle(
+                              fontSize: 20.0,
+                            ),
+                            controller: _zipCodeController,
+                            validator: (text) {
+                              if(text.isEmpty) {
+                                return "Please enter the zip code";
                               }
                               return null;
                             },

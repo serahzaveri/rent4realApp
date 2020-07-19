@@ -11,9 +11,11 @@ class Posting {
   String type;
   double price;
   String description;
+  double streetNumber;
   String address;
   String city;
   String country;
+  String zipCode;
   double rating;
 
   Contact host;
@@ -27,8 +29,8 @@ class Posting {
   Map<String, int> beds;
   Map<String, int> bathrooms;
 
-  Posting({this.id="", this.name="", this.type="", this.price=0, this.description="", this.address="", this.city="",
-    this.country="", this.host}) {
+  Posting({this.id="", this.name="", this.type="", this.price=0, this.description="", this.streetNumber = 0, this.address="",
+    this.city="", this.zipCode = "", this.country="", this.host}) {
     this.imageNames = [];
     this.displayImages = [];
     this.amenities = [];
@@ -52,6 +54,8 @@ class Posting {
     this.city = snapshot['city'] ?? "";
     this.country = snapshot['country'] ?? "";
     this.description = snapshot['description'] ?? "";
+    this.zipCode = snapshot['zip code'] ?? "";
+    this.streetNumber = snapshot['street number'].toDouble() ?? 0.0;
 
     String hostID = snapshot['hostID'] ?? "";
     this.host = Contact(id: hostID);
@@ -72,12 +76,14 @@ class Posting {
       "beds": this.beds,
       "city": this.city,
       "country": this.country,
+      "zip code": this.zipCode,
       "description": this.description,
       "hostID": AppConstants.currentUser.id,
       "imageNames": this.imageNames,
       "name": this.name,
       "price": this.price,
       "rating": 2.5,
+      "street number": this.streetNumber,
       "type": this.type,
     };
     DocumentReference reference = await Firestore.instance.collection('postings').add(data);
@@ -94,12 +100,14 @@ class Posting {
       "beds": this.beds,
       "city": this.city,
       "country": this.country,
+      "zip code": this.zipCode,
       "description": this.description,
       "hostID": AppConstants.currentUser.id,
       "imageNames": this.imageNames,
       "name": this.name,
       "price": this.price,
       "rating": this.rating,
+      "street number": this.streetNumber,
       "type": this.type,
     };
     await Firestore.instance.document('postings/${this.id}').updateData(data);
@@ -108,7 +116,7 @@ class Posting {
   Future<MemoryImage> getFirstImageFromStorage() async {
     if (this.displayImages.isNotEmpty) { return this.displayImages.first; }
     final String imagePath = "postingImages/${this.id}/${this.imageNames.first}";
-    final imageData = await FirebaseStorage.instance.ref().child(imagePath).getData(1024*1024*5);
+    final imageData = await FirebaseStorage.instance.ref().child(imagePath).getData(1024*1024*60);
     this.displayImages.add(MemoryImage(imageData));
     return this.displayImages.first;
   }
@@ -152,7 +160,11 @@ class Posting {
   }
 
   String getFullAddress() {
-    return this.address + ", " + this.city + ", " + this.country;
+    return this.streetNumber.toString() + this.address + ", " + this.city + ", " + this.country + "," + this.zipCode;
+  }
+
+  String getZipCode() {
+    return this.zipCode;
   }
 
   String getAmenitiesString() {
