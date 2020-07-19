@@ -41,6 +41,7 @@ class _PostingGridTileState extends State<PostingGridTile> {
           aspectRatio: 3/2,
           child: (this._posting.displayImages.isEmpty) ? Container() : Container(
             decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
               image: DecorationImage(
                   image: this._posting.displayImages.first,
                   fit: BoxFit.fill,
@@ -49,7 +50,7 @@ class _PostingGridTileState extends State<PostingGridTile> {
           ),
         ),
         AutoSizeText(
-          '${_posting.type} - ${_posting.city} - ${_posting.country}',
+          '${_posting.type} - ${_posting.address}',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 17,

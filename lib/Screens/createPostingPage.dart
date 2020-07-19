@@ -290,7 +290,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           padding: const EdgeInsets.only(top: 20.0),
                           child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: 'Address'
+                                labelText: 'Street Address'
                             ),
                             style: TextStyle(
                               fontSize: 20.0,
@@ -343,7 +343,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                         Padding(
                           padding: const EdgeInsets.only(top: 35.0),
                           child: Text(
-                            'Beds',
+                            'Bedrooms',
                             style: TextStyle(
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold,

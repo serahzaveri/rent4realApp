@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                         image: DecorationImage(
                             fit: BoxFit.fill,
                             image: AssetImage('assets/images/finalBackground.jpg')
-                        )
+                        ),
                     ),
                   ),
                   SizedBox(
@@ -99,7 +99,8 @@ class _LoginPageState extends State<LoginPage> {
                           padding: const EdgeInsets.fromLTRB(50, 5, 50 , 10),
                           child: TextFormField(
                             decoration: InputDecoration(
-                              labelText: 'Email'
+                              labelText: 'Email / Username',
+                              prefixIcon: Icon(Icons.person_outline),
                             ),
                             style: TextStyle(
                               fontSize: 20.0,
@@ -117,7 +118,8 @@ class _LoginPageState extends State<LoginPage> {
                           padding: const EdgeInsets.fromLTRB(50, 0, 50 , 0),
                           child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: 'Password'
+                              labelText: 'Password',
+                              prefixIcon: Icon(Icons.lock_outline),
                             ),
                             style: TextStyle(
                               fontSize: 20.0,

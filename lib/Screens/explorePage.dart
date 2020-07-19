@@ -81,8 +81,9 @@ class _ExplorePageState extends State<ExplorePage> {
                   ),
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height / 10,
-                  child: Row(
+                  height: MediaQuery.of(context).size.height / 14,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
                     children: <Widget>[
                       MaterialButton(
                         onPressed: () {

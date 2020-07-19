@@ -25,7 +25,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
+      padding: const EdgeInsets.fromLTRB(25, 5, 25, 0),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: const EdgeInsets.only(top: 25.0),
               child: Text(
-                'My home',
+                'Current home',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
@@ -70,6 +70,48 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     );
                   },
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10 , 5),
+              child: MaterialButton(
+                onPressed: () {},
+                child: Text(
+                  'Pay My Rent',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                    color: Colors.black,
+                  ),
+                ),
+                color: Colors.redAccent,
+                //We get the height of the screen so the buttons adjust to size of phone
+                height: MediaQuery.of(context).size.height / 15,
+                minWidth: double.infinity,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 5, 10 , 25),
+              child: MaterialButton(
+                onPressed: () {},
+                child: Text(
+                  'Maintenance Request',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                    color: Colors.black,
+                  ),
+                ),
+                color: Colors.lightBlue,
+                //We get the height of the screen so the buttons adjust to size of phone
+                height: MediaQuery.of(context).size.height / 15,
+                minWidth: double.infinity,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)
                 ),
               ),
             ),

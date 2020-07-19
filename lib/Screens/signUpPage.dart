@@ -91,7 +91,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 Text(
                   'Please enter the following information:',
                   style: TextStyle(
-                    fontSize: 17.0,
+                    fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
@@ -104,7 +104,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           padding: const EdgeInsets.only(top: 20.0),
                           child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: 'First name'
+                              labelText: 'First name',
+                              prefixIcon: Icon(Icons.person_outline),
                             ),
                             style: TextStyle(
                               fontSize: 20.0,
@@ -123,7 +124,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           padding: const EdgeInsets.only(top: 20.0),
                           child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: 'Last name'
+                              labelText: 'Last name',
+                              prefixIcon: Icon(Icons.person_outline),
                             ),
                             style: TextStyle(
                               fontSize: 20.0,
@@ -142,7 +144,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           padding: const EdgeInsets.only(top: 20.0),
                           child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: 'Email'
+                              labelText: 'Email',
+                              prefixIcon: Icon(Icons.email),
                             ),
                             style: TextStyle(
                               fontSize: 20.0,
@@ -161,7 +164,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           padding: const EdgeInsets.only(top: 20.0),
                           child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: 'Password'
+                              labelText: 'Password',
+                              prefixIcon: Icon(Icons.lock_outline),
                             ),
                             style: TextStyle(
                               fontSize: 20.0,
@@ -181,7 +185,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           padding: const EdgeInsets.only(top: 20.0),
                           child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: 'Confirm Password'
+                              labelText: 'Confirm Password',
+                              prefixIcon: Icon(Icons.lock_outline),
                             ),
                             style: TextStyle(
                               fontSize: 20.0,
@@ -201,7 +206,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           padding: const EdgeInsets.only(top: 20.0),
                           child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: 'City'
+                              labelText: 'City',
+                              prefixIcon: Icon(Icons.edit_location),
                             ),
                             style: TextStyle(
                               fontSize: 20.0,
@@ -220,7 +226,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           padding: const EdgeInsets.only(top: 20.0),
                           child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: 'Country'
+                              labelText: 'Country',
+                              prefixIcon: Icon(Icons.edit_location),
                             ),
                             style: TextStyle(
                               fontSize: 20.0,
@@ -239,7 +246,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           padding: const EdgeInsets.only(top: 20.0),
                           child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: 'Bio'
+                              labelText: 'Bio',
+                              prefixIcon: Icon(Icons.perm_device_information),
                             ),
                             style: TextStyle(
                               fontSize: 20.0,
