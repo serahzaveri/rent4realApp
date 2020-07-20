@@ -27,10 +27,25 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
     'Townhouse'
   ];
 
+  final List<String> _isFurnished = [
+    'furnished',
+    'unfurnished',
+    'semi furnished'
+  ];
+
+  final List<String> _leaseTypes = [
+    '4 month lease',
+    '8 month lease',
+    '12 month lease',
+    '4 or 8 month lease',
+    '8 or 12 month lease',
+    '4 or 8 or 12 month lease'
+  ];
+
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _nameController;
   TextEditingController _priceController;
   TextEditingController _descriptionController;
+  TextEditingController _apartmentNumberController;
   TextEditingController _streetNumberController;
   TextEditingController _streetNameController;
   TextEditingController _cityController;
@@ -40,6 +55,8 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
   TextEditingController _bedroomsController; //text editing controller added
   int _bedroomsVar;
   String _houseType;
+  String _leasePeriod;
+  String _furnished;
   Map<String, int> _bathrooms;
   List<MemoryImage> _images;
 
@@ -59,18 +76,22 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
   void _savePosting() {
     if(!_formKey.currentState.validate()) {return;}
     if(_houseType == null) {return;}
+    if(_leasePeriod == null) {return;}
+    if(_furnished == null) {return;}
     if(_images.isEmpty) {return;}
     Posting posting = Posting();
-    posting.name = _nameController.text;
     posting.price = double.parse(_priceController.text);
     posting.description = _descriptionController.text;
-    posting.streetNumber = double.parse(_streetNumberController.text);
+    posting.apartmentNumber = _apartmentNumberController.text;
+    posting.streetNumber = int.parse(_streetNumberController.text);
     posting.address = _streetNameController.text;
     posting.city = _cityController.text;
     posting.country = _countryController.text;
     posting.zipCode = _zipCodeController.text;
     posting.amenities = _amenitiesController.text.split(",");
     posting.type = _houseType;
+    posting.leaseType = _leasePeriod;
+    posting.furnished = _furnished;
     posting.bedrooms = int.parse(_bedroomsController.text);
     posting.bathrooms = _bathrooms;
     posting.displayImages = _images;
@@ -112,10 +133,10 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
 
   void _setUpInitialValues() {
     if(widget.posting == null) {
-      _nameController = TextEditingController();
       _priceController = TextEditingController();
       _bedroomsController = TextEditingController();
       _descriptionController = TextEditingController();
+      _apartmentNumberController = TextEditingController();
       _streetNumberController = TextEditingController();
       _streetNameController = TextEditingController();
       _cityController = TextEditingController();
@@ -129,9 +150,9 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
       };
       _images = [];
     } else {
-      _nameController = TextEditingController(text: widget.posting.name);
       _priceController = TextEditingController(text: widget.posting.price.toString());
       _descriptionController = TextEditingController(text: widget.posting.description);
+      _apartmentNumberController = TextEditingController(text: widget.posting.apartmentNumber);
       _streetNameController = TextEditingController(text: widget.posting.address);
       _cityController = TextEditingController(text: widget.posting.city);
       _countryController = TextEditingController(text: widget.posting.country);
@@ -142,6 +163,8 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
       _bathrooms = widget.posting.bathrooms;
       _images = widget.posting.displayImages;
       _houseType = widget.posting.type;
+      _furnished = widget.posting.furnished;
+      _leasePeriod = widget.posting.leaseType;
     }
     setState(() {});
   }
@@ -191,24 +214,6 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                                labelText: 'Posting name'
-                            ),
-                            style: TextStyle(
-                              fontSize: 20.0,
-                            ),
-                            controller: _nameController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a name";
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        Padding(
                           padding: const EdgeInsets.only(top: 35.0),
                           child: DropdownButton(
                               //ensures that it takes entire width of screen
@@ -236,6 +241,64 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                                 setState(() {});
                               },
                           )
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(top: 35.0),
+                            child: DropdownButton(
+                              //ensures that it takes entire width of screen
+                              isExpanded: true,
+                              value: _leasePeriod,
+                              hint: Text(
+                                'Lease type',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                ),
+                              ),
+                              items: _leaseTypes.map((type) {
+                                return DropdownMenuItem(
+                                    value: type,
+                                    child: Text(
+                                      type,
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                      ),
+                                    )
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                this._leasePeriod = value;
+                                setState(() {});
+                              },
+                            )
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(top: 35.0),
+                            child: DropdownButton(
+                              //ensures that it takes entire width of screen
+                              isExpanded: true,
+                              value: _furnished,
+                              hint: Text(
+                                'Is the apartment furnished',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                ),
+                              ),
+                              items: _isFurnished.map((type) {
+                                return DropdownMenuItem(
+                                    value: type,
+                                    child: Text(
+                                      type,
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                      ),
+                                    )
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                this._furnished = value;
+                                setState(() {});
+                              },
+                            )
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0),
@@ -276,7 +339,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           padding: const EdgeInsets.only(top: 20.0),
                           child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: 'Description'
+                                labelText: 'Distance to campus walking / train'
                             ),
                             style: TextStyle(
                               fontSize: 20.0,
@@ -284,12 +347,30 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                             controller: _descriptionController,
                             validator: (text) {
                               if(text.isEmpty) {
-                                return "Please enter a description";
+                                return "Please enter the time it takes to reach campus";
                               }
                               return null;
                             },
                             maxLines: 3,
                             minLines: 1,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                                labelText: 'Apartment Number'
+                            ),
+                            style: TextStyle(
+                              fontSize: 20.0,
+                            ),
+                            controller: _apartmentNumberController,
+                            validator: (text) {
+                              if(text.isEmpty) {
+                                return "Please enter an apartment number";
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         Padding(

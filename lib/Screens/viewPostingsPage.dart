@@ -97,25 +97,16 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width / 1.75,
-                            child: AutoSizeText(
-                              _posting.name,
+                          MaterialButton(
+                            color: Colors.blueAccent,
+                            onPressed: () {},
+                            child: Text(
+                              'Message',
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 30.0,
+                                color: Colors.white,
                               ),
-                              maxLines: 2,
                             ),
                           ),
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
                           MaterialButton(
                             color: Colors.redAccent,
                             onPressed: () {
@@ -127,20 +118,12 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                               );
                             },
                             child: Text(
-                              'Book Now',
+                              'Lease Now',
                               style: TextStyle(
                                 color: Colors.white,
                               ),
                             ),
                           ),
-                          Text(
-                            '\$${_posting.price} / month',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                            ),
-                          )
-                        ],
-                      )
                     ],
                   ),
                   Padding(
@@ -154,9 +137,8 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                           child: AutoSizeText(
                             _posting.description,
                             style: TextStyle(
-
                             ),
-                            minFontSize: 18.0,
+                            minFontSize: 19.0,
                             maxFontSize: 22.0,
                             maxLines: 5,
                           ),
@@ -203,7 +185,12 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                         PostingInfoTile(
                           iconData: Icons.home,
                           category: _posting.type,
-                          categoryInfo: '${_posting.getNumBedrooms()} guests',
+                          categoryInfo: '${_posting.getIsFurnished()}',
+                        ),
+                        PostingInfoTile(
+                          iconData: Icons.attach_money,
+                          category: 'Rent',
+                          categoryInfo: '\$ ${_posting.price} / month',
                         ),
                         PostingInfoTile(
                           iconData: Icons.hotel,

@@ -50,14 +50,14 @@ class _PostingGridTileState extends State<PostingGridTile> {
           ),
         ),
         AutoSizeText(
-          '${_posting.type} - ${_posting.address}',
+          '${_posting.streetNumber} ${_posting.address}',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 17,
           ),
         ),
         AutoSizeText(
-          _posting.name,
+          _posting.description,
         style: TextStyle(
           fontSize: 16,
         ),
@@ -117,13 +117,6 @@ class _HomeGridTileState extends State<HomeGridTile> {
                   fit: BoxFit.fill,
                 )
             ),
-          ),
-        ),
-        AutoSizeText(
-          _booking.posting.name,
-          style: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.bold,
           ),
         ),
         AutoSizeText(

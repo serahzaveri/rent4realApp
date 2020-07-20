@@ -7,11 +7,13 @@ import 'package:househunter/Models/userObjects.dart';
 
 class Posting {
   String id;
-  String name;
   String type;
+  String leaseType;
+  String furnished;
   double price;
   String description;
-  double streetNumber;
+  String apartmentNumber;
+  int streetNumber;
   String address;
   String city;
   String country;
@@ -30,8 +32,9 @@ class Posting {
 
   Map<String, int> bathrooms;
 
-  Posting({this.id="", this.name="", this.type="", this.price=0, this.description="", this.streetNumber = 0, this.address="",
-    this.city="", this.zipCode = "", this.country="", this.host, this.bedrooms=0}) {
+  Posting({this.id="", this.type="", this.leaseType="", this.price=0, this.description="", this.apartmentNumber = "",
+    this.furnished="",this.streetNumber = 0, this.address="", this.city="", this.zipCode = "", this.country="", this.host,
+    this.bedrooms=0}) {
     this.imageNames = [];
     this.displayImages = [];
     this.amenities = [];
@@ -54,17 +57,18 @@ class Posting {
     this.country = snapshot['country'] ?? "";
     this.description = snapshot['description'] ?? "";
     this.zipCode = snapshot['zip code'] ?? "";
-    this.streetNumber = snapshot['street number'].toDouble() ?? 0.0;
+    this.streetNumber = snapshot['street number'].toInt() ?? 0;
     this.bedrooms = snapshot['bedrooms'].toInt() ?? 0;
 
     String hostID = snapshot['hostID'] ?? "";
     this.host = Contact(id: hostID);
 
     this.imageNames = List<String>.from(snapshot['imageNames']) ?? [];
-    this.name = snapshot['name'] ?? "";
     this.price = snapshot['price'].toDouble() ?? 0.0;
     this.rating = snapshot['rating'].toDouble() ?? 2.5;
     this.type = snapshot['type'] ?? "";
+    this.furnished = snapshot['furnished'] ?? "";
+    this.leaseType = snapshot['lease type'] ?? "";
   }
 
   Future<void> addPostingInfoToFirestore() async {
@@ -80,11 +84,13 @@ class Posting {
       "description": this.description,
       "hostID": AppConstants.currentUser.id,
       "imageNames": this.imageNames,
-      "name": this.name,
       "price": this.price,
       "rating": 2.5,
       "street number": this.streetNumber,
+      "apartment number": this.apartmentNumber,
+      "lease type": this.leaseType,
       "type": this.type,
+      'furnished': this.furnished,
     };
     DocumentReference reference = await Firestore.instance.collection('postings').add(data);
     this.id = reference.documentID;
@@ -104,11 +110,12 @@ class Posting {
       "description": this.description,
       "hostID": AppConstants.currentUser.id,
       "imageNames": this.imageNames,
-      "name": this.name,
       "price": this.price,
       "rating": this.rating,
       "street number": this.streetNumber,
       "type": this.type,
+      "furnished": this.furnished,
+      "lease type": this.leaseType,
     };
     await Firestore.instance.document('postings/${this.id}').updateData(data);
   }
@@ -116,7 +123,7 @@ class Posting {
   Future<MemoryImage> getFirstImageFromStorage() async {
     if (this.displayImages.isNotEmpty) { return this.displayImages.first; }
     final String imagePath = "postingImages/${this.id}/${this.imageNames.first}";
-    final imageData = await FirebaseStorage.instance.ref().child(imagePath).getData(1024*1024*60);
+    final imageData = await FirebaseStorage.instance.ref().child(imagePath).getData(1024*1024*100);
     this.displayImages.add(MemoryImage(imageData));
     return this.displayImages.first;
   }
@@ -125,7 +132,7 @@ class Posting {
     this.displayImages = [];
     for(int i = 0; i<this.imageNames.length; i++) {
       final String imagePath = "postingImages/${this.id}/${this.imageNames[i]}";
-      final imageData = await FirebaseStorage.instance.ref().child(imagePath).getData(1024*1024*5);
+      final imageData = await FirebaseStorage.instance.ref().child(imagePath).getData(1024*1024*100);
       this.displayImages.add(MemoryImage(imageData));
     }
     return this.displayImages;
@@ -151,8 +158,19 @@ class Posting {
     await this.host.getImageFromStorage();
   }
 
+  String getIsFurnished() {
+    return this.furnished;
+  }
   String getFullAddress() {
-    return this.streetNumber.toString() + this.address + ", " + this.city + ", " + this.country + "," + this.zipCode;
+    return this.streetNumber.toString() + " " + this.address + ", " + this.city + ", " + this.country + "," + this.zipCode;
+  }
+
+  String getHalfAddress() {
+    return this.streetNumber.toString() + " " + this.address;
+  }
+
+  String getApartmentNumber() {
+    return this.apartmentNumber;
   }
 
   String getZipCode() {

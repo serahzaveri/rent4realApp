@@ -206,7 +206,7 @@ class User extends Contact {
   Future<void> addBookingConversation(Booking booking) async {
     Conversation conversation = Conversation();
     await conversation.addConversationToFirestore(booking.posting.host);
-    String text = "Hi, my name is ${AppConstants.currentUser.firstName} and I made a booking to ${booking.posting.name} from ${booking.dates.first} to ${booking.dates.last} ";
+    String text = "Hi, my name is ${AppConstants.currentUser.firstName} and I made a booking to ${booking.posting.getFullAddress()} from ${booking.dates.first} to ${booking.dates.last} ";
     await conversation.addMessageToFirestore(text);
   }
 

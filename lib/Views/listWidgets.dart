@@ -317,14 +317,18 @@ class _MyPostingListTileState extends State<MyPostingListTile> {
       contentPadding: EdgeInsets.all(15.0),
       leading: Padding(
         padding: const EdgeInsets.only(left: 10.0),
-        child: AutoSizeText(
-          _posting.name,
-          maxLines: 2,
-          minFontSize: 20.0,
-          style: TextStyle(
-            fontWeight: FontWeight.bold
-          ),
-        ),
+        child: Column(
+          children: <Widget>[
+            AutoSizeText(
+              _posting.getHalfAddress() ?? "",
+              maxLines: 2,
+              minFontSize: 20.0,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold
+              ),
+            ),
+          ],
+        )
       ),
       trailing: AspectRatio(
         aspectRatio: 3/2,

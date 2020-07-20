@@ -75,7 +75,7 @@ class _BookPostingPageState extends State<BookPostingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: AppBarText(text: 'Book ${this._posting.name}')
+          title: AppBarText(text: 'Book ${this._posting.getFullAddress()}')
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
