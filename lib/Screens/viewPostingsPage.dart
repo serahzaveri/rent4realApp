@@ -28,6 +28,7 @@ class ViewPostingsPage extends StatefulWidget {
 }
 
 class _ViewPostingsPageState extends State<ViewPostingsPage> {
+  //for checking
 
   Posting _posting;
   LatLng _centerLatLng = LatLng(45.5048, -73.5772);
@@ -130,6 +131,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                     padding: const EdgeInsets.only(top: 35.0, bottom: 25.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      //random
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Container(
