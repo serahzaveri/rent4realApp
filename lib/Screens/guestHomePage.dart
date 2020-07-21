@@ -56,11 +56,16 @@ class _GuestHomePageState extends State<GuestHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: AppBarText(text: _pageTitles[_selectedIndex]),
+      //UNCOMMENT BELOW IF YOU WANT APP BAR
+
+      /*appBar: AppBar(
+        title: AppBarText(
+          text: _pageTitles[_selectedIndex],
+        ),
         //this gets rid of the back button on the app bar
         automaticallyImplyLeading: false,
-      ),
+        backgroundColor: Colors.pinkAccent,
+      ),*/
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {

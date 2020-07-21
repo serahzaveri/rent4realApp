@@ -53,7 +53,7 @@ class _ExplorePageState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
+          padding: const EdgeInsets.fromLTRB(25, 50, 25, 0),
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
@@ -141,17 +141,44 @@ class _ExplorePageState extends State<ExplorePage> {
                               DocumentSnapshot snapshot = snapshots.data.documents[index];
                               Posting currentPosting = Posting(id: snapshot.documentID);
                               currentPosting.getPostingInfoFromSnapshot(snapshot);
-                              return InkResponse(
-                                  enableFeedback: true,
-                                  child: PostingGridTile(posting: currentPosting,),
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ViewPostingsPage(posting: currentPosting,),
-                                        )
-                                    );
-                                  }
+                              return Stack(
+                                children: <Widget>[
+                                  InkResponse(
+                                      enableFeedback: true,
+                                      child: PostingGridTile(posting: currentPosting,),
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => ViewPostingsPage(posting: currentPosting,),
+                                            )
+                                        );
+                                      }
+                                  ),
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 10.0),
+                                      child: Container(
+                                        width: 30,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white,
+                                        ),
+                                        child: IconButton(
+                                            padding: EdgeInsets.all(0.0),
+                                            icon: Icon(Icons.favorite_border, color: Colors.black),
+                                            onPressed: () {
+                                              AppConstants.currentUser.addSavedPosting(currentPosting).whenComplete(() {
+                                                setState(() {
+                                                });
+                                              });
+                                            }
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
                               );
                             }
                         );

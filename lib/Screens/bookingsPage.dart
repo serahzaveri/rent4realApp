@@ -51,7 +51,7 @@ class _BookingsPageState extends State<BookingsPage> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
+        padding: const EdgeInsets.fromLTRB(25, 50, 25, 0),
         child: Column(
           children: <Widget>[
             Padding(
@@ -81,7 +81,7 @@ class _BookingsPageState extends State<BookingsPage> {
                 ),
               ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20.0, 25.0, 0.0, 25.0),
+              padding: const EdgeInsets.fromLTRB(20.0, 25.0, 0.0, 15.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -106,7 +106,7 @@ class _BookingsPageState extends State<BookingsPage> {
               ),
             ),
         Padding(
-          padding: const EdgeInsets.only(top: 25.0, bottom: 25.0),
+          padding: const EdgeInsets.only(top: 5.0, bottom: 25.0),
           child: ListView.builder(
               shrinkWrap: true,
               itemCount: AppConstants.currentUser.myPostings.length,

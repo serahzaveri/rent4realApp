@@ -45,7 +45,7 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: AppBarText(text: 'View Profile')
+          title: AppBarText(text: 'View Profile'),
       ),
       body: SingleChildScrollView(
         child: Padding(

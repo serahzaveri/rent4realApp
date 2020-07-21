@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Models/reviewObjects.dart';
 import 'package:househunter/Models/userObjects.dart';
@@ -19,7 +20,6 @@ class Posting {
   String country;
   String zipCode;
   double rating;
-
   Contact host;
 
   List<String> imageNames;
@@ -34,7 +34,7 @@ class Posting {
 
   Posting({this.id="", this.type="", this.leaseType="", this.price=0, this.description="", this.apartmentNumber = "",
     this.furnished="",this.streetNumber = 0, this.address="", this.city="", this.zipCode = "", this.country="", this.host,
-    this.bedrooms=0}) {
+    this.bedrooms=0, }) {
     this.imageNames = [];
     this.displayImages = [];
     this.amenities = [];

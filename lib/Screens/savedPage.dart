@@ -18,6 +18,7 @@ class _SavedPageState extends State<SavedPage> {
 
   @override
   Widget build(BuildContext context) {
+    if(AppConstants.currentUser.savedPostings.length == 0) {return Container();}
     return Padding(
       padding: const EdgeInsets.fromLTRB(25, 50, 25, 0),
       child: GridView.builder(

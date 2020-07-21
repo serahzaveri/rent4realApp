@@ -21,7 +21,7 @@ class _InboxPageState extends State<InboxPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 15.0),
+      padding: const EdgeInsets.only(top: 25.0),
       child: StreamBuilder(
         stream: Firestore.instance.collection('conversations').where(
             'userIDs', arrayContains: AppConstants.currentUser.id).snapshots(),
