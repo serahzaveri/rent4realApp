@@ -167,12 +167,22 @@ class _ExplorePageState extends State<ExplorePage> {
                                         ),
                                         child: IconButton(
                                             padding: EdgeInsets.all(0.0),
-                                            icon: Icon(Icons.favorite_border, color: Colors.black),
+                                            //when saved posting then icon should be red heart or else black heart
+                                            icon: (AppConstants.currentUser.isSavedPosting(currentPosting)) ?
+                                            Icon(Icons.favorite, color: Colors.red) :
+                                            Icon(Icons.favorite_border, color: Colors.black),
                                             onPressed: () {
-                                              AppConstants.currentUser.addSavedPosting(currentPosting).whenComplete(() {
-                                                setState(() {
+                                              if(AppConstants.currentUser.isSavedPosting(currentPosting)) {
+                                                AppConstants.currentUser.removeSavedPosting(currentPosting).whenComplete(() {
+                                                  setState(() {
+                                                  });
                                                 });
-                                              });
+                                              } else {
+                                                AppConstants.currentUser.addSavedPosting(currentPosting).whenComplete(() {
+                                                  setState(() {
+                                                  });
+                                                });
+                                              }
                                             }
                                         ),
                                       ),

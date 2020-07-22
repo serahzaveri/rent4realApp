@@ -221,6 +221,17 @@ class User extends Contact {
     return allBookedDates;
   }
 
+  //this method is used to determine the heart icon on explore page
+  bool isSavedPosting(Posting posting) {
+    for(var savedPosting in this.savedPostings) {
+      if(savedPosting.id == posting.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // adds to saved posting when red heart icon is clicked
   Future<void> addSavedPosting(Posting posting) async {
     for(var savedPosting in this.savedPostings) {
       if(savedPosting.id == posting.id) {
