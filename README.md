@@ -1,6 +1,8 @@
 # househunter
 
-Apartment hosting app
+Apartment hosting app 
+Flutter SDK
+cross platform
 
 ## Getting Started
 
