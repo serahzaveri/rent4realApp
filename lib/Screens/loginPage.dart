@@ -6,6 +6,7 @@ import 'package:househunter/Models/data.dart';
 import 'package:househunter/Models/userObjects.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
 import 'package:househunter/Screens/signUpPage.dart';
+import 'dart:io' show Platform;
 
 class LoginPage extends StatefulWidget {
 
@@ -47,43 +48,64 @@ class _LoginPageState extends State<LoginPage> {
           password: password,
         );
       } catch(error) {
-        // checks all possibles errors on android
-        switch (error.code) {
-          case "ERROR_INVALID_EMAIL":
-            errorMessage = "Your email address appears to be malformed. Please try again! ";
-            print(errorMessage);
-            break;
-          case "ERROR_WRONG_PASSWORD":
-            errorMessage = "Your password is wrong. Please try again! ";
-            print(errorMessage);
-            break;
-          case "ERROR_USER_NOT_FOUND":
-            errorMessage = "User with this email doesn't exist. Please try again! ";
-            print(errorMessage);
-            break;
-          case "ERROR_USER_DISABLED":
-            errorMessage = "User with this email has been disabled. Please try again! ";
-            print(errorMessage);
-            break;
-          case "ERROR_TOO_MANY_REQUESTS":
-            errorMessage = "Too many requests. Try again later. Please try again! ";
-            print(errorMessage);
-            break;
-          case "ERROR_OPERATION_NOT_ALLOWED":
-            errorMessage = "Signing in with Email and Password is not enabled. Please try again! ";
-            print(errorMessage);
-            break;
-          default:
-            errorMessage = "An undefined Error happened. Please try again! ";
-            print(errorMessage);
-            break;
+        if(Platform.isAndroid) {
+          // checks all possibles errors on android
+          switch (error.code) {
+            case "ERROR_INVALID_EMAIL":
+              errorMessage = "Your email address appears to be malformed. Please try again! ";
+              print(errorMessage);
+              break;
+            case "ERROR_WRONG_PASSWORD":
+              errorMessage = "Your password is wrong. Please try again! ";
+              print(errorMessage);
+              break;
+            case "ERROR_USER_NOT_FOUND":
+              errorMessage = "User with this email doesn't exist. Please try again! ";
+              print(errorMessage);
+              break;
+            case "ERROR_USER_DISABLED":
+              errorMessage = "User with this email has been disabled. Please try again! ";
+              print(errorMessage);
+              break;
+            case "ERROR_TOO_MANY_REQUESTS":
+              errorMessage = "Too many requests. Try again later. Please try again! ";
+              print(errorMessage);
+              break;
+            case "ERROR_OPERATION_NOT_ALLOWED":
+              errorMessage = "Signing in with Email and Password is not enabled. Please try again! ";
+              print(errorMessage);
+              break;
+            default:
+              errorMessage = "An undefined Error happened. Please try again! ";
+              print(errorMessage);
+              break;
+          }
+        } else if(Platform.isIOS) {
+          switch (error.code) {
+            case 'Error 17011':
+              errorMessage = "User with this email doesn't exist. Please try again! ";
+              print(errorMessage);
+              break;
+            case 'Error 17009':
+              errorMessage = "Your password is wrong. Please try again! ";
+              print(errorMessage);
+              break;
+            case 'Error 17020':
+              errorMessage = "Too many requests. Try again later. Please try again! ";
+              print(errorMessage);
+              break;
+            default:
+              errorMessage = "An undefined Error happened. Please try again! ";
+              print(errorMessage);
+              break;
           }
         }
+      }
       //if these is an error message then it sets the state to print errorMessage on the screen and then returns
       if(errorMessage != "") {
         setState(() {});
         return;
-        }
+      }
       //if sign in is successful
       print("no error detected");
       String userID = firebaseUser.uid;
