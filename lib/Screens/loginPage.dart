@@ -24,39 +24,75 @@ class _LoginPageState extends State<LoginPage> {
   //text editing controllers to get text in the text fields
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  String errorMessage = "";
 
   //the following function helps navigate to the signUp Page when user clicks Sign Up button
   void _signUp() {
-    /*if(_formKey.currentState.validate()) {
-      String email = _emailController.text;
-      String password = _passwordController.text;
-      AppConstants.currentUser = User();
-      AppConstants.currentUser.email = email;
-      AppConstants.currentUser.password = password;
-      Navigator.pushNamed(context, SignUpPage.routeName);
-    }*/
     //we don't validate this form instead we just go to the signUp page
     Navigator.pushNamed(context, SignUpPage.routeName);
   }
+
   //the following function helps navigate to the Login Page when user clicks Login button
-  void _login(){
+  void _signIn() async {
+    //we reset errorMessage every time login is pressed
+    errorMessage = "";
+    FirebaseUser firebaseUser;
+    //if the fields of the form are filled
     if(_formKey.currentState.validate()){
       String email = _emailController.text;
       String password = _passwordController.text;
-      //here we authenticate the user by checking our database
-      FirebaseAuth.instance.signInWithEmailAndPassword(
+      try {
+        firebaseUser = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
           password: password,
-      ).then((firebaseUser) {
-        String userID = firebaseUser.uid;
-        AppConstants.currentUser = User(id: userID);
-        //loads all info other than reviews and conversation since that is stream builder
-        AppConstants.currentUser.getPersonalInfoFromFirestore().whenComplete(() {
-          Navigator.pushNamed(context, GuestHomePage.routeName);
-        });
+        );
+      } catch(error) {
+        // checks all possibles errors on android
+        switch (error.code) {
+          case "ERROR_INVALID_EMAIL":
+            errorMessage = "Your email address appears to be malformed. Please try again! ";
+            print(errorMessage);
+            break;
+          case "ERROR_WRONG_PASSWORD":
+            errorMessage = "Your password is wrong. Please try again! ";
+            print(errorMessage);
+            break;
+          case "ERROR_USER_NOT_FOUND":
+            errorMessage = "User with this email doesn't exist. Please try again! ";
+            print(errorMessage);
+            break;
+          case "ERROR_USER_DISABLED":
+            errorMessage = "User with this email has been disabled. Please try again! ";
+            print(errorMessage);
+            break;
+          case "ERROR_TOO_MANY_REQUESTS":
+            errorMessage = "Too many requests. Try again later. Please try again! ";
+            print(errorMessage);
+            break;
+          case "ERROR_OPERATION_NOT_ALLOWED":
+            errorMessage = "Signing in with Email and Password is not enabled. Please try again! ";
+            print(errorMessage);
+            break;
+          default:
+            errorMessage = "An undefined Error happened. Please try again! ";
+            print(errorMessage);
+            break;
+          }
+        }
+      //if these is an error message then it sets the state to print errorMessage on the screen and then returns
+      if(errorMessage != "") {
+        setState(() {});
+        return;
+        }
+      //if sign in is successful
+      print("no error detected");
+      String userID = firebaseUser.uid;
+      AppConstants.currentUser = User(id: userID);
+      //loads all info other than reviews and conversation since that is stream builder
+      AppConstants.currentUser.getPersonalInfoFromFirestore().whenComplete(() {
+        Navigator.pushNamed(context, GuestHomePage.routeName);
       });
     }
-
   }
 
   @override
@@ -83,14 +119,6 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     height: 20,
                   ),
-                  /*Text(
-                    'Welcome to ${AppConstants.appName}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30.0,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),*/
                   Form(
                     key: _formKey,
                     child: Column(
@@ -138,14 +166,22 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     )
                   ),
-                  SizedBox(
-                    height: 10,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(50, 15, 50 , 0),
+                    child: Text(
+                        errorMessage,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.0,
+                          color: Colors.red,
+                        ),
+                      ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(25, 35, 25 , 5),
+                    padding: const EdgeInsets.fromLTRB(20, 20, 25 , 5),
                     child: MaterialButton(
                       onPressed: () {
-                        _login();
+                        _signIn();
                       },
                       child: Text(
                         'Login',
