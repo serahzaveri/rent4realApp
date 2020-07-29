@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Models/data.dart';
 import 'package:househunter/Models/userObjects.dart';
+import 'package:househunter/Screens/forgotPasswordPage.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
 import 'package:househunter/Screens/signUpPage.dart';
 import 'dart:io' show Platform;
@@ -31,6 +32,11 @@ class _LoginPageState extends State<LoginPage> {
   void _signUp() {
     //we don't validate this form instead we just go to the signUp page
     Navigator.pushNamed(context, SignUpPage.routeName);
+  }
+
+  void _forgotPassword() {
+    //we don't validate this form instead we just go to the signUp page
+    Navigator.pushNamed(context, ForgotPasswordPage.routeName);
   }
 
   //the following function helps navigate to the Login Page when user clicks Login button
@@ -95,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
               print(errorMessage);
               break;
             default:
-              errorMessage = "An undefined Error happened. Please try again! ";
+              errorMessage = "Error. Please try again! ";
               print(errorMessage);
               break;
           }
@@ -223,7 +229,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(50, 0, 50 , 50),
+                    padding: const EdgeInsets.fromLTRB(50, 0, 50 , 0),
                     child: MaterialButton(
                       onPressed: () {
                         _signUp();
@@ -238,13 +244,36 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       //color: Colors.grey,
                       //We get the height of the screen so the buttons adjust to size of phone
-                      height: MediaQuery.of(context).size.height / 15,
+                      height: MediaQuery.of(context).size.height / 17,
                       minWidth: double.infinity,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)
                       ),
                     ),
-                  )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(50, 0, 50 , 0),
+                    child: MaterialButton(
+                      onPressed: () {
+                        _forgotPassword();
+                      },
+                      child: Text(
+                        'Forgot Passsword',
+                        style: TextStyle(
+                          //fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                      //color: Colors.grey,
+                      //We get the height of the screen so the buttons adjust to size of phone
+                      height: MediaQuery.of(context).size.height / 18,
+                      minWidth: double.infinity,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

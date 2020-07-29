@@ -6,6 +6,7 @@ import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Screens/bookPostingPage.dart';
 import 'package:househunter/Screens/conversationPage.dart';
 import 'package:househunter/Screens/createPostingPage.dart';
+import 'package:househunter/Screens/forgotPasswordPage.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
 import 'package:househunter/Screens/hostHomePage.dart';
 import 'package:househunter/Screens/loginPage.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
       home: MyHomePage(),
       routes: {
         LoginPage.routeName: (context) => LoginPage(),
+        ForgotPasswordPage.routeName: (context) => ForgotPasswordPage(),
         SignUpPage.routeName: (context) => SignUpPage(),
         GuestHomePage.routeName: (context) => GuestHomePage(),
         PersonalInfoPage.routeName: (context) => PersonalInfoPage(),
