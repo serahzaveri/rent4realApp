@@ -134,6 +134,11 @@ class _AccountPageState extends State<AccountPage> {
               ),
               MaterialButton(
                   height: MediaQuery.of(context).size.height / 9.0,
+                  onPressed: () {},
+                  child: AccountPageListTile(text: 'My Rent Resume', iconData: Icons.picture_as_pdf,)
+              ),
+              MaterialButton(
+                  height: MediaQuery.of(context).size.height / 9.0,
                   onPressed: _changeHosting,
                   child: AccountPageListTile(text: _hostingTitle, iconData: Icons.home,)
               ),

@@ -95,7 +95,28 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 5, 10 , 25),
+              padding: const EdgeInsets.fromLTRB(10, 10, 10 , 5),
+              child: MaterialButton(
+                onPressed: () {},
+                child: Text(
+                  'Rental Insurance',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                    color: Colors.black,
+                  ),
+                ),
+                color: Colors.lightBlue,
+                //We get the height of the screen so the buttons adjust to size of phone
+                height: MediaQuery.of(context).size.height / 15,
+                minWidth: double.infinity,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10 , 25),
               child: MaterialButton(
                 onPressed: () {},
                 child: Text(
