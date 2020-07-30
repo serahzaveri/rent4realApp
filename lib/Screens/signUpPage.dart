@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _cityController = TextEditingController();
   TextEditingController _countryController = TextEditingController();
   TextEditingController _bioController = TextEditingController();
-
+  String _error;
   File _imageFile;
 
   void _chooseImage() async {
@@ -48,35 +49,42 @@ class _SignUpPageState extends State<SignUpPage> {
     Navigator.pushNamed(context, LoginPage.routeName);
   }
 
-  void _submit() {
+  void _submit() async {
+    FirebaseUser firebaseUser;
     if(!_formKey.currentState.validate() || this._imageFile == null) { return; }
     String email = _emailController.text;
     String password = _passwordController.text;
-    AppConstants.currentUser = User();
-    AppConstants.currentUser.email = email;
-    AppConstants.currentUser.password = password;
-    FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    ).then((firebaseUser) {
-      String userID = firebaseUser.uid;
-      AppConstants.currentUser.id = userID;
-      AppConstants.currentUser.firstName = _firstNameController.text;
-      AppConstants.currentUser.lastName = _lastNameController.text;
-      AppConstants.currentUser.city = _cityController.text;
-      AppConstants.currentUser.country = _countryController.text;
-      AppConstants.currentUser.bio = _bioController.text;
-      AppConstants.currentUser.addUserToFirestore().whenComplete(() {
-        AppConstants.currentUser.addImageToFirestore(_imageFile).whenComplete(() {
-          FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: AppConstants.currentUser.email,
-            password: AppConstants.currentUser.password,
-          ).whenComplete(() {
-            Navigator.pushNamed(context, GuestHomePage.routeName);
+    try{
+      AppConstants.currentUser = User();
+      AppConstants.currentUser.email = email;
+      AppConstants.currentUser.password = password;
+      firebaseUser = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+        String userID = firebaseUser.uid;
+        AppConstants.currentUser.id = userID;
+        AppConstants.currentUser.firstName = _firstNameController.text;
+        AppConstants.currentUser.lastName = _lastNameController.text;
+        AppConstants.currentUser.city = _cityController.text;
+        AppConstants.currentUser.country = _countryController.text;
+        AppConstants.currentUser.bio = _bioController.text;
+        AppConstants.currentUser.addUserToFirestore().whenComplete(() {
+          AppConstants.currentUser.addImageToFirestore(_imageFile).whenComplete(() {
+            FirebaseAuth.instance.signInWithEmailAndPassword(
+              email: AppConstants.currentUser.email,
+              password: AppConstants.currentUser.password,
+            ).whenComplete(() {
+              Navigator.pushNamed(context, GuestHomePage.routeName);
+            });
           });
         });
+    } catch(error){
+      print('error message detected');
+      setState(() {
+      _error = error.message;
       });
-    });
+    }
   }
 
   @override
@@ -101,8 +109,35 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                 ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Container(
+                      width: 50,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                      child: MaterialButton(
+                          padding: EdgeInsets.all(0.0),
+                          color: Colors.pinkAccent,
+                          child: Text(
+                            'Back',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.black,
+                            ),
+                          ),
+                          onPressed: () {
+                            _back();
+                          }
+                      ),
+                    ),
+                  ),
+                ),
                 SizedBox(
-                  height: 20,
+                  height: 25,
                 ),
                 Text(
                   'Please enter the following information:',
@@ -291,7 +326,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 40.0, bottom: 5.0),
+                  padding: const EdgeInsets.fromLTRB(25, 40, 25, 35),
+                  //padding: const EdgeInsets.only(top: 40.0, bottom: 35.0,),
                   child: MaterialButton(
                     onPressed: () {
                       _submit();
@@ -313,33 +349,51 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 25, 25, 25),
-                  child: MaterialButton(
-                    onPressed: () {
-                      _back();
-                    },
-                    child: Text(
-                      'Back to Sign In Page',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
-                        color: Colors.black,
-                      ),
-                    ),
-                    //We get the height of the screen so the buttons adjust to size of phone
-                    height: MediaQuery.of(context).size.height / 15,
-                    minWidth: double.infinity,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  //this method is used to display an alert to the user
+  //in this class it displays the error message when connecting to firebase
+  Widget showAlert() {
+    //if an error is present
+    if (_error != null) {
+      return Container(
+        color: Colors.amberAccent,
+        width: double.infinity,
+        padding: EdgeInsets.all(8.0),
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Icon(Icons.error_outline),
+            ),
+            Expanded(
+              child: AutoSizeText(
+                //displays the error
+                _error,
+                maxLines: 3,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  setState(() {
+                    _error = null;
+                  });
+                },
+              ),
+            )
+          ],
+        ),
+      );
+    }
+    return SizedBox(height: 0,);
   }
 }
