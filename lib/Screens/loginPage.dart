@@ -1,8 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
-import 'package:househunter/Models/data.dart';
 import 'package:househunter/Models/userObjects.dart';
 import 'package:househunter/Screens/forgotPasswordPage.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
@@ -21,12 +21,12 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
+  String _error;
   //providing a global key to the form uniquely identifies the form and allows validation
   final _formKey = GlobalKey<FormState>();
   //text editing controllers to get text in the text fields
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  String errorMessage = "";
 
   //the following function helps navigate to the signUp Page when user clicks Sign Up button
   void _signUp() {
@@ -42,7 +42,6 @@ class _LoginPageState extends State<LoginPage> {
   //the following function helps navigate to the Login Page when user clicks Login button
   void _signIn() async {
     //we reset errorMessage every time login is pressed
-    errorMessage = "";
     FirebaseUser firebaseUser;
     //if the fields of the form are filled
     if(_formKey.currentState.validate()){
@@ -53,73 +52,18 @@ class _LoginPageState extends State<LoginPage> {
           email: email,
           password: password,
         );
+        print("no error detected");
+        String userID = firebaseUser.uid;
+        AppConstants.currentUser = User(id: userID);
+        //loads all info other than reviews and conversation since that is stream builder
+        AppConstants.currentUser.getPersonalInfoFromFirestore().whenComplete(() {
+          Navigator.pushNamed(context, GuestHomePage.routeName);
+        });
       } catch(error) {
-        if(Platform.isAndroid) {
-          // checks all possibles errors on android
-          switch (error.code) {
-            case "ERROR_INVALID_EMAIL":
-              errorMessage = "Your email address appears to be malformed. Please try again! ";
-              print(errorMessage);
-              break;
-            case "ERROR_WRONG_PASSWORD":
-              errorMessage = "Your password is wrong. Please try again! ";
-              print(errorMessage);
-              break;
-            case "ERROR_USER_NOT_FOUND":
-              errorMessage = "User with this email doesn't exist. Please try again! ";
-              print(errorMessage);
-              break;
-            case "ERROR_USER_DISABLED":
-              errorMessage = "User with this email has been disabled. Please try again! ";
-              print(errorMessage);
-              break;
-            case "ERROR_TOO_MANY_REQUESTS":
-              errorMessage = "Too many requests. Try again later. Please try again! ";
-              print(errorMessage);
-              break;
-            case "ERROR_OPERATION_NOT_ALLOWED":
-              errorMessage = "Signing in with Email and Password is not enabled. Please try again! ";
-              print(errorMessage);
-              break;
-            default:
-              errorMessage = "An undefined Error happened. Please try again! ";
-              print(errorMessage);
-              break;
-          }
-        } else if(Platform.isIOS) {
-          switch (error.code) {
-            case 'Error 17011':
-              errorMessage = "User with this email doesn't exist. Please try again! ";
-              print(errorMessage);
-              break;
-            case 'Error 17009':
-              errorMessage = "Your password is wrong. Please try again! ";
-              print(errorMessage);
-              break;
-            case 'Error 17020':
-              errorMessage = "Too many requests. Try again later. Please try again! ";
-              print(errorMessage);
-              break;
-            default:
-              errorMessage = "Error. Please try again! ";
-              print(errorMessage);
-              break;
-          }
-        }
+        setState(() {
+          _error = error.message;
+        });
       }
-      //if these is an error message then it sets the state to print errorMessage on the screen and then returns
-      if(errorMessage != "") {
-        setState(() {});
-        return;
-      }
-      //if sign in is successful
-      print("no error detected");
-      String userID = firebaseUser.uid;
-      AppConstants.currentUser = User(id: userID);
-      //loads all info other than reviews and conversation since that is stream builder
-      AppConstants.currentUser.getPersonalInfoFromFirestore().whenComplete(() {
-        Navigator.pushNamed(context, GuestHomePage.routeName);
-      });
     }
   }
 
@@ -135,6 +79,8 @@ class _LoginPageState extends State<LoginPage> {
                 //mainAxisAlignment centers the children vertically
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
+                  //if an alert is present and set state is called it displays the error message to the user
+                  showAlert(),
                   Container(
                     height: MediaQuery.of(context).size.height / 2,
                     decoration: BoxDecoration(
@@ -193,17 +139,6 @@ class _LoginPageState extends State<LoginPage> {
                         )
                       ],
                     )
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(50, 15, 50 , 0),
-                    child: Text(
-                        errorMessage,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.0,
-                          color: Colors.red,
-                        ),
-                      ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 20, 25 , 5),
@@ -280,5 +215,44 @@ class _LoginPageState extends State<LoginPage> {
           ),
       ),
       );
+  }
+  //this method is used to display an alert to the user
+  //in this class it displays the error message when connecting to firebase
+  Widget showAlert() {
+    //if an error is present
+    if (_error != null) {
+      return Container(
+        color: Colors.amberAccent,
+        width: double.infinity,
+        padding: EdgeInsets.all(8.0),
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Icon(Icons.error_outline),
+            ),
+            Expanded(
+              child: AutoSizeText(
+                //displays the error
+                _error,
+                maxLines: 3,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  setState(() {
+                    _error = null;
+                  });
+                },
+              ),
+            )
+          ],
+        ),
+      );
+    }
+    return SizedBox(height: 0,);
   }
 }

@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
-import 'package:househunter/Models/data.dart';
 import 'package:househunter/Models/reviewObjects.dart';
 import 'package:househunter/Models/userObjects.dart';
 import 'package:househunter/Screens/guestHomePage.dart';

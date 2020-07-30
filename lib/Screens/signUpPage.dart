@@ -7,6 +7,7 @@ import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Models/userObjects.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
 import 'package:househunter/Views/TextWidgets.dart';
+import 'package:househunter/Screens/loginPage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -39,6 +40,12 @@ class _SignUpPageState extends State<SignUpPage> {
       _imageFile = imageFile;
       setState(() {});
     }
+  }
+
+  //the following function helps navigate to the signUp Page when user clicks Sign Up button
+  void _back() {
+    //we don't validate this form instead we just go to the signUp page
+    Navigator.pushNamed(context, LoginPage.routeName);
   }
 
   void _submit() {
@@ -76,18 +83,27 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: AppBarText(text: 'Create an account'),
-      ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it in the middle of the parent.
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(25, 50, 25, 0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: Column(
               //mainAxisAlignment centers the children vertically
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
+                Container(
+                  height: MediaQuery.of(context).size.height / 3,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage('assets/images/background_no_text.jpg')
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 Text(
                   'Please enter the following information:',
                   style: TextStyle(
@@ -101,7 +117,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Column(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'First name',
@@ -121,7 +137,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Last name',
@@ -141,7 +157,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Email',
@@ -161,7 +177,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Password',
@@ -182,7 +198,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Confirm Password',
@@ -203,7 +219,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'City',
@@ -223,7 +239,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Country',
@@ -243,7 +259,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Bio',
@@ -261,7 +277,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     )
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 40.0),
+                  padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
                   child: MaterialButton(
                     onPressed: _chooseImage,
                     child: CircleAvatar(
@@ -275,7 +291,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 40.0, bottom: 40.0),
+                  padding: const EdgeInsets.only(top: 40.0, bottom: 5.0),
                   child: MaterialButton(
                     onPressed: () {
                       _submit();
@@ -297,7 +313,28 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                 ),
-
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 25, 25, 25),
+                  child: MaterialButton(
+                    onPressed: () {
+                      _back();
+                    },
+                    child: Text(
+                      'Back to Sign In Page',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                        color: Colors.black,
+                      ),
+                    ),
+                    //We get the height of the screen so the buttons adjust to size of phone
+                    height: MediaQuery.of(context).size.height / 15,
+                    minWidth: double.infinity,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
