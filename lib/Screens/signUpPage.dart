@@ -326,6 +326,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                 ),
+                showAlert(),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(25, 40, 25, 35),
                   //padding: const EdgeInsets.only(top: 40.0, bottom: 35.0,),
