@@ -180,16 +180,6 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
     return Scaffold(
       appBar: AppBar(
         title: AppBarText(text: 'Create a Posting'),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.clear),
-              onPressed: () {}
-          ),
-          IconButton(
-              icon: Icon(Icons.save),
-              onPressed: _savePosting,
-          ),
-        ],
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it in the middle of the parent.
@@ -586,6 +576,30 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                                   ),
                                 );
                               }
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(25, 40, 25, 35),
+                          //padding: const EdgeInsets.only(top: 40.0, bottom: 35.0,),
+                          child: MaterialButton(
+                            onPressed: () {
+                              _savePosting();
+                            },
+                            child: Text(
+                              'Submit',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0,
+                                color: Colors.black,
+                              ),
+                            ),
+                            color: Colors.blue,
+                            //We get the height of the screen so the buttons adjust to size of phone
+                            height: MediaQuery.of(context).size.height / 15,
+                            minWidth: double.infinity,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)
+                            ),
                           ),
                         ),
                       ],
