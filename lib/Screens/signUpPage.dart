@@ -92,6 +92,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
+        //checking to see if github uploads correctly
         // Center is a layout widget. It takes a single child and positions it in the middle of the parent.
         child: SingleChildScrollView(
           child: Padding(
