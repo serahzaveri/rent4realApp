@@ -4,7 +4,7 @@ Apartment hosting app
 Flutter SDK
 cross platform - andoid and ios
 
-suports real time chat appliaction using streambuiler
+suports real time chat appliaction using streambuilder
 
 firebase used for storing data
 
