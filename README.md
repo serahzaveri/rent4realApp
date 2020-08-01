@@ -5,6 +5,7 @@ Flutter SDK
 cross platform - andoid and ios
 
 suports real time chat appliaction using streambuiler
+
 firebase used for storing data
 
 ## Getting Started
