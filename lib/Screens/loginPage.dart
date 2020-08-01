@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/sharedPreferencesHelper.dart';
 import 'package:househunter/Models/userObjects.dart';
 import 'package:househunter/Screens/forgotPasswordPage.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
@@ -53,7 +54,10 @@ class _LoginPageState extends State<LoginPage> {
           password: password,
         );
         print("no error detected");
+        //this is to keep the user logged in using shared preferences
+        SharedPreferencesHelper.saveUserLoggedInSharedPreference(true);
         String userID = firebaseUser.uid;
+        SharedPreferencesHelper.saveUserIdSharedPreference(userID);
         AppConstants.currentUser = User(id: userID);
         //loads all info other than reviews and conversation since that is stream builder
         AppConstants.currentUser.getPersonalInfoFromFirestore().whenComplete(() {
@@ -224,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
       return Container(
         color: Colors.amberAccent,
         width: double.infinity,
-        padding: EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(10.0),
         child: Row(
           children: <Widget>[
             Padding(

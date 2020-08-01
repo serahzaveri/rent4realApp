@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/sharedPreferencesHelper.dart';
+import 'package:househunter/Screens/authenticatePage.dart';
 import 'package:househunter/Screens/bookPostingPage.dart';
 import 'package:househunter/Screens/conversationPage.dart';
 import 'package:househunter/Screens/createPostingPage.dart';
@@ -22,7 +24,29 @@ void main() => runApp(MyApp());
 // If a widget can change when a user interacts with it then it's stateful. A stateless widget never changes.
 // When the widget's state changes, the state object calls setState() , telling the framework to redraw the widget.
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  bool isUserLoggedIn;
+
+  @override
+  void initState() {
+    getLoggedIn();
+    super.initState();
+  }
+
+  getLoggedIn() async {
+    await SharedPreferencesHelper.getUserLoggedIn().then((value) {
+      setState(() {
+        isUserLoggedIn = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,8 +54,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: isUserLoggedIn != null ? isUserLoggedIn ? AuthenticatePage() : MyHomePage()
+          : Container(
+        child: Center(
+          child: MyHomePage(),
+        ),
+      ),
       routes: {
+        AuthenticatePage.routeName: (context) => AuthenticatePage(),
         LoginPage.routeName: (context) => LoginPage(),
         ForgotPasswordPage.routeName: (context) => ForgotPasswordPage(),
         SignUpPage.routeName: (context) => SignUpPage(),

@@ -45,18 +45,10 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Container(
                 height: MediaQuery.of(context).size.height / 2.3,
                 width: double.infinity,
-                child: GridView.builder(
-                  physics: ScrollPhysics(),
+                child: ListView.builder(
                   itemCount: AppConstants.currentUser.getUpcomingTrips().length,
-                  scrollDirection: Axis.vertical,
+                  scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    //cross Axis count tells us the number of listings we want sideways on screen
-                    crossAxisCount: 1,
-                    //crossAxisSpacing: 15,
-                    mainAxisSpacing: 15.0,
-                    childAspectRatio: 4.8/5,
-                  ),
                   itemBuilder: (context, index) {
                     Booking currentBooking = AppConstants.currentUser.getUpcomingTrips()[index];
                     return Padding(

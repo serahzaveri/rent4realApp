@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/sharedPreferencesHelper.dart';
 import 'package:househunter/Screens/hostHomePage.dart';
 import 'package:househunter/Screens/loginPage.dart';
 import 'package:househunter/Screens/personalInfoPage.dart';
@@ -23,6 +24,7 @@ class _AccountPageState extends State<AccountPage> {
   String _hostingTitle;
 
   void _logout() {
+    SharedPreferencesHelper.saveUserLoggedInSharedPreference(false);
     Navigator.pushNamed(context, LoginPage.routeName);
   }
 

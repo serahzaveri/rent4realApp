@@ -5,11 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/sharedPreferencesHelper.dart';
 import 'package:househunter/Models/userObjects.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
 import 'package:househunter/Views/TextWidgets.dart';
 import 'package:househunter/Screens/loginPage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpPage extends StatefulWidget {
 
@@ -75,6 +77,9 @@ class _SignUpPageState extends State<SignUpPage> {
               email: AppConstants.currentUser.email,
               password: AppConstants.currentUser.password,
             ).whenComplete(() {
+              //this is to keep the user logged in using shared preferences
+              SharedPreferencesHelper.saveUserLoggedInSharedPreference(true);
+              SharedPreferencesHelper.saveUserIdSharedPreference(userID);
               Navigator.pushNamed(context, GuestHomePage.routeName);
             });
           });

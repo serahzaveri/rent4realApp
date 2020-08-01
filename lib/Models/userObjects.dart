@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:househunter/Models/messagingObjects.dart';
 import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Models/reviewObjects.dart';
+import 'package:househunter/Screens/conversationPage.dart';
 
 import 'AppConstants.dart';
 
@@ -209,6 +210,15 @@ class User extends Contact {
     await conversation.addConversationToFirestore(booking.posting.host);
     String text = "Hi, my name is ${AppConstants.currentUser.firstName} and I made a booking to ${booking.posting.getFullAddress()} from ${booking.dates.first} to ${booking.dates.last} ";
     await conversation.addMessageToFirestore(text);
+    //this is where i should navigate to the conversation page
+    /*
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder:
+          (context) => ConversationPage(conversation: conversation,),
+      ),
+    );*/
+    //Navigator.pushNamed(context, ConversationPage.routeName);
   }
 
   List<DateTime> getAllBookedDates() {

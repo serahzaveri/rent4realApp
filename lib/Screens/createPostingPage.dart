@@ -457,7 +457,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                         Padding(
                           padding: const EdgeInsets.only(top: 35.0),
                           child: FacilitiesWidget(
-                            type: 'Bedrooms',
+                            type: 'Total Bedrooms',
                             startValue: 0,
                             decreaseValue: () {
                               _bedroomsVar--;
