@@ -22,6 +22,10 @@ class Conversation{
     }
   }
 
+  void addOtherContact(Contact otherContact) {
+    this.otherContact = otherContact;
+  }
+
   void getConversationInfoFromFirestore(DocumentSnapshot snapshot) {
     this.id = snapshot.documentID;
     String lastMessageText = snapshot['lastMessageText'] ?? "";

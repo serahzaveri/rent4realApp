@@ -208,7 +208,7 @@ class Posting {
     }
   }
 
-  Future<void> makeNewBooking(List<DateTime> dates) async {
+  Future<void> makeNewBooking(List<DateTime> dates, BuildContext context) async {
     Map<String,dynamic> bookingData = {
       'dates': dates,
       'name': AppConstants.currentUser.getFullName(),
@@ -219,7 +219,7 @@ class Posting {
     newBooking.createBooking(this, AppConstants.currentUser.createContactFromUser(), dates);
     newBooking.id = reference.documentID;
     this.bookings.add(newBooking);
-    await AppConstants.currentUser.addBookingToFirestore(newBooking);
+    await AppConstants.currentUser.addBookingToFirestore(newBooking, context);
   }
 
   List<DateTime> getAllBookedDates() {

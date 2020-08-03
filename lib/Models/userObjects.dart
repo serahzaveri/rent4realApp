@@ -195,30 +195,30 @@ class User extends Contact {
     }
   }
 
-  Future<void> addBookingToFirestore(Booking booking) async {
+  Future<void> addBookingToFirestore(Booking booking, BuildContext context) async {
     Map<String, dynamic> data = {
       'dates': booking.dates,
       'postingID': booking.posting.id,
     };
     await Firestore.instance.document('users/${this.id}/bookings/${booking.id}').setData(data);
     this.bookings.add(booking);
-    await addBookingConversation(booking);
+    await addBookingConversation(booking, context);
   }
 
-  Future<void> addBookingConversation(Booking booking) async {
+  Future<void> addBookingConversation(Booking booking, BuildContext context) async {
     Conversation conversation = Conversation();
+    conversation.addOtherContact(booking.posting.host);
     await conversation.addConversationToFirestore(booking.posting.host);
-    String text = "Hi, my name is ${AppConstants.currentUser.firstName} and I made a booking to ${booking.posting.getFullAddress()} from ${booking.dates.first} to ${booking.dates.last} ";
+    String text = "Hi, my name is ${AppConstants.currentUser.firstName}";
     await conversation.addMessageToFirestore(text);
     //this is where i should navigate to the conversation page
-    /*
+
     Navigator.push(
       context,
       MaterialPageRoute(builder:
           (context) => ConversationPage(conversation: conversation,),
       ),
-    );*/
-    //Navigator.pushNamed(context, ConversationPage.routeName);
+    ).then((value) => Navigator.pop(context));
   }
 
   List<DateTime> getAllBookedDates() {

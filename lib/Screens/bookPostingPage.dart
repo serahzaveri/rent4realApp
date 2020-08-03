@@ -59,8 +59,8 @@ class _BookPostingPageState extends State<BookPostingPage> {
 
   void _makeBooking() {
     if(this._selectedDates.isEmpty) { return; }
-    this._posting.makeNewBooking(this._selectedDates).whenComplete(() {
-      Navigator.pop(context);
+    this._posting.makeNewBooking(this._selectedDates, context).whenComplete(() {
+      //Navigator.pop(context);
     });
   }
 
