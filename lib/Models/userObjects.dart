@@ -34,7 +34,6 @@ class Contact {
     return this.displayImage;
   }
 
-
   String getFullName() {
     return this.firstName + " " + this.lastName;
   }

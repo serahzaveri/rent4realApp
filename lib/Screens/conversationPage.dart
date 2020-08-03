@@ -8,6 +8,7 @@ import 'package:househunter/Views/TextWidgets.dart';
 import 'package:househunter/Views/listWidgets.dart';
 
 class ConversationPage extends StatefulWidget {
+  //check for changes here
 
   final Conversation conversation;
 
