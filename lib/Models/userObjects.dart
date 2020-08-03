@@ -50,6 +50,7 @@ class Contact {
 
 }
 
+
 class User extends Contact {
 
   DocumentSnapshot snapshot;
