@@ -6,8 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/messagingObjects.dart';
 import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Models/reviewObjects.dart';
+import 'package:househunter/Models/userObjects.dart';
 import 'package:househunter/Screens/bookPostingPage.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
 import 'package:househunter/Screens/viewProfilePage.dart';
@@ -15,6 +17,8 @@ import 'package:househunter/Views/TextWidgets.dart';
 import 'package:househunter/Views/formWidgets.dart';
 import 'package:househunter/Views/listWidgets.dart';
 import 'package:geolocator/geolocator.dart';
+
+import 'conversationPage.dart';
 
 class ViewPostingsPage extends StatefulWidget {
 
@@ -100,7 +104,9 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                     children: <Widget>[
                           MaterialButton(
                             color: Colors.blueAccent,
-                            onPressed: () {},
+                            onPressed: () {
+                              startConversation();
+                            },
                             child: Text(
                               'Message',
                               style: TextStyle(
@@ -131,7 +137,6 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                     padding: const EdgeInsets.only(top: 35.0, bottom: 25.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      //random
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Container(
@@ -319,7 +324,72 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
       )
     );
   }
+
+  Future<void> startConversation() async{
+    bool result = await checkIfConversationExists(_posting);
+    if(result){
+      continueConversationInFirestore(_posting);
+    }
+    else {
+      Conversation conversation = Conversation();
+      conversation.addOtherContact(_posting.host);
+      await conversation.addConversationToFirestore(_posting.host);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder:
+            (context) => ConversationPage(conversation: conversation,),
+        ),
+      ).then((value) => Navigator.pop(context));
+    }
+  }
+
+  Future<bool> checkIfConversationExists(Posting posting) async {
+    String chatRoomID = getChatRoomId(AppConstants.currentUser.id, posting.host.id);
+    DocumentSnapshot snapshot = await Firestore.instance.collection('conversations').document(chatRoomID).get();
+    if (snapshot.exists) {
+      print('conversation with user exists');
+      return true;
+    } else {
+      print('conversation with user does not exist');
+      return false;
+    }
+    /*final QuerySnapshot finalResult = await Firestore.instance.collection('conversations').where(
+        'chatRoomID', isEqualTo: getChatRoomId(AppConstants.currentUser.id, posting.host.id)).limit(1).getDocuments();
+    final List<DocumentSnapshot> documents = finalResult.documents;
+    return (documents.length == 1);*/
+  }
+
+  Future<void> continueConversationInFirestore(Posting posting) async {
+    String chatRoomID = getChatRoomId(
+        AppConstants.currentUser.id, posting.host.id);
+    DocumentSnapshot snapshot = await Firestore.instance.collection(
+        'conversations').document(chatRoomID).get();
+    if (snapshot.exists) {
+      Conversation currentConversation = Conversation();
+      currentConversation.getConversationInfoFromFirestore(snapshot);
+      //navigate to conversation
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder:
+            (context) => ConversationPage(conversation: currentConversation,),
+        ),
+      );
+    }
+    else {
+      print('Something wnet wrong when getting conversation');
+    }
+  }
+
+  getChatRoomId(String a, String b) {
+    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+      return "$b\_$a";
+    } else {
+      return "$a\_$b";
+    }
+  }
 }
+
+
 
 class PostingInfoTile extends StatelessWidget {
 

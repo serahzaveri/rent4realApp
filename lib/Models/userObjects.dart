@@ -202,23 +202,74 @@ class User extends Contact {
     };
     await Firestore.instance.document('users/${this.id}/bookings/${booking.id}').setData(data);
     this.bookings.add(booking);
-    await addBookingConversation(booking, context);
+    //await addBookingConversation(booking, context);
   }
 
-  Future<void> addBookingConversation(Booking booking, BuildContext context) async {
-    Conversation conversation = Conversation();
-    conversation.addOtherContact(booking.posting.host);
-    await conversation.addConversationToFirestore(booking.posting.host);
-    String text = "Hi, my name is ${AppConstants.currentUser.firstName}";
-    await conversation.addMessageToFirestore(text);
-    //this is where i should navigate to the conversation page
+  /*Future<void> addBookingConversation(Booking booking, BuildContext context) async {
+    bool result = await checkIfConversationExists(booking.posting);
+    if (result) {
+      continueConversationInFirestore(booking.posting, context);
+    }
+    else {
+      Conversation conversation = Conversation();
+      conversation.addOtherContact(booking.posting.host);
+      await conversation.addConversationToFirestore(booking.posting.host);
+      String text = "Hi, my name is ${AppConstants.currentUser
+          .getFullName()}. My lease has been signed and submitted.";
+      await conversation.addMessageToFirestore(text);
+      //this is where i should navigate to the conversation page
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder:
+            (context) => ConversationPage(conversation: conversation,),
+        ),
+      ).then((value) => Navigator.pop(context));
+    }
+  }
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder:
-          (context) => ConversationPage(conversation: conversation,),
-      ),
-    ).then((value) => Navigator.pop(context));
+  Future<bool> checkIfConversationExists(Posting posting) async {
+    String chatRoomID = getChatRoomId(AppConstants.currentUser.id, posting.host.id);
+    DocumentSnapshot snapshot = await Firestore.instance.collection('conversations').document(chatRoomID).get();
+    if (snapshot.exists) {
+      print('conversation with user exists');
+      return true;
+    } else {
+      print('conversation with user does not exist');
+      return false;
+    }
+    /*final QuerySnapshot finalResult = await Firestore.instance.collection('conversations').where(
+        'chatRoomID', isEqualTo: getChatRoomId(AppConstants.currentUser.id, posting.host.id)).limit(1).getDocuments();
+    final List<DocumentSnapshot> documents = finalResult.documents;
+    return (documents.length == 1);*/
+  }
+
+  Future<void> continueConversationInFirestore(Posting posting, BuildContext context) async {
+    String chatRoomID = getChatRoomId(
+        AppConstants.currentUser.id, posting.host.id);
+    DocumentSnapshot snapshot = await Firestore.instance.collection(
+        'conversations').document(chatRoomID).get();
+    if (snapshot.exists) {
+      Conversation currentConversation = Conversation();
+      currentConversation.getConversationInfoFromFirestore(snapshot);
+      //navigate to conversation
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder:
+            (context) => ConversationPage(conversation: currentConversation,),
+        ),
+      );
+    }
+    else {
+      print('Something wnet wrong when getting conversation');
+    }
+  }*/
+
+  getChatRoomId(String a, String b) {
+    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+      return "$b\_$a";
+    } else {
+      return "$a\_$b";
+    }
   }
 
   List<DateTime> getAllBookedDates() {

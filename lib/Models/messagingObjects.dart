@@ -1,6 +1,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Models/userObjects.dart';
 
 class Conversation{
@@ -34,16 +36,6 @@ class Conversation{
     this.lastMessage = Message();
     this.lastMessage.dateTime = lastMessageDateTime;
     this.lastMessage.text = lastMessageText;
-    /*Map<String, String> userInfo = Map<String, String>.from(snapshot['userInfo']);
-    userInfo.forEach((id, name) {
-      if(id != AppConstants.currentUser.id) {
-        this.otherContact = Contact(
-          id: id,
-          firstName: name.split(" ")[0],
-          lastName: name.split(" ")[1],
-        );
-      }
-    });*/
     List<String> userIDs = List<String>.from(snapshot['userIDs']) ?? [];
     List<String> userNames = List<String>.from(snapshot['userNames']) ?? [];
     this.otherContact = Contact();
@@ -71,14 +63,26 @@ class Conversation{
       AppConstants.currentUser.id,
       otherContact.id,
     ];
+    String chatID = getChatRoomId(AppConstants.currentUser.id, otherContact.id);
     Map<String,dynamic> convoData = {
       'lastMessageDateTime': DateTime.now(),
       'lastMessageText': "",
       'userNames': userNames,
-      'userIDs': userIDs
+      'userIDs': userIDs,
+      'chatRoomID': chatID,
     };
-    DocumentReference reference = await Firestore.instance.collection('conversations').add(convoData);
-    this.id = reference.documentID;
+    //the reference id will be the chat room id
+    DocumentReference reference = await Firestore.instance.document('conversations/$chatID');
+    reference.setData(convoData);
+    this.id = chatID;
+  }
+
+  getChatRoomId(String a, String b) {
+    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+      return "$b\_$a";
+    } else {
+      return "$a\_$b";
+    }
   }
 
   Future<void> addMessageToFirestore(String messageText) async {
@@ -97,22 +101,6 @@ class Conversation{
   }
 
 }
-/*
-  String getLastMessageText() {
-    if(messages.isEmpty) {
-      return "";
-    } else {
-      return messages.last.text;
-    }
-  }
-
-  String getLastMessageDateTime() {
-    if(messages.isEmpty) {
-      return "";
-    } else {
-      return messages.last.getMessageDateTime();
-    }
-  }*/
 
 
 class Message {
