@@ -21,6 +21,7 @@ class AccountPage extends StatefulWidget {
 
 class _AccountPageState extends State<AccountPage> {
 
+  bool _isRentResumeVisible = true; //used to decide whether rent resume should be visible or not
   String _hostingTitle;
 
   void _logout() {
@@ -59,11 +60,14 @@ class _AccountPageState extends State<AccountPage> {
     if(AppConstants.currentUser.isHost) {
       if(AppConstants.currentUser.isCurrentlyHosting) {
         _hostingTitle = 'To Guest Dashboard';
+        _isRentResumeVisible = false;
       } else {
         _hostingTitle = 'To Host Dashboard';
+        _isRentResumeVisible = true;
       }
     } else {
       _hostingTitle = 'Become a host';
+      _isRentResumeVisible = true;
     }
 
     super.initState();
@@ -134,10 +138,13 @@ class _AccountPageState extends State<AccountPage> {
                 },
                 child: AccountPageListTile(text: 'Personal Information', iconData: Icons.person,)
               ),
-              MaterialButton(
-                  height: MediaQuery.of(context).size.height / 9.0,
-                  onPressed: () {},
-                  child: AccountPageListTile(text: 'My Rent Resume', iconData: Icons.picture_as_pdf,)
+              Visibility(
+                visible: _isRentResumeVisible,
+                child: MaterialButton(
+                    height: MediaQuery.of(context).size.height / 9.0,
+                    onPressed: () {},
+                    child: AccountPageListTile(text: 'My Rent Resume', iconData: Icons.picture_as_pdf,)
+                ),
               ),
               MaterialButton(
                   height: MediaQuery.of(context).size.height / 9.0,
