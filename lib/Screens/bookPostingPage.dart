@@ -107,7 +107,7 @@ class _BookPostingPageState extends State<BookPostingPage> {
             ),
             MaterialButton(
               onPressed: _makeBooking,
-              child: Text('Book now!'),
+              child: Text('Submit Rent Resume!'),
               minWidth: double.infinity,
               height: MediaQuery.of(context).size.height / 14,
               color: Colors.blue,

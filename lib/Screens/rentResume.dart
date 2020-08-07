@@ -21,35 +21,55 @@ class _RentResumePagePageState extends State<RentResumePage> {
   TextEditingController _firstNameController;
   TextEditingController _lastNameController;
   TextEditingController _emailController;
-  TextEditingController _contactNumberController;
-  TextEditingController _dateOfBirthController;
-  TextEditingController _genderController;
-  TextEditingController _schoolController;
-  TextEditingController _programController;
-  TextEditingController _yearController;
-  TextEditingController _homeCountryController;
-  TextEditingController _emergencyContactNameController;
-  TextEditingController _emergencyContactNumberController;
-  TextEditingController _presentAddressController;
-  TextEditingController _priorAddressController;
-  TextEditingController _presentRentController;
-  TextEditingController _presentLandlordNameController;
-  TextEditingController _presentLandlordNumberController;
-  TextEditingController _priorLandlordNameController;
-  TextEditingController _priorLandlordNumberController;
-  TextEditingController _priorRentController;
-  TextEditingController _relationshipController;
+  TextEditingController _contactNumberController = TextEditingController();
+  TextEditingController _dateOfBirthController = TextEditingController();
+  TextEditingController _genderController = TextEditingController();
+  TextEditingController _schoolController = TextEditingController();
+  TextEditingController _programController = TextEditingController();
+  TextEditingController _yearController = TextEditingController();
+  TextEditingController _homeCountryController = TextEditingController();
+  TextEditingController _emergencyContactNameController = TextEditingController();
+  TextEditingController _emergencyContactNumberController = TextEditingController();
+  TextEditingController _relationshipController = TextEditingController();
+  TextEditingController _presentAddressController = TextEditingController();
+  TextEditingController _presentRentController = TextEditingController();
+  TextEditingController _presentLandlordNameController = TextEditingController();
+  TextEditingController _presentLandlordNumberController = TextEditingController();
+  TextEditingController _priorAddressController = TextEditingController();
+  TextEditingController _priorLandlordNameController = TextEditingController();
+  TextEditingController _priorLandlordNumberController = TextEditingController();
+  TextEditingController _priorRentController = TextEditingController();
+
 
 
   void _saveInfo() {
     if(!_formKey.currentState.validate()) {return ;}
     AppConstants.currentUser.firstName = _firstNameController.text;
     AppConstants.currentUser.lastName = _lastNameController.text;
-    AppConstants.currentUser.city = _emergencyContactNameController.text;
-    AppConstants.currentUser.country = _emergencyContactNumberController.text;
-    /*AppConstants.currentUser.updateUserInFirestore().whenComplete(() {
-      Navigator.pushNamed(context, GuestHomePage.routeName);
-    });*/
+    AppConstants.currentUser.email = _emailController.text;
+    AppConstants.currentUser.contactNumber = _contactNumberController.text;
+    AppConstants.currentUser.dateOfBirth = _dateOfBirthController.text;
+    AppConstants.currentUser.gender = _genderController.text;
+    AppConstants.currentUser.school = _schoolController.text;
+    AppConstants.currentUser.program = _programController.text;
+    AppConstants.currentUser.yearOfSchool = _yearController.text;
+    AppConstants.currentUser.homeCountry = _homeCountryController.text;
+    AppConstants.currentUser.emergencyContactName = _emergencyContactNameController.text;
+    AppConstants.currentUser.emergencyContactNumber = _emergencyContactNumberController.text;
+    AppConstants.currentUser.emergencyContactRelationship = _relationshipController.text;
+    AppConstants.currentUser.presentAddress = _presentAddressController.text;
+    AppConstants.currentUser.presentRent = _presentRentController.text;
+    AppConstants.currentUser.presentLandlordName = _presentLandlordNameController.text;
+    AppConstants.currentUser.presentLandlordNumber = _presentLandlordNumberController.text;
+    AppConstants.currentUser.priorAddress = _priorAddressController.text;
+    AppConstants.currentUser.priorRent = _priorRentController.text;
+    AppConstants.currentUser.priorLandlordName = _priorLandlordNameController.text;
+    AppConstants.currentUser.priorLandlordNumber = _priorLandlordNumberController.text;
+    AppConstants.currentUser.updateUserInFirestore().whenComplete(() {
+      AppConstants.currentUser.addRentResumeToFirestore().whenComplete(() {
+        Navigator.pushNamed(context, GuestHomePage.routeName);
+      });
+    });
   }
 
   @override
@@ -58,9 +78,25 @@ class _RentResumePagePageState extends State<RentResumePage> {
     _firstNameController = TextEditingController(text: AppConstants.currentUser.firstName);
     _lastNameController = TextEditingController(text: AppConstants.currentUser.lastName);
     _emailController = TextEditingController(text: AppConstants.currentUser.email);
-    /*_emergencyContactNameController = TextEditingController(text: AppConstants.currentUser.city);
-    _emergencyContactNumberController = TextEditingController(text: AppConstants.currentUser.country);
-    _presentAddressController = TextEditingController(text: AppConstants.currentUser.bio);*/
+    _contactNumberController = TextEditingController(text: AppConstants.currentUser.contactNumber);
+    _dateOfBirthController = TextEditingController(text: AppConstants.currentUser.dateOfBirth);
+    _genderController = TextEditingController(text: AppConstants.currentUser.gender);
+    _schoolController = TextEditingController(text: AppConstants.currentUser.school);
+    _programController = TextEditingController(text: AppConstants.currentUser.program);
+    _yearController = TextEditingController(text: AppConstants.currentUser.yearOfSchool);
+    _homeCountryController = TextEditingController(text: AppConstants.currentUser.homeCountry);
+    _emergencyContactNameController = TextEditingController(text: AppConstants.currentUser.emergencyContactName);
+    _emergencyContactNumberController = TextEditingController(text: AppConstants.currentUser.emergencyContactName);
+    _relationshipController = TextEditingController(text: AppConstants.currentUser.emergencyContactRelationship);
+    _presentAddressController = TextEditingController(text: AppConstants.currentUser.presentAddress);
+    _presentRentController = TextEditingController(text: AppConstants.currentUser.presentRent);
+    _presentLandlordNameController = TextEditingController(text: AppConstants.currentUser.presentLandlordName);
+    _presentLandlordNumberController = TextEditingController(text: AppConstants.currentUser.presentLandlordNumber);
+    _priorAddressController = TextEditingController(text: AppConstants.currentUser.priorAddress);
+    _priorRentController = TextEditingController(text: AppConstants.currentUser.priorRent);
+    _priorLandlordNameController = TextEditingController(text: AppConstants.currentUser.priorLandlordName);
+    _priorLandlordNumberController = TextEditingController(text: AppConstants.currentUser.priorLandlordNumber);
+
     super.initState();
   }
 
@@ -490,7 +526,7 @@ class _RentResumePagePageState extends State<RentResumePage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.only(top: 20.0, bottom: 40.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Landlords Number',

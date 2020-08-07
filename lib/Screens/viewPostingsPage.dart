@@ -135,7 +135,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                               );
                             },
                             child: Text(
-                              'Lease Now',
+                              'Submit Rent Resume',
                               style: TextStyle(
                                 color: Colors.white,
                               ),

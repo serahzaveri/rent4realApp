@@ -59,6 +59,26 @@ class User extends Contact {
   bool isHost;
   bool isCurrentlyHosting;
   String password;
+  String contactNumber;
+  String dateOfBirth;
+  String gender;
+  String school;
+  String program;
+  String yearOfSchool;
+  String homeCountry;
+  String emergencyContactName;
+  String emergencyContactNumber;
+  String emergencyContactRelationship;
+  String presentAddress;
+  String presentRent;
+  String presentLandlordName;
+  String presentLandlordNumber;
+  String priorAddress;
+  String priorRent;
+  String priorLandlordName;
+  String priorLandlordNumber;
+
+
 
   List<Booking> bookings;
   List<Review> reviews;
@@ -67,7 +87,10 @@ class User extends Contact {
   List<Posting> myPostings;
 
   User({String id="", String firstName = "", String lastName = "", this.email = "", MemoryImage displayImage,
-  this.city = "", this.country = ""}):
+    this.city = "", this.country = "", this.contactNumber="", this.dateOfBirth="", this.gender="", this.school="", this.program="",
+    this.yearOfSchool="", this.homeCountry="", this.emergencyContactName="", this.emergencyContactNumber="", this.emergencyContactRelationship="",
+    this.presentAddress="", this.presentRent="", this.presentLandlordName="", this.presentLandlordNumber,
+    this.priorAddress="", this.priorRent="", this.priorLandlordName="", this.priorLandlordNumber=""}):
         super(id: id, firstName: firstName, lastName: lastName, displayImage: displayImage){
     this.isHost = false;
     this.isCurrentlyHosting = false;
@@ -130,6 +153,30 @@ class User extends Contact {
       "savedPostingIDs": [],
     };
     await Firestore.instance.document('users/${this.id}').setData(data);
+  }
+
+  Future<void> addRentResumeToFirestore() async {
+    Map<String,dynamic> data = {
+      "contact number": this.contactNumber,
+      "date of birth": this.dateOfBirth,
+      "gender": this.gender,
+      "school": this.school,
+      "program": this.program,
+      "year of school": this.yearOfSchool,
+      "home country": this.homeCountry,
+      "emergency contact name": this.emergencyContactName,
+      "emergency contact number": this.emergencyContactNumber,
+      "emergency contact relationship": this.emergencyContactRelationship,
+      "present address": this.presentAddress,
+      "present rent": this.presentRent,
+      "present landlord name": this.presentLandlordName,
+      "present landlord number": this.presentLandlordNumber,
+      "prior address": this.priorAddress,
+      "prior rent": this.priorRent,
+      "prior landlord name": this.priorLandlordName,
+      "prior landlord number": this.priorLandlordNumber,
+    };
+    await Firestore.instance.document('users/${this.id}').updateData(data);
   }
 
   Future<void> updateUserInFirestore() async {
