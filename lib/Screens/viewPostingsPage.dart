@@ -115,6 +115,16 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                             ),
                           ),
                           MaterialButton(
+                            color: Colors.deepOrange,
+                            onPressed: () {},
+                            child: Text(
+                              'Share',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          MaterialButton(
                             color: Colors.redAccent,
                             onPressed: () {
                               Navigator.push(

@@ -33,7 +33,6 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _password2Controller = TextEditingController();
   TextEditingController _cityController = TextEditingController();
   TextEditingController _countryController = TextEditingController();
-  TextEditingController _bioController = TextEditingController();
   String _error;
   File _imageFile;
 
@@ -70,7 +69,6 @@ class _SignUpPageState extends State<SignUpPage> {
         AppConstants.currentUser.lastName = _lastNameController.text;
         AppConstants.currentUser.city = _cityController.text;
         AppConstants.currentUser.country = _countryController.text;
-        AppConstants.currentUser.bio = _bioController.text;
         AppConstants.currentUser.addUserToFirestore().whenComplete(() {
           AppConstants.currentUser.addImageToFirestore(_imageFile).whenComplete(() {
             FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -297,21 +295,6 @@ class _SignUpPageState extends State<SignUpPage> {
                               return null;
                             },
                             textCapitalization: TextCapitalization.words,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'Bio',
-                              prefixIcon: Icon(Icons.perm_device_information),
-                            ),
-                            style: TextStyle(
-                              fontSize: 20.0,
-                            ),
-                            controller: _bioController,
-                            maxLines: 3,
-                            textCapitalization: TextCapitalization.sentences,
                           ),
                         ),
                       ],

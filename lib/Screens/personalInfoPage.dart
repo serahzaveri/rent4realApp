@@ -25,7 +25,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   TextEditingController _emailController;
   TextEditingController _cityController;
   TextEditingController _countryController;
-  TextEditingController _bioController;
 
   File _newImageFile;
 
@@ -37,13 +36,13 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     }
   }
 
+
   void _saveInfo() {
     if(!_formKey.currentState.validate()) {return ;}
     AppConstants.currentUser.firstName = _firstNameController.text;
     AppConstants.currentUser.lastName = _lastNameController.text;
     AppConstants.currentUser.city = _cityController.text;
     AppConstants.currentUser.country = _countryController.text;
-    AppConstants.currentUser.bio = _bioController.text;
     AppConstants.currentUser.updateUserInFirestore().whenComplete(() {
       if(_newImageFile != null) {
         AppConstants.currentUser.addImageToFirestore(_newImageFile).whenComplete(() {
@@ -62,7 +61,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     _emailController = TextEditingController(text: AppConstants.currentUser.email);
     _cityController = TextEditingController(text: AppConstants.currentUser.city);
     _countryController = TextEditingController(text: AppConstants.currentUser.country);
-    _bioController = TextEditingController(text: AppConstants.currentUser.bio);
 
     super.initState();
   }
@@ -177,26 +175,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                               return null;
                             },
                             textCapitalization: TextCapitalization.words,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                                labelText: 'Bio'
-                            ),
-                            style: TextStyle(
-                              fontSize: 20.0,
-                            ),
-                            controller: _bioController,
-                            maxLines: 3,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid bio";
-                              }
-                              return null;
-                            },
-                            textCapitalization: TextCapitalization.sentences,
                           ),
                         ),
                       ],

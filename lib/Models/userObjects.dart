@@ -54,7 +54,6 @@ class User extends Contact {
 
   DocumentSnapshot snapshot;
   String email;
-  String bio;
   String city;
   String country;
   bool isHost;
@@ -68,7 +67,7 @@ class User extends Contact {
   List<Posting> myPostings;
 
   User({String id="", String firstName = "", String lastName = "", this.email = "", MemoryImage displayImage,
-  this.bio = "", this.city = "", this.country = ""}):
+  this.city = "", this.country = ""}):
         super(id: id, firstName: firstName, lastName: lastName, displayImage: displayImage){
     this.isHost = false;
     this.isCurrentlyHosting = false;
@@ -85,7 +84,6 @@ class User extends Contact {
     this.firstName = snapshot['firstName'] ?? "";
     this.lastName = snapshot['lastName'] ?? "";
     this.email = snapshot['email'] ?? "";
-    this.bio = snapshot['bio'] ?? "";
     this.city = snapshot['city'] ?? "";
     this.country = snapshot['country'] ?? "";
     this.isHost = snapshot['isHost'] ?? false;
@@ -122,7 +120,6 @@ class User extends Contact {
 
   Future<void> addUserToFirestore() async {
     Map<String,dynamic> data = {
-      "bio": this.bio,
       "city": this.city,
       "country": this.country,
       "email": this.email,
@@ -137,7 +134,6 @@ class User extends Contact {
 
   Future<void> updateUserInFirestore() async {
     Map<String,dynamic> data = {
-      "bio": this.bio,
       "city": this.city,
       "country": this.country,
       "firstName": this.firstName,

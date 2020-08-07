@@ -6,9 +6,8 @@ import 'package:househunter/Models/sharedPreferencesHelper.dart';
 import 'package:househunter/Screens/hostHomePage.dart';
 import 'package:househunter/Screens/loginPage.dart';
 import 'package:househunter/Screens/personalInfoPage.dart';
+import 'package:househunter/Screens/rentResume.dart';
 import 'package:househunter/Screens/viewProfilePage.dart';
-import 'package:househunter/Views/TextWidgets.dart';
-
 import 'guestHomePage.dart';
 
 class AccountPage extends StatefulWidget {
@@ -27,6 +26,10 @@ class _AccountPageState extends State<AccountPage> {
   void _logout() {
     SharedPreferencesHelper.saveUserLoggedInSharedPreference(false);
     Navigator.pushNamed(context, LoginPage.routeName);
+  }
+
+  void _myRentResume() {
+    Navigator.pushNamed(context, RentResumePage.routeName);
   }
 
   void _changeHosting() {
@@ -76,13 +79,13 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 100, 20, 0),
+      padding: const EdgeInsets.fromLTRB(20, 80, 20, 0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(bottom: 35.0),
+            padding: const EdgeInsets.only(bottom: 15.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -142,7 +145,7 @@ class _AccountPageState extends State<AccountPage> {
                 visible: _isRentResumeVisible,
                 child: MaterialButton(
                     height: MediaQuery.of(context).size.height / 9.0,
-                    onPressed: () {},
+                    onPressed: _myRentResume,
                     child: AccountPageListTile(text: 'My Rent Resume', iconData: Icons.picture_as_pdf,)
                 ),
               ),
@@ -150,6 +153,11 @@ class _AccountPageState extends State<AccountPage> {
                   height: MediaQuery.of(context).size.height / 9.0,
                   onPressed: _changeHosting,
                   child: AccountPageListTile(text: _hostingTitle, iconData: Icons.home,)
+              ),
+              MaterialButton(
+                  height: MediaQuery.of(context).size.height / 9.0,
+                  onPressed: () {},
+                  child: AccountPageListTile(text: 'How this works', iconData: Icons.home,)
               ),
               MaterialButton(
                   height: MediaQuery.of(context).size.height / 9.0,

@@ -91,15 +91,6 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: AutoSizeText(
-                  _user.bio,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                  ),
-                ),
-              ),
-              Padding(
                 padding: const EdgeInsets.only(top: 50.0),
                 child: Text(
                   'Location',
