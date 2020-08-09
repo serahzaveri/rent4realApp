@@ -8,7 +8,6 @@ import 'package:househunter/Views/TextWidgets.dart';
 import 'package:househunter/Views/listWidgets.dart';
 
 class ConversationPage extends StatefulWidget {
-  //check for changes here
 
   final Conversation conversation;
 
@@ -86,7 +85,7 @@ class _ConversationPageState extends State<ConversationPage> {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Container(
-                  width: MediaQuery.of(context).size.width * 5/6,
+                  width: MediaQuery.of(context).size.width * 4.5/6,
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: 'Write a message',

@@ -9,6 +9,7 @@ import 'package:househunter/Screens/personalInfoPage.dart';
 import 'package:househunter/Screens/rentResume.dart';
 import 'package:househunter/Screens/viewProfilePage.dart';
 import 'guestHomePage.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class AccountPage extends StatefulWidget {
 
@@ -157,7 +158,7 @@ class _AccountPageState extends State<AccountPage> {
               MaterialButton(
                   height: MediaQuery.of(context).size.height / 9.0,
                   onPressed: () {},
-                  child: AccountPageListTile(text: 'How this works', iconData: Icons.home,)
+                  child: AccountPageListTile(text: 'How this works', iconData: Icons.device_unknown,)
               ),
               MaterialButton(
                   height: MediaQuery.of(context).size.height / 9.0,
