@@ -6,6 +6,8 @@ import 'package:househunter/Screens/hostHomePage.dart';
 import 'package:househunter/Screens/myPostingsPage.dart';
 import 'package:househunter/Views/TextWidgets.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:smart_select/smart_select.dart';
+import 'package:househunter/Models/options.dart' as options;
 
 class CreatePostingPage extends StatefulWidget {
 
@@ -21,41 +23,28 @@ class CreatePostingPage extends StatefulWidget {
 
 class _CreatePostingPageState extends State<CreatePostingPage> {
 
-  final List<String> _houseTypes = [
-    'Condo',
-    'Apartment',
-    'Townhouse'
-  ];
-
-  final List<String> _isFurnished = [
-    'furnished',
-    'unfurnished',
-    'semi furnished'
-  ];
-
-  final List<String> _leaseTypes = [
-    '4 month lease',
-    '8 month lease',
-    '12 month lease',
-    '4 or 8 month lease',
-    '8 or 12 month lease',
-    '4 or 8 or 12 month lease'
-  ];
 
   final _formKey = GlobalKey<FormState>();
   TextEditingController _priceController;
-  TextEditingController _descriptionController;
   TextEditingController _apartmentNumberController;
   TextEditingController _streetNumberController;
   TextEditingController _streetNameController;
   TextEditingController _cityController;
   TextEditingController _countryController;
-  TextEditingController _amenitiesController;
   TextEditingController _zipCodeController;
   TextEditingController _bedroomsController; //text editing controller added
   int _bedroomsVar;
   String _houseType;
+  String _personalTitle;
+  String _leaseStart;
+  String _leaseEnd;
+  String _flexibleDates;
   String _leasePeriod;
+  String _walkingTime;
+  String _busTime;
+  String _trainTime;
+  String _washerDryer;
+  List<String> _amenities;
   String _furnished;
   Map<String, int> _bathrooms;
   List<MemoryImage> _images;
@@ -81,21 +70,27 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
     if(_images.isEmpty) {return;}
     Posting posting = Posting();
     posting.price = double.parse(_priceController.text);
-    posting.description = _descriptionController.text;
     posting.apartmentNumber = _apartmentNumberController.text;
     posting.streetNumber = int.parse(_streetNumberController.text);
     posting.address = _streetNameController.text;
     posting.city = _cityController.text;
     posting.country = _countryController.text;
     posting.zipCode = _zipCodeController.text;
-    posting.amenities = _amenitiesController.text.split(",");
+    posting.amenities = _amenities;
     posting.type = _houseType;
-    posting.leaseType = _leasePeriod;
     posting.furnished = _furnished;
     posting.bedrooms = int.parse(_bedroomsController.text);
     posting.bathrooms = _bathrooms;
     posting.displayImages = _images;
     posting.host = AppConstants.currentUser.createContactFromUser();
+    posting.personalTitle = _personalTitle;
+    posting.leaseStart = _leaseStart;
+    posting.leaseEnd = _leaseEnd;
+    posting.flexibleDates = _flexibleDates;
+    posting.walkingTime = _walkingTime;
+    posting.busTime = _busTime;
+    posting.trainTime = _trainTime;
+    posting.washerDryer = _washerDryer;
     posting.setImageNames();
     if(widget.posting == null) {
       posting.rating = 2.5;
@@ -135,13 +130,11 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
     if(widget.posting == null) {
       _priceController = TextEditingController();
       _bedroomsController = TextEditingController();
-      _descriptionController = TextEditingController();
       _apartmentNumberController = TextEditingController();
       _streetNumberController = TextEditingController();
       _streetNameController = TextEditingController();
       _cityController = TextEditingController();
       _countryController = TextEditingController();
-      _amenitiesController = TextEditingController();
       _zipCodeController = TextEditingController();
       _bedroomsVar = 0;
       _bathrooms = {
@@ -149,22 +142,41 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
         'half': 0,
       };
       _images = [];
+      _amenities = [];
+      _houseType = "";
+      _personalTitle = "";
+      _leaseStart = "";
+      _leaseEnd = "";
+      _flexibleDates = "";
+      _leasePeriod = "";
+      _furnished = "";
+      _walkingTime = "";
+      _busTime = "";
+      _trainTime = "";
+      _washerDryer = "";
     } else {
       _priceController = TextEditingController(text: widget.posting.price.toString());
-      _descriptionController = TextEditingController(text: widget.posting.description);
       _apartmentNumberController = TextEditingController(text: widget.posting.apartmentNumber);
       _streetNameController = TextEditingController(text: widget.posting.address);
       _cityController = TextEditingController(text: widget.posting.city);
       _countryController = TextEditingController(text: widget.posting.country);
       _zipCodeController = TextEditingController(text: widget.posting.zipCode);
       _streetNumberController = TextEditingController(text: widget.posting.streetNumber.toString());
-      _amenitiesController = TextEditingController(text: widget.posting.getAmenitiesString());
+      _amenities = widget.posting.getAmenitiesString();
       _bedroomsController = TextEditingController(text: widget.posting.bedrooms.toString());
       _bathrooms = widget.posting.bathrooms;
       _images = widget.posting.displayImages;
       _houseType = widget.posting.type;
       _furnished = widget.posting.furnished;
       _leasePeriod = widget.posting.leaseType;
+      _personalTitle = widget.posting.personalTitle;
+      _leaseStart = widget.posting.leaseStart;
+      _leaseEnd = widget.posting.leaseEnd;
+      _flexibleDates = widget.posting.flexibleDates;
+      _walkingTime = widget.posting.walkingTime;
+      _busTime = widget.posting.busTime;
+      _trainTime = widget.posting.trainTime;
+      _washerDryer = widget.posting.washerDryer;
     }
     setState(() {});
   }
@@ -205,103 +217,81 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.only(top: 35.0),
-                          child: DropdownButton(
-                              //ensures that it takes entire width of screen
-                              isExpanded: true,
-                              value: _houseType,
-                              hint: Text(
-                                'Select a house type',
-                                style: TextStyle(
-                                    fontSize: 20.0,
-                                ),
-                              ),
-                              items: _houseTypes.map((type) {
-                                return DropdownMenuItem(
-                                    value: type,
-                                    child: Text(
-                                      type,
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                      ),
-                                    )
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                this._houseType = value;
-                                setState(() {});
-                              },
-                          )
+                          child: SmartSelect<String>.single(
+                            title: "Your title",
+                            value: this._personalTitle,
+                            options: options.personalTitle,
+                            onChange: (val) => setState(() => this._personalTitle = val),
+                            modalType: SmartSelectModalType.bottomSheet,
+                            leading: const Icon(Icons.person),
+                          ),
                         ),
                         Padding(
-                            padding: const EdgeInsets.only(top: 35.0),
-                            child: DropdownButton(
-                              //ensures that it takes entire width of screen
-                              isExpanded: true,
-                              value: _leasePeriod,
-                              hint: Text(
-                                'Lease type',
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                ),
-                              ),
-                              items: _leaseTypes.map((type) {
-                                return DropdownMenuItem(
-                                    value: type,
-                                    child: Text(
-                                      type,
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                      ),
-                                    )
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                this._leasePeriod = value;
-                                setState(() {});
-                              },
-                            )
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: SmartSelect<String>.single(
+                            title: "Type of Place",
+                            value: this._houseType,
+                            options: options.houseType,
+                            onChange: (val) => setState(() => this._houseType = val),
+                            modalType: SmartSelectModalType.bottomSheet,
+                            leading: const Icon(Icons.home),
+                          ),
                         ),
                         Padding(
-                            padding: const EdgeInsets.only(top: 35.0),
-                            child: DropdownButton(
-                              //ensures that it takes entire width of screen
-                              isExpanded: true,
-                              value: _furnished,
-                              hint: Text(
-                                'Is the apartment furnished',
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                ),
-                              ),
-                              items: _isFurnished.map((type) {
-                                return DropdownMenuItem(
-                                    value: type,
-                                    child: Text(
-                                      type,
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                      ),
-                                    )
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                this._furnished = value;
-                                setState(() {});
-                              },
-                            )
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: SmartSelect<String>.single(
+                            title: "Is the apartment furnished?",
+                            value: this._furnished,
+                            options: options.furnished,
+                            onChange: (val) => setState(() => this._furnished = val),
+                            modalType: SmartSelectModalType.bottomSheet,
+                            leading: const Icon(Icons.hotel),
+                          ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: SmartSelect<String>.single(
+                            title: "Lease start month",
+                            value: this._leaseStart,
+                            options: options.months,
+                            onChange: (val) => setState(() => this._leaseStart = val),
+                            leading: const Icon(Icons.calendar_today),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: SmartSelect<String>.single(
+                            title: "Lease end month",
+                            value: this._leaseEnd,
+                            options: options.months,
+                            onChange: (val) => setState(() => this._leaseEnd = val),
+                            leading: const Icon(Icons.calendar_today),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: SmartSelect<String>.single(
+                            title: "Are you flexible with the lease dates?",
+                            value: this._flexibleDates,
+                            options: options.flexibleDates,
+                            onChange: (val) => setState(() => this._flexibleDates = val),
+                            modalType: SmartSelectModalType.bottomSheet,
+                            leading: const Icon(Icons.description),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
                               Expanded(
                                 child: TextFormField(
                                   decoration: InputDecoration(
-                                      labelText: 'Rent'
+                                      labelText: 'Rent',
+                                      prefixIcon: Icon(Icons.attach_money)
                                   ),
                                   style: TextStyle(
-                                    fontSize: 20.0,
+                                    fontSize: 15.0,
                                   ),
                                   keyboardType: TextInputType.number,
                                   controller: _priceController,
@@ -316,7 +306,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 10.0, bottom: 15.0),
                                 child: Text(
-                                  '\$ / per month',
+                                  '/ per month',
                                   style: TextStyle(
                                     fontSize: 20.0,
                                   ),
@@ -326,27 +316,40 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                                labelText: 'Distance to campus walking / train'
-                            ),
-                            style: TextStyle(
-                              fontSize: 20.0,
-                            ),
-                            controller: _descriptionController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter the time it takes to reach campus";
-                              }
-                              return null;
-                            },
-                            maxLines: 3,
-                            minLines: 1,
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: SmartSelect<String>.single(
+                            title: "Time to walk to McGill campus",
+                            value: this._walkingTime,
+                            options: options.distanceTime,
+                            onChange: (val) => setState(() => this._walkingTime = val),
+                            modalType: SmartSelectModalType.bottomSheet,
+                            leading: const Icon(Icons.directions_walk),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: SmartSelect<String>.single(
+                            title: "Bus ride to McGill campus",
+                            value: this._busTime,
+                            options: options.distanceTime,
+                            onChange: (val) => setState(() => this._busTime = val),
+                            modalType: SmartSelectModalType.bottomSheet,
+                            leading: const Icon(Icons.directions_bus),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: SmartSelect<String>.single(
+                            title: "Train ride to McGill campus",
+                            value: this._trainTime,
+                            options: options.distanceTime,
+                            onChange: (val) => setState(() => this._trainTime = val),
+                            modalType: SmartSelectModalType.bottomSheet,
+                            leading: const Icon(Icons.train),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: 'Apartment Number'
@@ -364,7 +367,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: 'Street Number'
@@ -383,7 +386,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: 'Street Name'
@@ -401,7 +404,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: 'City'
@@ -419,7 +422,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: 'Country'
@@ -437,7 +440,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: 'Zip Code'
@@ -455,7 +458,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 35.0),
+                          padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 5.0),
                           child: FacilitiesWidget(
                             type: 'Total Bedrooms',
                             startValue: 0,
@@ -474,7 +477,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           ),
                         ),
                         Padding(
-                            padding: const EdgeInsets.only(top: 35.0),
+                            padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 5.0),
                             child: Text(
                               'Bathrooms',
                               style: TextStyle(
@@ -484,7 +487,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                             )
                         ),
                         Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 25, 15, 0),
+                            padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
                             child: Column(
                               children: <Widget>[
                                 FacilitiesWidget(
@@ -517,23 +520,26 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                             )
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                                labelText: 'Amenities'
-                            ),
-                            style: TextStyle(
-                              fontSize: 20.0,
-                            ),
-                            controller: _amenitiesController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter amenities (comma separated)";
-                              }
-                              return null;
-                            },
-                            maxLines: 3,
-                            minLines: 1,
+                          padding: const EdgeInsets.only(top: 30.0),
+                          child: SmartSelect<String>.single(
+                            title: "Washer & Dryer",
+                            value: this._washerDryer,
+                            options: options.dryerWasher,
+                            onChange: (val) => setState(() => this._washerDryer = val),
+                            modalType: SmartSelectModalType.bottomSheet,
+                            leading: const Icon(Icons.local_laundry_service),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15.0),
+                          child: SmartSelect<String>.multiple(
+                            title: 'Amenities',
+                            value: _amenities,
+                            isTwoLine: true,
+                            options: options.amenities,
+                            modalType: SmartSelectModalType.bottomSheet,
+                            leading: const Icon(Icons.filter_frames),
+                            onChange: (val) => setState(() => _amenities = val),
                           ),
                         ),
                         Padding(

@@ -21,6 +21,16 @@ class Posting {
   String zipCode;
   double rating;
   Contact host;
+  String houseType;
+  String personalTitle;
+  String leaseStart;
+  String leaseEnd;
+  String flexibleDates;
+  String leasePeriod;
+  String walkingTime;
+  String busTime;
+  String trainTime;
+  String washerDryer;
 
   List<String> imageNames;
   List<MemoryImage> displayImages;
@@ -34,7 +44,8 @@ class Posting {
 
   Posting({this.id="", this.type="", this.leaseType="", this.price=0, this.description="", this.apartmentNumber = "",
     this.furnished="",this.streetNumber = 0, this.address="", this.city="", this.zipCode = "", this.country="", this.host,
-    this.bedrooms=0, }) {
+    this.bedrooms=0, this.houseType="", this.personalTitle="", this.leaseStart="", this.leaseEnd="", this.flexibleDates="",
+    this.leasePeriod= "", this.walkingTime="", this.busTime="", this.trainTime="", this.washerDryer=""}) {
     this.imageNames = [];
     this.displayImages = [];
     this.amenities = [];
@@ -91,6 +102,15 @@ class Posting {
       "lease type": this.leaseType,
       "type": this.type,
       'furnished': this.furnished,
+      'houseType': this.houseType,
+      'personalTitle': this.personalTitle,
+      'leaseStart': this.leaseStart,
+      'leaseEnd': this.leaseEnd,
+      'flexibleDates': this.flexibleDates,
+      'walkingTime': this.walkingTime,
+      'busTime': this.busTime,
+      'trainTime': this.trainTime,
+      'washerDryer': this.washerDryer,
     };
     DocumentReference reference = await Firestore.instance.collection('postings').add(data);
     this.id = reference.documentID;
@@ -181,10 +201,8 @@ class Posting {
     return this.bedrooms;
   }
 
-  String getAmenitiesString() {
-    if(this.amenities.isEmpty) { return ""; }
-    String amenitiesString = this.amenities.toString();
-    return amenitiesString.substring(1, amenitiesString.length -1);
+  List<String> getAmenitiesString() {
+    return this.amenities;
   }
 
   String getBathroomText() {
