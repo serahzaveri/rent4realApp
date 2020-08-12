@@ -40,9 +40,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   void _submit() async {
     //we don't validate this form instead we just go to the signUp page
     if (_formKey.currentState.validate()) {
-      String email = _emailController.text;
-      await sendPasswordResetEmail(email);
-      Navigator.pushNamed(context, LoginPage.routeName);
+      showAlertDialog(context);
     }
   }
 
@@ -72,6 +70,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 SizedBox(
                   height: 20,
                 ),
+                showAlert(),
                 Container(
                   child: Text(
                     'Reset Password',
@@ -166,6 +165,82 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget showAlert() {
+    //if an error is present
+    if (_error != null) {
+      return Container(
+        color: Colors.amberAccent,
+        width: double.infinity,
+        padding: EdgeInsets.all(10.0),
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Icon(Icons.error_outline),
+            ),
+            Expanded(
+              child: AutoSizeText(
+                //displays the error
+                _error,
+                maxLines: 3,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  setState(() {
+                    _error = null;
+                  });
+                },
+              ),
+            )
+          ],
+        ),
+      );
+    }
+    return SizedBox(height: 0,);
+  }
+
+  sendLink() async{
+    try{
+      await sendPasswordResetEmail(_emailController.text);
+      Navigator.pushNamed(context, LoginPage.routeName);
+    } catch(error) {
+      setState(() {
+        _error = error.message;
+      });
+    }
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        sendLink();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Reset Password Link"),
+      content: Text("Reset Password Link sent to ${_emailController.text}"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }
