@@ -115,16 +115,6 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                             ),
                           ),
                           MaterialButton(
-                            color: Colors.deepOrange,
-                            onPressed: () {},
-                            child: Text(
-                              'Share',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          MaterialButton(
                             color: Colors.redAccent,
                             onPressed: () {
                               Navigator.push(
@@ -152,7 +142,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                         Container(
                           width: MediaQuery.of(context).size.width / 1.75,
                           child: AutoSizeText(
-                            _posting.description,
+                           '${_posting.host.getFullName()} is a ${_posting.personalTitle}',
                             style: TextStyle(
                             ),
                             minFontSize: 19.0,
@@ -218,7 +208,33 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                           iconData: Icons.wc,
                           category: 'Bathrooms',
                           categoryInfo: _posting.getBathroomText(),
-                        )
+                        ),
+                        PostingInfoTile(
+                          iconData: Icons.local_laundry_service,
+                          category: 'Washer & Dryer Info',
+                          categoryInfo: _posting.washerDryer,
+                        ),
+                        PostingInfoTile(
+                          iconData: Icons.directions_walk,
+                          category: 'Walking time',
+                          categoryInfo: _posting.getWalkingTime(),
+                        ),
+                        PostingInfoTile(
+                          iconData: Icons.directions_bus,
+                          category: 'Bus time',
+                          categoryInfo: _posting.getBusTime(),
+                        ),
+                        PostingInfoTile(
+                          iconData: Icons.train,
+                          category: 'Train time',
+                          categoryInfo: _posting.getTrainTime(),
+                        ),
+                        PostingInfoTile(
+                          iconData: Icons.speaker_notes,
+                          category: 'Lease info',
+                          categoryInfo: _posting.getLeaseInfo(),
+                        ),
+
                       ],
                     ),
                   ),
@@ -336,6 +352,9 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
   }
 
   Future<void> startConversation() async{
+    if(AppConstants.currentUser.getFullName() == _posting.host.getFullName()) {
+      return;
+    }
     bool result = await checkIfConversationExists(_posting);
     if(result){
       continueConversationInFirestore(_posting);

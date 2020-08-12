@@ -9,10 +9,8 @@ import 'package:househunter/Models/userObjects.dart';
 class Posting {
   String id;
   String type;
-  String leaseType;
   String furnished;
   double price;
-  String description;
   String apartmentNumber;
   int streetNumber;
   String address;
@@ -42,7 +40,7 @@ class Posting {
 
   Map<String, int> bathrooms;
 
-  Posting({this.id="", this.type="", this.leaseType="", this.price=0, this.description="", this.apartmentNumber = "",
+  Posting({this.id="", this.type="", this.price=0, this.apartmentNumber = "",
     this.furnished="",this.streetNumber = 0, this.address="", this.city="", this.zipCode = "", this.country="", this.host,
     this.bedrooms=0, this.houseType="", this.personalTitle="", this.leaseStart="", this.leaseEnd="", this.flexibleDates="",
     this.leasePeriod= "", this.walkingTime="", this.busTime="", this.trainTime="", this.washerDryer=""}) {
@@ -66,7 +64,6 @@ class Posting {
     this.bathrooms = Map<String, int>.from(snapshot['bathrooms']) ?? {};
     this.city = snapshot['city'] ?? "";
     this.country = snapshot['country'] ?? "";
-    this.description = snapshot['description'] ?? "";
     this.zipCode = snapshot['zip code'] ?? "";
     this.streetNumber = snapshot['street number'].toInt() ?? 0;
     this.bedrooms = snapshot['bedrooms'].toInt() ?? 0;
@@ -79,7 +76,15 @@ class Posting {
     this.rating = snapshot['rating'].toDouble() ?? 2.5;
     this.type = snapshot['type'] ?? "";
     this.furnished = snapshot['furnished'] ?? "";
-    this.leaseType = snapshot['lease type'] ?? "";
+    this.houseType = snapshot['houseType'] ?? "";
+    this.personalTitle = snapshot['personalTitle'] ?? "";
+    this.leaseStart = snapshot['leaseStart'] ?? "";
+    this.leaseEnd = snapshot['leaseEnd'] ?? "";
+    this.flexibleDates = snapshot['flexibleDates'] ?? "";
+    this.walkingTime = snapshot['walkingTime'] ?? "";
+    this.busTime = snapshot['busTime'] ?? "";
+    this.trainTime = snapshot['trainTime'] ?? "";
+    this.washerDryer = snapshot['washerDryer'] ?? "";
   }
 
   Future<void> addPostingInfoToFirestore() async {
@@ -92,14 +97,12 @@ class Posting {
       "city": this.city,
       "country": this.country,
       "zip code": this.zipCode,
-      "description": this.description,
       "hostID": AppConstants.currentUser.id,
       "imageNames": this.imageNames,
       "price": this.price,
       "rating": 2.5,
       "street number": this.streetNumber,
       "apartment number": this.apartmentNumber,
-      "lease type": this.leaseType,
       "type": this.type,
       'furnished': this.furnished,
       'houseType': this.houseType,
@@ -123,19 +126,27 @@ class Posting {
       "address": this.address,
       "amenities": this.amenities,
       "bathrooms": this.bathrooms,
-      "bedrooms": this.bedrooms,
+      "bedrooms": this.bedrooms.toInt(),
       "city": this.city,
       "country": this.country,
       "zip code": this.zipCode,
-      "description": this.description,
       "hostID": AppConstants.currentUser.id,
       "imageNames": this.imageNames,
       "price": this.price,
-      "rating": this.rating,
+      "rating": 2.5,
       "street number": this.streetNumber,
+      "apartment number": this.apartmentNumber,
       "type": this.type,
-      "furnished": this.furnished,
-      "lease type": this.leaseType,
+      'furnished': this.furnished,
+      'houseType': this.houseType,
+      'personalTitle': this.personalTitle,
+      'leaseStart': this.leaseStart,
+      'leaseEnd': this.leaseEnd,
+      'flexibleDates': this.flexibleDates,
+      'walkingTime': this.walkingTime,
+      'busTime': this.busTime,
+      'trainTime': this.trainTime,
+      'washerDryer': this.washerDryer,
     };
     await Firestore.instance.document('postings/${this.id}').updateData(data);
   }
@@ -203,6 +214,22 @@ class Posting {
 
   List<String> getAmenitiesString() {
     return this.amenities;
+  }
+
+  String getWalkingTime() {
+    return this.walkingTime;
+  }
+
+  String getBusTime() {
+    return this.busTime;
+  }
+
+  String getTrainTime() {
+    return this.trainTime;
+  }
+
+  String getLeaseInfo(){
+    return '${this.leaseStart} - ${this.leaseEnd}';
   }
 
   String getBathroomText() {

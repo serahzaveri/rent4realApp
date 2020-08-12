@@ -57,7 +57,7 @@ class _PostingGridTileState extends State<PostingGridTile> {
           ),
         ),
         AutoSizeText(
-          _posting.description,
+          _posting.getLeaseInfo(),
         style: TextStyle(
           fontSize: 16,
         ),

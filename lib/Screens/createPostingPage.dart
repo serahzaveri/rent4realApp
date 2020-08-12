@@ -168,7 +168,6 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
       _images = widget.posting.displayImages;
       _houseType = widget.posting.type;
       _furnished = widget.posting.furnished;
-      _leasePeriod = widget.posting.leaseType;
       _personalTitle = widget.posting.personalTitle;
       _leaseStart = widget.posting.leaseStart;
       _leaseEnd = widget.posting.leaseEnd;

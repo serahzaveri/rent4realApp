@@ -58,6 +58,9 @@ class _BookPostingPageState extends State<BookPostingPage> {
   }
 
   void _makeBooking() {
+    if(AppConstants.currentUser.getFullName() == this._posting.host.getFullName()){
+      return;
+    }
     if(this._selectedDates.isEmpty) { return; }
     this._posting.makeNewBooking(this._selectedDates, context).whenComplete(() {
       //Navigator.pop(context);
