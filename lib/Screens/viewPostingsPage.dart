@@ -191,7 +191,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                       children: <Widget>[
                         PostingInfoTile(
                           iconData: Icons.home,
-                          category: _posting.type,
+                          category: _posting.houseType,
                           categoryInfo: '${_posting.getIsFurnished()}',
                         ),
                         PostingInfoTile(

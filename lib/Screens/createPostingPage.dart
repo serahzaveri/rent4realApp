@@ -68,7 +68,6 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
       return;
     }
     //if(_houseType == null) {return;}
-    //if(_leasePeriod == null) {return;}
     //if(_furnished == null) {return;}
     if(_images.isEmpty) {return;}
     Posting posting = Posting();
@@ -80,7 +79,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
     posting.country = _countryController.text;
     posting.zipCode = _zipCodeController.text;
     posting.amenities = _amenities;
-    posting.type = _houseType;
+    posting.houseType = _houseType;
     posting.furnished = _furnished;
     posting.beds = _beds;
     posting.bathrooms = _bathrooms;
@@ -170,7 +169,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
       _bathrooms = widget.posting.bathrooms;
       _beds = widget.posting.beds;
       _images = widget.posting.displayImages;
-      _houseType = widget.posting.type;
+      _houseType = widget.posting.houseType;
       _furnished = widget.posting.furnished;
       _personalTitle = widget.posting.personalTitle;
       _leaseStart = widget.posting.leaseStart;

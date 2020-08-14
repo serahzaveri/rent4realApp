@@ -26,7 +26,6 @@ class _ExplorePageState extends State<ExplorePage> {
 
   String _houseTypeFilter;
   String _furnishedFilter;
-  String _bedroomsFilter;
 
   void _searchByField() {
     if(_searchType.isEmpty) {
@@ -101,46 +100,6 @@ class _ExplorePageState extends State<ExplorePage> {
                     color: Colors.white,
                   ),
                 ),
-                /*
-                Container(
-                  height: MediaQuery.of(context).size.height / 14,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      MaterialButton(
-                        onPressed: () {
-                         _pressSearchByButton("name", true, false, false);
-                        },
-                        child: Text("Name"),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                        color: _isNameButtonSelected ? Colors.grey : Colors.white,
-                      ),
-                      MaterialButton(
-                        onPressed: () {
-                          _pressSearchByButton("city", false, true, false);
-                        },
-                        child: Text("City"),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                        color: _isCityButtonSelected ? Colors.grey : Colors.white,
-                      ),
-                      MaterialButton(
-                        onPressed: () {
-                          _pressSearchByButton("type", false, false, true);
-                        },
-                        child: Text("Type"),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                        color: _isTypeButtonSelected ? Colors.grey : Colors.white,
-                      ),
-                      MaterialButton(
-                        onPressed: () {
-                          _pressSearchByButton("", false, false, false);
-                        },
-                        child: Text("Clear"),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                      ),
-                    ],
-                  ),
-                ),*/
                 StreamBuilder(
                   stream: _stream,
                   builder: (context, snapshots) {
@@ -241,7 +200,7 @@ class _ExplorePageState extends State<ExplorePage> {
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState){
               return Container(
-                  height: MediaQuery.of(context).size.height * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.5,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -290,18 +249,6 @@ class _ExplorePageState extends State<ExplorePage> {
                           ),
 
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: SmartSelect<String>.single(
-                            title: "Bedrooms",
-                            value: this._bedroomsFilter,
-                            options: options.numbers,
-                            isTwoLine: true,
-                            onChange: (val) => setState(() => this._bedroomsFilter = val),
-                            modalType: SmartSelectModalType.popupDialog,
-                            leading: const Icon(Icons.hotel),
-                          ),
-                        ),
                         Row(
                           children: <Widget>[
                             Padding(
@@ -323,6 +270,9 @@ class _ExplorePageState extends State<ExplorePage> {
                                     print(_searchType);
                                     _searchByField();
                                   }
+                                  else{
+                                    print('No filters');
+                                  }
                                   Navigator.of(context).pop();
                                 },
                                 child: Text(
@@ -338,11 +288,14 @@ class _ExplorePageState extends State<ExplorePage> {
                             Spacer(),
                             MaterialButton(
                               onPressed: () {
-                                _bedroomsFilter = "";
                                 _furnishedFilter = "";
                                 _houseTypeFilter = "";
+                                _searchCategory = "";
+                                _searchType = "";
                                 setState(() {
                                 });
+                                _searchByField();
+                                Navigator.of(context).pop();
                               },
                               child: Text(
                                 'Clear',

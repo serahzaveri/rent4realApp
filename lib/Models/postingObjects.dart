@@ -8,7 +8,6 @@ import 'package:househunter/Models/userObjects.dart';
 
 class Posting {
   String id;
-  String type;
   String furnished;
   double price;
   String apartmentNumber;
@@ -38,7 +37,7 @@ class Posting {
   Map<String, int> beds;
   Map<String, int> bathrooms;
 
-  Posting({this.id="", this.type="", this.price=0, this.apartmentNumber = "",
+  Posting({this.id="", this.price=0, this.apartmentNumber = "",
     this.furnished="",this.streetNumber = 0, this.address="", this.city="", this.zipCode = "", this.country="", this.host,
     this.houseType="", this.personalTitle="", this.leaseStart="", this.leaseEnd="", this.flexibleDates="",
     this.walkingTime="", this.busTime="", this.trainTime="", this.washerDryer=""}) {
@@ -72,7 +71,6 @@ class Posting {
     this.imageNames = List<String>.from(snapshot['imageNames']) ?? [];
     this.price = snapshot['price'].toDouble() ?? 0.0;
     this.rating = snapshot['rating'].toDouble() ?? 2.5;
-    this.type = snapshot['type'] ?? "";
     this.furnished = snapshot['furnished'] ?? "";
     this.houseType = snapshot['houseType'] ?? "";
     this.personalTitle = snapshot['personalTitle'] ?? "";
@@ -101,7 +99,6 @@ class Posting {
       "rating": 2.5,
       "street number": this.streetNumber,
       "apartment number": this.apartmentNumber,
-      "type": this.type,
       'furnished': this.furnished,
       'houseType': this.houseType,
       'personalTitle': this.personalTitle,
@@ -134,7 +131,6 @@ class Posting {
       "rating": 2.5,
       "street number": this.streetNumber,
       "apartment number": this.apartmentNumber,
-      "type": this.type,
       'furnished': this.furnished,
       'houseType': this.houseType,
       'personalTitle': this.personalTitle,
