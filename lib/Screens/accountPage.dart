@@ -147,7 +147,7 @@ class _AccountPageState extends State<AccountPage> {
                 child: MaterialButton(
                     height: MediaQuery.of(context).size.height / 9.0,
                     onPressed: _myRentResume,
-                    child: AccountPageListTile(text: 'My Rent Resume', iconData: Icons.picture_as_pdf,)
+                    child: AccountPageListTile(text: 'My Rent Resume (' + AppConstants.currentUser.progressBar.toString() + "% complete)", iconData: Icons.picture_as_pdf,)
                 ),
               ),
               MaterialButton(
@@ -181,8 +181,11 @@ class AccountPageListTile extends StatelessWidget {
 
   AccountPageListTile({Key key, this.text, this.iconData}): super(key: key);
 
+
+
   @override
   Widget build(BuildContext context) {
+    print(this.text);
     return ListTile(
       contentPadding: EdgeInsets.all(0.0),
       leading: Text(

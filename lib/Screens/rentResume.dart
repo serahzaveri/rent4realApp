@@ -20,7 +20,7 @@ class RentResumePage extends StatefulWidget {
 class _RentResumePagePageState extends State<RentResumePage> {
 
   final _formKey = GlobalKey<FormState>();
-  double _progressBar =  0;
+  int _progressBar =  0;
   TextEditingController _firstNameController;
   TextEditingController _lastNameController;
   TextEditingController _emailController;
@@ -44,11 +44,32 @@ class _RentResumePagePageState extends State<RentResumePage> {
   TextEditingController _priorRentController = TextEditingController();
 
   void _checkProgress() {
-    _formKey.currentState.validate();
+    _progressBar = 0;
+    if(_lastNameController.text != ""){
+      _progressBar += 5;
+    }
+    if(_emailController.text != ""){
+      _progressBar += 5;
+    }
+    if(_contactNumberController.text != ""){
+      _progressBar += 5;
+    }
+    if(_schoolController.text != ""){
+      _progressBar += 5;
+    }
+    if(_emergencyContactNameController.text != ""){
+      _progressBar += 5;
+    }
+    if(_presentAddressController.text != ""){
+      _progressBar += 5;
+    }
+    if(_priorLandlordNameController.text != ""){
+      _progressBar += 5;
+    }
   }
 
   void _saveInfo() {
-    if(!_formKey.currentState.validate()) {return ;}
+    //if(!_formKey.currentState.validate()) {return ;}
     AppConstants.currentUser.firstName = _firstNameController.text;
     AppConstants.currentUser.lastName = _lastNameController.text;
     AppConstants.currentUser.email = _emailController.text;
@@ -70,11 +91,11 @@ class _RentResumePagePageState extends State<RentResumePage> {
     AppConstants.currentUser.priorRent = _priorRentController.text;
     AppConstants.currentUser.priorLandlordName = _priorLandlordNameController.text;
     AppConstants.currentUser.priorLandlordNumber = _priorLandlordNumberController.text;
-    AppConstants.currentUser.updateUserInFirestore().whenComplete(() {
-      AppConstants.currentUser.addRentResumeToFirestore().whenComplete(() {
-        Navigator.pushNamed(context, GuestHomePage.routeName);
-      });
+    _checkProgress();
+    AppConstants.currentUser.progressBar = _progressBar;
+    AppConstants.currentUser.addRentResumeToFirestore().whenComplete(() {
     });
+    Navigator.pushNamed(context, GuestHomePage.routeName);
   }
 
   @override
@@ -100,6 +121,7 @@ class _RentResumePagePageState extends State<RentResumePage> {
     _priorRentController = TextEditingController(text: AppConstants.currentUser.priorRent);
     _priorLandlordNameController = TextEditingController(text: AppConstants.currentUser.priorLandlordName);
     _priorLandlordNumberController = TextEditingController(text: AppConstants.currentUser.priorLandlordNumber);
+    _progressBar = AppConstants.currentUser.progressBar;
     super.initState();
     //the below code edits the progress bar after the form has been loaded
     WidgetsBinding.instance
@@ -112,7 +134,10 @@ class _RentResumePagePageState extends State<RentResumePage> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: (){
+            Navigator.pushNamed(context, GuestHomePage.routeName);
+          }
+          //onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
           'My Rent Resume',
@@ -144,9 +169,9 @@ class _RentResumePagePageState extends State<RentResumePage> {
                             animation: true,
                             animationDuration: 2000,
                             lineHeight: 20.0,
-                            percent: _progressBar,
+                            percent: AppConstants.currentUser.getProgressBar2(),
                             center: Text(
-                              '${(_progressBar*100).toString()} %',
+                              '${(_progressBar).toString()} %',
                               style: new TextStyle(fontSize: 12.0),
                             ),
                             backgroundColor: Colors.grey,
@@ -189,9 +214,6 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               if(text.isEmpty) {
                                 return "Please enter a valid last name";
                               }
-                              setState(() {
-                                _progressBar += 0.05;
-                              });
                               return null;
                             },
                             textCapitalization: TextCapitalization.words,
@@ -211,9 +233,6 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               if(text.isEmpty) {
                                 return "Please enter a valid email ID";
                               }
-                              setState(() {
-                                _progressBar += 0.05;
-                              });
                               return null;
                             },
                             controller: _emailController,
@@ -235,9 +254,6 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               if(text.isEmpty) {
                                 return "Please enter a valid contact number";
                               }
-                              setState(() {
-                                _progressBar += 0.05;
-                              });
                               return null;
                             },
                           ),
@@ -257,9 +273,6 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               if(text.isEmpty) {
                                 return "Please enter a valid date of birth";
                               }
-                              setState(() {
-                                _progressBar += 0.05;
-                              });
                               return null;
                             },
                             textCapitalization: TextCapitalization.words,
@@ -280,9 +293,6 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               if(text.isEmpty) {
                                 return "Please choose an option";
                               }
-                              setState(() {
-                                _progressBar += 0.05;
-                              });
                               return null;
                             },
                             textCapitalization: TextCapitalization.words,
@@ -303,9 +313,6 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               if(text.isEmpty) {
                                 return "Please enter a valid last name";
                               }
-                              setState(() {
-                                _progressBar += 0.05;
-                              });
                               return null;
                             },
                             textCapitalization: TextCapitalization.words,
@@ -326,9 +333,6 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               if(text.isEmpty) {
                                 return "Please enter a valid last name";
                               }
-                              setState(() {
-                                _progressBar += 0.05;
-                              });
                               return null;
                             },
                             textCapitalization: TextCapitalization.words,
@@ -349,9 +353,6 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               if(text.isEmpty) {
                                 return "Please enter a valid last name";
                               }
-                              setState(() {
-                                _progressBar += 0.05;
-                              });
                               return null;
                             },
                             textCapitalization: TextCapitalization.words,
@@ -372,9 +373,6 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               if(text.isEmpty) {
                                 return "Please enter a valid last name";
                               }
-                              setState(() {
-                                _progressBar += 0.05;
-                              });
                               return null;
                             },
                             textCapitalization: TextCapitalization.words,
@@ -436,9 +434,6 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               if(text.isEmpty) {
                                 return "Please enter a valid contact number";
                               }
-                              setState(() {
-                                _progressBar += 0.05;
-                              });
                               return null;
                             },
                           ),
@@ -480,12 +475,8 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               if(text.isEmpty) {
                                 return "Please enter a valid rent amount";
                               }
-                              setState(() {
-                                _progressBar += 0.05;
-                              });
                               return null;
                             },
-
                           ),
                         ),
                         Padding(
@@ -525,9 +516,6 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               if(text.isEmpty) {
                                 return "Please enter a valid number";
                               }
-                              setState(() {
-                                _progressBar += 0.05;
-                              });
                               return null;
                             },
                           ),
@@ -569,9 +557,6 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               if(text.isEmpty) {
                                 return "Please enter a valid rent amount";
                               }
-                              setState(() {
-                                _progressBar += 0.05;
-                              });
                               return null;
                             },
                           ),
@@ -613,9 +598,6 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               if(text.isEmpty) {
                                 return "Please enter a valid number";
                               }
-                              setState(() {
-                                _progressBar += 0.05;
-                              });
                               return null;
                             },
                           ),
@@ -630,4 +612,5 @@ class _RentResumePagePageState extends State<RentResumePage> {
       ),
     );
   }
+
 }

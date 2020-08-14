@@ -77,7 +77,7 @@ class User extends Contact {
   String priorRent;
   String priorLandlordName;
   String priorLandlordNumber;
-
+  int progressBar;
 
 
   List<Booking> bookings;
@@ -90,7 +90,7 @@ class User extends Contact {
     this.city = "", this.country = "", this.contactNumber="", this.dateOfBirth="", this.gender="", this.school="", this.program="",
     this.yearOfSchool="", this.homeCountry="", this.emergencyContactName="", this.emergencyContactNumber="", this.emergencyContactRelationship="",
     this.presentAddress="", this.presentRent="", this.presentLandlordName="", this.presentLandlordNumber,
-    this.priorAddress="", this.priorRent="", this.priorLandlordName="", this.priorLandlordNumber=""}):
+    this.priorAddress="", this.priorRent="", this.priorLandlordName="", this.priorLandlordNumber="", this.progressBar=0}):
         super(id: id, firstName: firstName, lastName: lastName, displayImage: displayImage){
     this.isHost = false;
     this.isCurrentlyHosting = false;
@@ -110,7 +110,34 @@ class User extends Contact {
     this.city = snapshot['city'] ?? "";
     this.country = snapshot['country'] ?? "";
     this.isHost = snapshot['isHost'] ?? false;
+    this.contactNumber = snapshot['contactNumber'] ?? "";
+    this.gender = snapshot['gender'] ?? "";
+    this.school = snapshot['school'] ?? "";
+    this.program = snapshot['program'] ?? "";
+    this.emergencyContactName = snapshot['emergency contact name'] ?? "";
+    this.emergencyContactRelationship = snapshot["emergency contact relationship"] ?? "";
+    this.emergencyContactNumber = snapshot['emergency contact number'] ?? "";
+    this.homeCountry = snapshot['home country'] ?? "";
+    this.dateOfBirth = snapshot['date of birth'] ?? "";
+    this.yearOfSchool = snapshot['year of school'] ?? "";
+    this.presentAddress = snapshot['present address'] ?? "";
+    this.presentRent = snapshot['present rent'] ?? "";
+    this.priorAddress = snapshot['prior address'] ?? "";
+    this.priorRent = snapshot['prior rent'] ?? "";
+    this.presentLandlordName = snapshot['present landlord name'] ?? "";
+    this.presentLandlordNumber = snapshot['present landlord number'] ?? "";
+    this.priorLandlordName = snapshot['prior landlord name'] ?? "";
+    this.priorLandlordNumber = snapshot['prior landlord number'] ?? "";
+    this.progressBar = snapshot['progressBar'] ?? 0;
+
   }
+
+  Future<void> getProgressFromFirestore() async {
+    DocumentSnapshot snapshot = await Firestore.instance.collection('users').document(this.id).get();
+    AppConstants.currentUser.progressBar = snapshot['progressBar'] ?? 0;
+    print('Progres update is: '+ AppConstants.currentUser.progressBar.toString());
+  }
+
 
   Future<void> getPersonalInfoFromFirestore() async {
     await getUserInfoFromFirestore();
@@ -175,6 +202,7 @@ class User extends Contact {
       "prior rent": this.priorRent,
       "prior landlord name": this.priorLandlordName,
       "prior landlord number": this.priorLandlordNumber,
+      'progressBar': this.progressBar,
     };
     await Firestore.instance.document('users/${this.id}').updateData(data);
   }
@@ -206,6 +234,11 @@ class User extends Contact {
     };
     await Firestore.instance.document('users/${this.id}').updateData(data);
     this.changeCurrentlyHosting(true);
+  }
+
+  double getProgressBar2() {
+    double doubleProgress = this.progressBar / 100;
+    return doubleProgress;
   }
 
   Contact createContactFromUser() {
