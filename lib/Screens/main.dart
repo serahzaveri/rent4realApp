@@ -8,7 +8,6 @@ import 'package:househunter/Screens/authenticatePage.dart';
 import 'package:househunter/Screens/bookPostingPage.dart';
 import 'package:househunter/Screens/conversationPage.dart';
 import 'package:househunter/Screens/createPostingPage.dart';
-import 'package:househunter/Screens/filterPage.dart';
 import 'package:househunter/Screens/forgotPasswordPage.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
 import 'package:househunter/Screens/hostHomePage.dart';
@@ -16,7 +15,6 @@ import 'package:househunter/Screens/loginPage.dart';
 import 'package:househunter/Screens/personalInfoPage.dart';
 import 'package:househunter/Screens/rentResume.dart';
 import 'package:househunter/Screens/signUpPage.dart';
-import 'package:househunter/Screens/viewPostingsPage.dart';
 import 'package:househunter/Screens/viewProfilePage.dart';
 
 void main() => runApp(MyApp());
@@ -76,7 +74,6 @@ class _MyAppState extends State<MyApp> {
         HostHomePage.routeName: (context) => HostHomePage(),
         CreatePostingPage.routeName: (context) => CreatePostingPage(),
         RentResumePage.routeName: (context) => RentResumePage(),
-        FilterPage.routeName: (context) => FilterPage(),
       },
     );
   }
