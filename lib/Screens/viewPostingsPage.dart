@@ -11,7 +11,9 @@ import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Models/reviewObjects.dart';
 import 'package:househunter/Models/userObjects.dart';
 import 'package:househunter/Screens/bookPostingPage.dart';
+import 'package:househunter/Screens/explorePage.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
+import 'package:househunter/Screens/rentResume.dart';
 import 'package:househunter/Screens/viewProfilePage.dart';
 import 'package:househunter/Views/TextWidgets.dart';
 import 'package:househunter/Views/formWidgets.dart';
@@ -117,12 +119,13 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                           MaterialButton(
                             color: Colors.redAccent,
                             onPressed: () {
-                              Navigator.push(
+                              /*Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => BookPostingPage(posting: this._posting,),
                                   )
-                              );
+                              );*/
+                              showAlertDialog(context);
                             },
                             child: Text(
                               'Submit Rent Resume',
@@ -417,7 +420,67 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
       return "$a\_$b";
     }
   }
+
 }
+
+  //alert dialog shown to user to acknowledge that reset password email has been sent
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.pushNamed(
+            context,
+            GuestHomePage.routeName
+        );
+      },
+    );
+
+    Widget ok2Button = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.pushNamed(
+            context,
+            RentResumePage.routeName
+        );
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Rent Resume Sent"),
+      content: Text("Rent Resume has been sent. Landlord will contat you once approved along with lease."),
+      actions: [
+        okButton,
+      ],
+    );
+
+    AlertDialog alert2 = AlertDialog(
+      title: Text("Rent Resume Incomplete"),
+      content: Text("Your rent resume is incomplete. Please complete it and then submit."),
+      actions: [
+        ok2Button,
+      ],
+    );
+
+    //show the dialog
+    if(AppConstants.currentUser.progressBar == 100) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert2;
+        },
+      );
+    }
+
+  }
 
 
 

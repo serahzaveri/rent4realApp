@@ -110,7 +110,7 @@ class User extends Contact {
     this.city = snapshot['city'] ?? "";
     this.country = snapshot['country'] ?? "";
     this.isHost = snapshot['isHost'] ?? false;
-    this.contactNumber = snapshot['contactNumber'] ?? "";
+    this.contactNumber = snapshot['contact number'] ?? "";
     this.gender = snapshot['gender'] ?? "";
     this.school = snapshot['school'] ?? "";
     this.program = snapshot['program'] ?? "";

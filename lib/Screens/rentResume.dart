@@ -45,8 +45,11 @@ class _RentResumePagePageState extends State<RentResumePage> {
 
   void _checkProgress() {
     _progressBar = 0;
+    if(_firstNameController.text != ""){
+      _progressBar += 2;
+    }
     if(_lastNameController.text != ""){
-      _progressBar += 5;
+      _progressBar += 3;
     }
     if(_emailController.text != ""){
       _progressBar += 5;
@@ -54,16 +57,55 @@ class _RentResumePagePageState extends State<RentResumePage> {
     if(_contactNumberController.text != ""){
       _progressBar += 5;
     }
+    if(_dateOfBirthController.text != ""){
+      _progressBar += 5;
+    }
+    if(_genderController.text != ""){
+      _progressBar += 5;
+    }
     if(_schoolController.text != ""){
+      _progressBar += 5;
+    }
+    if(_programController.text != ""){
+      _progressBar += 5;
+    }
+    if(_yearController.text != ""){
+      _progressBar += 5;
+    }
+    if(_homeCountryController.text != ""){
       _progressBar += 5;
     }
     if(_emergencyContactNameController.text != ""){
       _progressBar += 5;
     }
+    if(_emergencyContactNumberController.text != ""){
+      _progressBar += 5;
+    }
+    if(_relationshipController.text != ""){
+      _progressBar += 5;
+    }
     if(_presentAddressController.text != ""){
       _progressBar += 5;
     }
+    if(_presentRentController.text != ""){
+      _progressBar += 5;
+    }
+    if(_presentLandlordNameController.text != ""){
+      _progressBar += 5;
+    }
+    if(_presentLandlordNameController.text != ""){
+      _progressBar += 5;
+    }
     if(_priorLandlordNameController.text != ""){
+      _progressBar += 5;
+    }
+    if(_priorLandlordNumberController.text != ""){
+      _progressBar += 5;
+    }
+    if(_priorRentController.text != ""){
+      _progressBar += 5;
+    }
+    if(_priorAddressController.text != ""){
       _progressBar += 5;
     }
   }
@@ -95,7 +137,6 @@ class _RentResumePagePageState extends State<RentResumePage> {
     AppConstants.currentUser.progressBar = _progressBar;
     AppConstants.currentUser.addRentResumeToFirestore().whenComplete(() {
     });
-    Navigator.pushNamed(context, GuestHomePage.routeName);
   }
 
   @override
