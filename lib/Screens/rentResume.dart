@@ -176,7 +176,7 @@ class _RentResumePagePageState extends State<RentResumePage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: (){
-            Navigator.pushNamed(context, GuestHomePage.routeName);
+            Navigator.pop(context);
           }
           //onPressed: () => Navigator.of(context).pop(),
         ),

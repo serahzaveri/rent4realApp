@@ -479,7 +479,6 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
         },
       );
     }
-
   }
 
 
