@@ -199,10 +199,11 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                           category: 'Rent',
                           categoryInfo: '\$ ${_posting.price} / month',
                         ),
+
                         PostingInfoTile(
                           iconData: Icons.hotel,
                           category: 'Bedrooms',
-                          categoryInfo: '${_posting.getNumBedrooms()} bedrooms',
+                          categoryInfo: '${_posting.getBedroomText()}bedrooms',
                         ),
                         PostingInfoTile(
                           iconData: Icons.wc,

@@ -8,6 +8,7 @@ import 'package:househunter/Screens/authenticatePage.dart';
 import 'package:househunter/Screens/bookPostingPage.dart';
 import 'package:househunter/Screens/conversationPage.dart';
 import 'package:househunter/Screens/createPostingPage.dart';
+import 'package:househunter/Screens/filterPage.dart';
 import 'package:househunter/Screens/forgotPasswordPage.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
 import 'package:househunter/Screens/hostHomePage.dart';
@@ -40,6 +41,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
+  //used for shared preferences
   getLoggedIn() async {
     await SharedPreferencesHelper.getUserLoggedIn().then((value) {
       setState(() {
@@ -74,6 +76,7 @@ class _MyAppState extends State<MyApp> {
         HostHomePage.routeName: (context) => HostHomePage(),
         CreatePostingPage.routeName: (context) => CreatePostingPage(),
         RentResumePage.routeName: (context) => RentResumePage(),
+        FilterPage.routeName: (context) => FilterPage(),
       },
     );
   }
@@ -96,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     super.initState();
   }
-  //Before we get the login page we see the name of the app for 2 seconds. below is where this is done
+  //Before we get the login page we see the name of the app for 2 seconds. below code defines this functionality
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,12 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           //mainAxisAlignment centers the children vertically
           mainAxisAlignment: MainAxisAlignment.center,
-          //crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            /*Icon(
-              Icons.home,
-              size: 80,
-            ),*/
             Container(
               height: 150,
               width: 150,

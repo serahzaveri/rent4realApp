@@ -32,20 +32,20 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
   TextEditingController _cityController;
   TextEditingController _countryController;
   TextEditingController _zipCodeController;
-  TextEditingController _bedroomsController; //text editing controller added
-  int _bedroomsVar;
+
   String _houseType;
   String _personalTitle;
   String _leaseStart;
   String _leaseEnd;
   String _flexibleDates;
-  String _leasePeriod;
   String _walkingTime;
   String _busTime;
   String _trainTime;
   String _washerDryer;
   List<String> _amenities;
   String _furnished;
+
+  Map<String, int> _beds;
   Map<String, int> _bathrooms;
   List<MemoryImage> _images;
 
@@ -63,10 +63,13 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
   }
 
   void _savePosting() {
-    if(!_formKey.currentState.validate()) {return;}
-    if(_houseType == null) {return;}
-    if(_leasePeriod == null) {return;}
-    if(_furnished == null) {return;}
+    if(!_formKey.currentState.validate()) {
+      print('Form incomplete');
+      return;
+    }
+    //if(_houseType == null) {return;}
+    //if(_leasePeriod == null) {return;}
+    //if(_furnished == null) {return;}
     if(_images.isEmpty) {return;}
     Posting posting = Posting();
     posting.price = double.parse(_priceController.text);
@@ -79,7 +82,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
     posting.amenities = _amenities;
     posting.type = _houseType;
     posting.furnished = _furnished;
-    posting.bedrooms = int.parse(_bedroomsController.text);
+    posting.beds = _beds;
     posting.bathrooms = _bathrooms;
     posting.displayImages = _images;
     posting.host = AppConstants.currentUser.createContactFromUser();
@@ -129,14 +132,16 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
   void _setUpInitialValues() {
     if(widget.posting == null) {
       _priceController = TextEditingController();
-      _bedroomsController = TextEditingController();
       _apartmentNumberController = TextEditingController();
       _streetNumberController = TextEditingController();
       _streetNameController = TextEditingController();
       _cityController = TextEditingController();
       _countryController = TextEditingController();
       _zipCodeController = TextEditingController();
-      _bedroomsVar = 0;
+      _beds = {
+        'total': 0,
+        'available': 0,
+      };
       _bathrooms = {
         'full': 0,
         'half': 0,
@@ -148,7 +153,6 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
       _leaseStart = "";
       _leaseEnd = "";
       _flexibleDates = "";
-      _leasePeriod = "";
       _furnished = "";
       _walkingTime = "";
       _busTime = "";
@@ -163,8 +167,8 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
       _zipCodeController = TextEditingController(text: widget.posting.zipCode);
       _streetNumberController = TextEditingController(text: widget.posting.streetNumber.toString());
       _amenities = widget.posting.getAmenitiesString();
-      _bedroomsController = TextEditingController(text: widget.posting.bedrooms.toString());
       _bathrooms = widget.posting.bathrooms;
+      _beds = widget.posting.beds;
       _images = widget.posting.displayImages;
       _houseType = widget.posting.type;
       _furnished = widget.posting.furnished;
@@ -457,26 +461,50 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 5.0),
-                          child: FacilitiesWidget(
-                            type: 'Total Bedrooms',
-                            startValue: 0,
-                            decreaseValue: () {
-                              _bedroomsVar--;
-                              this._bedroomsController.text = _bedroomsVar.toString();
-                              if(this._bedroomsVar < 0) {
-                                this._bedroomsVar = 0;
-                                this._bedroomsController.text = _bedroomsVar.toString();
-                              }
-                            },
-                            increaseValue: () {
-                              _bedroomsVar++;
-                              this._bedroomsController.text = _bedroomsVar.toString();
-                            },
+                          padding: const EdgeInsets.only(top: 35.0),
+                          child: Text(
+                            'Bedrooms',
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         Padding(
-                            padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 5.0),
+                          padding: const EdgeInsets.fromLTRB(15, 25, 15, 0),
+                          child: Column(
+                            children: <Widget>[
+                              FacilitiesWidget(
+                                type: 'Total bedrooms',
+                                startValue: _beds['total'],
+                                decreaseValue: () {
+                                  this._beds['total']--;
+                                  if (this._beds['total'] < 0) {
+                                    this._beds['total'] = 0;
+                                  }
+                                },
+                                increaseValue: () {
+                                  this._beds['total']++;
+                                },
+                              ),
+                              FacilitiesWidget(
+                                type: 'Available bedrooms',
+                                startValue: _beds['available'],
+                                decreaseValue: () {
+                                  this._beds['available']--;
+                                  if (this._beds['available'] < 0) {
+                                    this._beds['available'] = 0;
+                                  }
+                                },
+                                increaseValue: () {
+                                  this._beds['available']++;
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(top: 35.0),
                             child: Text(
                               'Bathrooms',
                               style: TextStyle(

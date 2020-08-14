@@ -38,13 +38,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   }
 
   void _submit() async {
-    //we don't validate this form instead we just go to the signUp page
+    //after validating form an alert dialog is shown to confirm that password reset email has been sent
     if (_formKey.currentState.validate()) {
       showAlertDialog(context);
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -168,6 +166,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     );
   }
 
+  // if there is an error while sending reset email
   Widget showAlert() {
     //if an error is present
     if (_error != null) {
@@ -206,6 +205,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return SizedBox(height: 0,);
   }
 
+  //send email link and navigate back to login page
   sendLink() async{
     try{
       await sendPasswordResetEmail(_emailController.text);
@@ -217,6 +217,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     }
   }
 
+  //alert dialog shown to user to acknowledge that reset password email has been sent
   showAlertDialog(BuildContext context) {
     // set up the button
     Widget okButton = FlatButton(

@@ -5,6 +5,8 @@ import 'package:househunter/Models/sharedPreferencesHelper.dart';
 import 'package:househunter/Models/userObjects.dart';
 import 'guestHomePage.dart';
 
+
+// this page is used to display user's account if user is logged in - shared preferences
 class AuthenticatePage extends StatefulWidget {
 
   static final String routeName = '/authenticPageRoute';

@@ -24,7 +24,6 @@ class Posting {
   String leaseStart;
   String leaseEnd;
   String flexibleDates;
-  String leasePeriod;
   String walkingTime;
   String busTime;
   String trainTime;
@@ -36,19 +35,19 @@ class Posting {
   List<Booking> bookings;
   List<Review> reviews;
 
-  int bedrooms;
-
+  Map<String, int> beds;
   Map<String, int> bathrooms;
 
   Posting({this.id="", this.type="", this.price=0, this.apartmentNumber = "",
     this.furnished="",this.streetNumber = 0, this.address="", this.city="", this.zipCode = "", this.country="", this.host,
-    this.bedrooms=0, this.houseType="", this.personalTitle="", this.leaseStart="", this.leaseEnd="", this.flexibleDates="",
-    this.leasePeriod= "", this.walkingTime="", this.busTime="", this.trainTime="", this.washerDryer=""}) {
+    this.houseType="", this.personalTitle="", this.leaseStart="", this.leaseEnd="", this.flexibleDates="",
+    this.walkingTime="", this.busTime="", this.trainTime="", this.washerDryer=""}) {
     this.imageNames = [];
     this.displayImages = [];
     this.amenities = [];
     this.bookings = [];
     this.reviews = [];
+    this.beds = {};
     this.bathrooms = {};
     this.rating = 0;
   }
@@ -66,8 +65,7 @@ class Posting {
     this.country = snapshot['country'] ?? "";
     this.zipCode = snapshot['zip code'] ?? "";
     this.streetNumber = snapshot['street number'].toInt() ?? 0;
-    this.bedrooms = snapshot['bedrooms'].toInt() ?? 0;
-
+    this.beds = Map<String, int>.from(snapshot['beds']) ?? {};
     String hostID = snapshot['hostID'] ?? "";
     this.host = Contact(id: hostID);
 
@@ -93,7 +91,7 @@ class Posting {
       "address": this.address,
       "amenities": this.amenities,
       "bathrooms": this.bathrooms,
-      "bedrooms": this.bedrooms.toInt(),
+      "beds": this.beds,
       "city": this.city,
       "country": this.country,
       "zip code": this.zipCode,
@@ -126,7 +124,7 @@ class Posting {
       "address": this.address,
       "amenities": this.amenities,
       "bathrooms": this.bathrooms,
-      "bedrooms": this.bedrooms.toInt(),
+      "beds": this.beds,
       "city": this.city,
       "country": this.country,
       "zip code": this.zipCode,
@@ -208,10 +206,6 @@ class Posting {
     return this.zipCode;
   }
 
-  int getNumBedrooms() {
-    return this.bedrooms;
-  }
-
   List<String> getAmenitiesString() {
     return this.amenities;
   }
@@ -230,6 +224,17 @@ class Posting {
 
   String getLeaseInfo(){
     return '${this.leaseStart} - ${this.leaseEnd}';
+  }
+
+  String getBedroomText() {
+    String text = "";
+    if (this.beds["total"] != 0) {
+      text += this.beds["total"].toString() + " Total ";
+    }
+    if (this.beds["available"] != 0) {
+      text += this.beds["available"].toString() + " Available ";
+    }
+    return text;
   }
 
   String getBathroomText() {

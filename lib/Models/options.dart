@@ -10,6 +10,14 @@ List<SmartSelectOption<String>> flexibleDates = [
   SmartSelectOption<String>(value: 'No', title: 'No'),
 ];
 
+List<SmartSelectOption<String>> numbers = [
+  SmartSelectOption<String>(value: '1', title: '1'),
+  SmartSelectOption<String>(value: '2', title: '2'),
+  SmartSelectOption<String>(value: '3', title: '3'),
+  SmartSelectOption<String>(value: '4', title: '4'),
+  SmartSelectOption<String>(value: '5', title: '5'),
+];
+
 List<SmartSelectOption<String>> personalTitle = [
   SmartSelectOption<String>(value: 'Landlord', title: 'Landlord seeking lease creation'),
   SmartSelectOption<String>(value: 'Tenant', title: 'Tenant seeking sublet'),
