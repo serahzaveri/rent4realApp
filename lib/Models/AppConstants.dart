@@ -9,6 +9,7 @@ class AppConstants {
   static final Color nonSelectedIconColor = Colors.black;
   //make sure to initialize this at some point
   static User currentUser;
+  static int progressUpdate;
 
   static final Map<int, String> monthDict = {
     1: "January",

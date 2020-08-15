@@ -129,13 +129,7 @@ class User extends Contact {
     this.priorLandlordName = snapshot['prior landlord name'] ?? "";
     this.priorLandlordNumber = snapshot['prior landlord number'] ?? "";
     this.progressBar = snapshot['progressBar'] ?? 0;
-
-  }
-
-  Future<void> getProgressFromFirestore() async {
-    DocumentSnapshot snapshot = await Firestore.instance.collection('users').document(this.id).get();
-    AppConstants.currentUser.progressBar = snapshot['progressBar'] ?? 0;
-    print('Progres update is: '+ AppConstants.currentUser.progressBar.toString());
+    AppConstants.progressUpdate = snapshot['progressBar'] ?? 0;
   }
 
 

@@ -247,8 +247,8 @@ class _ExplorePageState extends State<ExplorePage> {
                             modalType: SmartSelectModalType.popupDialog,
                             leading: const Icon(Icons.camera),
                           ),
-
                         ),
+                        Spacer(),
                         Row(
                           children: <Widget>[
                             Padding(

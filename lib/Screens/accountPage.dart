@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
@@ -132,7 +133,7 @@ class _AccountPageState extends State<AccountPage> {
               ],
             ),
           ),
-          ListView(
+          ListView (
             shrinkWrap: true,
             children: <Widget>[
               MaterialButton(
@@ -144,10 +145,11 @@ class _AccountPageState extends State<AccountPage> {
               ),
               Visibility(
                 visible: _isRentResumeVisible,
-                child: MaterialButton(
+                child: MaterialButton (
                     height: MediaQuery.of(context).size.height / 9.0,
                     onPressed: _myRentResume,
-                    child: AccountPageListTile(text: 'My Rent Resume (' + AppConstants.currentUser.progressBar.toString() + "% complete)", iconData: Icons.picture_as_pdf,)
+                    child: AccountPageListTile(text: ('My Rent Resume ( ' + AppConstants.progressUpdate.toString() +'% complete)'), iconData: Icons.picture_as_pdf,),
+
                 ),
               ),
               MaterialButton(
@@ -180,8 +182,6 @@ class AccountPageListTile extends StatelessWidget {
   final IconData iconData;
 
   AccountPageListTile({Key key, this.text, this.iconData}): super(key: key);
-
-
 
   @override
   Widget build(BuildContext context) {

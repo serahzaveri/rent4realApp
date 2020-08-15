@@ -135,6 +135,8 @@ class _RentResumePagePageState extends State<RentResumePage> {
     AppConstants.currentUser.priorLandlordNumber = _priorLandlordNumberController.text;
     _checkProgress();
     AppConstants.currentUser.progressBar = _progressBar;
+    AppConstants.progressUpdate = _progressBar;
+    setState(() {});
     AppConstants.currentUser.addRentResumeToFirestore().whenComplete(() {
     });
   }
@@ -176,7 +178,7 @@ class _RentResumePagePageState extends State<RentResumePage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: (){
-            Navigator.pop(context);
+            Navigator.pushNamed(context, GuestHomePage.routeName);
           }
           //onPressed: () => Navigator.of(context).pop(),
         ),
