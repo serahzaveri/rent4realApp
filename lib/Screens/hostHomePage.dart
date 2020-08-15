@@ -4,6 +4,7 @@ import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Screens/accountPage.dart';
 import 'package:househunter/Screens/bookingsPage.dart';
 import 'package:househunter/Screens/inboxPage.dart';
+import 'package:househunter/Screens/myLeasePage.dart';
 import 'package:househunter/Screens/myPostingsPage.dart';
 import 'package:househunter/Views/TextWidgets.dart';
 
@@ -20,13 +21,13 @@ class HostHomePage extends StatefulWidget {
 }
 
 class _HostHomePageState extends State<HostHomePage> {
-  //Setting it to 4 results it to going directly to the profile page after logging in
-  //Change to 0 later if you want explore page
-  int _selectedIndex = 3;
+  //Setting it to 5 results it to going directly to the profile page after logging in
+  int _selectedIndex = 5;
 
   final List<String> _pageTitles = [
     'Bookings',
     'MyPostings',
+    'Lease',
     'Inbox',
     'Profile',
   ];
@@ -34,6 +35,7 @@ class _HostHomePageState extends State<HostHomePage> {
   final List<Widget> _pages = [
     BookingsPage(),
     MyPostingsPage(),
+    MyLeasePage(),
     InboxPage(),
     AccountPage(),
   ];
@@ -54,7 +56,7 @@ class _HostHomePageState extends State<HostHomePage> {
   @override
   void initState() {
     //we do this so after creating a post it navigates to the myPostings tab and not profile tab
-    this._selectedIndex = widget.index ?? 3;
+    this._selectedIndex = widget.index ?? 4;
     super.initState();
   }
 
@@ -74,8 +76,9 @@ class _HostHomePageState extends State<HostHomePage> {
         items: <BottomNavigationBarItem> [
           _buildNavigationItem(0, Icons.calendar_today, _pageTitles[0]),
           _buildNavigationItem(1, Icons.home, _pageTitles[1]),
-          _buildNavigationItem(2, Icons.message, _pageTitles[2]),
-          _buildNavigationItem(3, Icons.person_outline, _pageTitles[3]),
+          _buildNavigationItem(2, Icons.picture_as_pdf, _pageTitles[2]),
+          _buildNavigationItem(3, Icons.message, _pageTitles[3]),
+          _buildNavigationItem(4, Icons.person_outline, _pageTitles[4]),
         ],
       ),
     );

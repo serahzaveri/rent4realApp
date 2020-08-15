@@ -464,7 +464,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
     );
 
     //show the dialog
-    if(AppConstants.currentUser.progressBar == 100) {
+    if(AppConstants.progressUpdate == 100) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
