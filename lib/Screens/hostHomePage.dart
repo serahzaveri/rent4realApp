@@ -22,7 +22,7 @@ class HostHomePage extends StatefulWidget {
 
 class _HostHomePageState extends State<HostHomePage> {
   //Setting it to 5 results it to going directly to the profile page after logging in
-  int _selectedIndex = 5;
+  int _selectedIndex = 4;
 
   final List<String> _pageTitles = [
     'Bookings',
