@@ -6,6 +6,7 @@ import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Models/messagingObjects.dart';
 import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Models/reviewObjects.dart';
+import 'package:househunter/Screens/viewPostingsPage.dart';
 import 'package:househunter/Screens/viewProfilePage.dart';
 
 class ReviewListTile extends StatefulWidget{
@@ -364,60 +365,69 @@ class _StatusListTileState extends State<StatusListTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-            color: Colors.black,
-            width: 2.0
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPostingsPage(posting: _posting,)));
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+              color: Colors.black,
+              width: 2.0
+          ),
+          borderRadius: BorderRadius.circular(10.0),
         ),
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0),
-            child: Text(
-              _posting.getHalfAddress(),
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: Text('RentResume Status: '),
-              ),
-              IconButton(icon: Icon(Icons.check_circle),),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: Text('Lease Status: '),
-              ),
-              Text(
-                  'Waiting for landlord',
-                style: TextStyle(
-                  color: Colors.red
+        child: Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0),
+                  child: Text(
+                    _posting.getHalfAddress(),
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              ),
-              IconButton(icon: Icon(Icons.blur_circular),),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: Text('Complete: '),
-              ),
-              IconButton(icon: Icon(Icons.blur_circular),),
-            ],
-          ),
-        ],
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Text('RentResume Status: '),
+                ),
+                IconButton(icon: Icon(Icons.check_circle),),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Text('Lease Status: '),
+                ),
+                Text(
+                    'Waiting for landlord',
+                  style: TextStyle(
+                    color: Colors.red
+                  ),
+                ),
+                IconButton(icon: Icon(Icons.blur_circular),),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Text('Complete: '),
+                ),
+                IconButton(icon: Icon(Icons.blur_circular),),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
