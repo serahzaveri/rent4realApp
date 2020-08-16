@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Screens/viewPostingsPage.dart';
-import 'package:househunter/Views/TextWidgets.dart';
 import 'package:househunter/Views/gridWidgets.dart';
 
 class SavedPage extends StatefulWidget {

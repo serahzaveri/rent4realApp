@@ -125,7 +125,8 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                                     builder: (context) => BookPostingPage(posting: this._posting,),
                                   )
                               );*/
-                              showAlertDialog(context);
+
+                              showAlertDialog(context, _posting);
                             },
                             child: Text(
                               'Submit Rent Resume',
@@ -424,7 +425,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
 }
 
   //alert dialog shown to user to acknowledge that reset password email has been sent
-  showAlertDialog(BuildContext context) {
+  showAlertDialog(BuildContext context, Posting posting) {
     // set up the button
     Widget okButton = FlatButton(
       child: Text("OK"),
@@ -446,10 +447,17 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
       },
     );
 
+    Widget ok3Button = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Rent Resume Sent"),
-      content: Text("Rent Resume has been sent. Landlord will contat you once approved along with lease."),
+      content: Text("Rent Resume has been sent. Landlord will contact you once approved along with lease."),
       actions: [
         okButton,
       ],
@@ -463,15 +471,36 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
       ],
     );
 
+    AlertDialog alert3 = AlertDialog(
+      title: Text("Rent Resume Already sent"),
+      content: Text("Your rent resume has already been sent to the landlord of this posting. Please navigate to status bar to check for updates."),
+      actions: [
+        ok3Button,
+      ],
+    );
+
     //show the dialog
-    if(AppConstants.progressUpdate == 100) {
+
+    //Case 1: if myRentResume has already been sent
+    if(AppConstants.currentUser.isMyRRPosting(posting)) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert3;
+        },
+      );
+    } //Case 2: RR completed so add posting to MyRRPosting list
+    else if(AppConstants.progressUpdate == 100) {
+      AppConstants.currentUser.addMyRRPosting(posting);
+      print('Posting added to myRRPostings');
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return alert;
         },
       );
-    } else {
+    } //Case 3: RR incomplete
+    else {
       showDialog(
         context: context,
         builder: (BuildContext context) {

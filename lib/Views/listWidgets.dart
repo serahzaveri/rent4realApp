@@ -341,6 +341,70 @@ class _MyPostingListTileState extends State<MyPostingListTile> {
   }
 }
 
+class StatusListTile extends StatefulWidget {
+
+  final Posting posting;
+
+  StatusListTile({this.posting, Key key}): super(key: key);
+
+  @override
+  _StatusListTileState createState() => _StatusListTileState();
+
+}
+
+class _StatusListTileState extends State<StatusListTile> {
+
+  Posting _posting;
+
+  @override
+  void initState() {
+    this._posting = widget.posting;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+            color: Colors.black,
+            width: 2.0
+        ),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Column(
+        children: <Widget>[
+          Text(
+            _posting.getHalfAddress(),
+            style: TextStyle(
+              fontSize: 22.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Row(
+            children: <Widget>[
+              Text('RentResume Status'),
+              IconButton(icon: Icon(Icons.check_circle),),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Text('Lease Status'),
+              IconButton(icon: Icon(Icons.blur_circular),),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Text('Complete'),
+              IconButton(icon: Icon(Icons.blur_circular),),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class CreatePostingListTile extends StatelessWidget {
 
   @override

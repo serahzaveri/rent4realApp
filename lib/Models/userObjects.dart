@@ -85,6 +85,7 @@ class User extends Contact {
   List<Conversation> conversations;
   List<Posting> savedPostings;
   List<Posting> myPostings;
+  List<Posting> myRRPostings;
 
   User({String id="", String firstName = "", String lastName = "", this.email = "", MemoryImage displayImage,
     this.city = "", this.country = "", this.contactNumber="", this.dateOfBirth="", this.gender="", this.school="", this.program="",
@@ -99,6 +100,7 @@ class User extends Contact {
     this.conversations = [];
     this.savedPostings = [];
     this.myPostings = [];
+    this.myRRPostings = [];
   }
 
   Future<void> getUserInfoFromFirestore() async {
@@ -159,6 +161,16 @@ class User extends Contact {
       await newPosting.getPostingInfoFromFirestore();
       await newPosting.getFirstImageFromStorage();
       this.savedPostings.add(newPosting);
+    }
+  }
+
+  Future<void> getMyRRPostingsFromFirestore() async {
+    List<String> myRRPostingIDs = List<String>.from(snapshot['myRRPostingIDs']) ?? [];
+    for(String postingID in myRRPostingIDs) {
+      Posting newPosting = Posting(id: postingID);
+      await newPosting.getPostingInfoFromFirestore();
+      await newPosting.getFirstImageFromStorage();
+      this.myRRPostings.add(newPosting);
     }
   }
 
@@ -362,6 +374,16 @@ class User extends Contact {
     return false;
   }
 
+  //this method is used to determine the heart icon on explore page
+  bool isMyRRPosting(Posting posting) {
+    for(var myRRPosting in this.myRRPostings) {
+      if(myRRPosting.id == posting.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   // adds to saved posting when red heart icon is clicked
   Future<void> addSavedPosting(Posting posting) async {
     for(var savedPosting in this.savedPostings) {
@@ -379,6 +401,26 @@ class User extends Contact {
     });
   }
 
+  // adds to myRRpostings when rent resume is sent as well as adds it on user end array of posting id's
+  Future<void> addMyRRPosting(Posting posting) async {
+    //checks if already added
+    for(var rentResumePosting in this.myRRPostings) {
+      if(rentResumePosting.id == posting.id) {
+        return;
+      }
+    }
+    //adds if not already added to the list<Posting>
+    this.myRRPostings.add(posting);
+    //now adds all posting ids where rr is sent to firestore
+    List<String> myRRPostingIDs = [];
+    this.myRRPostings.forEach((rentResumePosting) {
+      myRRPostingIDs.add(rentResumePosting.id);
+    });
+    await Firestore.instance.document('users/${this.id}').updateData({
+      'myRRPostingIDs': myRRPostingIDs,
+    });
+  }
+
   Future<void> removeSavedPosting(Posting posting) async {
     for(int i =0; i<this.savedPostings.length; i++){
       if(this.savedPostings[i].id == posting.id) {
@@ -392,6 +434,22 @@ class User extends Contact {
     });
     await Firestore.instance.document('users/${this.id}').updateData({
       'savedPostingIDs': savedPostingIDs,
+    });
+  }
+
+  Future<void> removeMyRRPosting(Posting posting) async {
+    for(int i =0; i<this.myRRPostings.length; i++){
+      if(this.myRRPostings[i].id == posting.id) {
+        this.myRRPostings.removeAt(i);
+        break;
+      }
+    }
+    List<String> myRRPostingIDs = [];
+    this.myRRPostings.forEach((savedPosting) {
+      myRRPostingIDs.add(savedPosting.id);
+    });
+    await Firestore.instance.document('users/${this.id}').updateData({
+      'myRRPostingIDs': myRRPostingIDs,
     });
   }
 
