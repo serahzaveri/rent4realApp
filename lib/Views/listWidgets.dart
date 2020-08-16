@@ -374,28 +374,46 @@ class _StatusListTileState extends State<StatusListTile> {
       ),
       child: Column(
         children: <Widget>[
-          Text(
-            _posting.getHalfAddress(),
-            style: TextStyle(
-              fontSize: 22.0,
-              fontWeight: FontWeight.bold,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0),
+            child: Text(
+              _posting.getHalfAddress(),
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           Row(
             children: <Widget>[
-              Text('RentResume Status'),
+              Padding(
+                padding: const EdgeInsets.only(left: 12.0),
+                child: Text('RentResume Status: '),
+              ),
               IconButton(icon: Icon(Icons.check_circle),),
             ],
           ),
           Row(
             children: <Widget>[
-              Text('Lease Status'),
+              Padding(
+                padding: const EdgeInsets.only(left: 12.0),
+                child: Text('Lease Status: '),
+              ),
+              Text(
+                  'Waiting for landlord',
+                style: TextStyle(
+                  color: Colors.red
+                ),
+              ),
               IconButton(icon: Icon(Icons.blur_circular),),
             ],
           ),
           Row(
             children: <Widget>[
-              Text('Complete'),
+              Padding(
+                padding: const EdgeInsets.only(left: 12.0),
+                child: Text('Complete: '),
+              ),
               IconButton(icon: Icon(Icons.blur_circular),),
             ],
           ),

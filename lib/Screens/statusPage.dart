@@ -1,10 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
-import 'package:househunter/Models/postingObjects.dart';
-import 'package:househunter/Screens/viewPostingsPage.dart';
-import 'package:househunter/Views/TextWidgets.dart';
-import 'package:househunter/Views/gridWidgets.dart';
 import 'package:househunter/Views/listWidgets.dart';
 
 class StatusPage extends StatefulWidget {
@@ -21,14 +17,17 @@ class _StatusPageState extends State<StatusPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
+      body: AppConstants.currentUser.myRRPostings.length==0 ? Container(child: Text('No rent resumes sent to landlord yet', style: TextStyle(fontSize: 22.0),),) :
+      ListView.builder(
         itemCount: AppConstants.currentUser.myRRPostings.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: StatusListTile(
-              posting: AppConstants.currentUser.myRRPostings[index],
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 15.0),
+              child: StatusListTile(
+                posting: AppConstants.currentUser.myRRPostings[index],
+              ),
             ),
           );
         },
