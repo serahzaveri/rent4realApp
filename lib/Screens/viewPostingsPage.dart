@@ -492,6 +492,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
     } //Case 2: RR completed so add posting to MyRRPosting list
     else if(AppConstants.progressUpdate == 100) {
       AppConstants.currentUser.addMyRRPosting(posting);
+      posting.addInterestedUser(AppConstants.currentUser);
       print('Posting added to myRRPostings');
       showDialog(
         context: context,

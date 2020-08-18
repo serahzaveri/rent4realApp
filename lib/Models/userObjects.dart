@@ -27,8 +27,8 @@ class Contact {
   }
 
   Future<MemoryImage> getImageFromStorage() async {
-    if (displayImage != null) { return displayImage; }
-    final String imagePath = "userImages/${this.id}/profile_pic.JPG";
+    if (AppConstants.currentUser.displayImage != null) { return displayImage; }
+    final String imagePath = "userImages/${AppConstants.currentUser.id}/profile_pic.jpg";
     final imageData = await FirebaseStorage.instance.ref().child(imagePath).getData(1024*1024);
     this.displayImage = MemoryImage(imageData);
     return this.displayImage;
@@ -140,6 +140,7 @@ class User extends Contact {
     await getImageFromStorage();
     await getMyPostingsFromFirestore();
     await getSavedPostingsFromFirestore();
+    await getMyRRPostingsFromFirestore();
     await getAllBookingsFromFirestore();
   }
 
@@ -150,18 +151,24 @@ class User extends Contact {
       await newPosting.getPostingInfoFromFirestore();
       await newPosting.getAllBookingsFromFirestore();
       await newPosting.getAllImagesFromStorage();
+      await newPosting.getInterestedUsersFromFirestore();
       this.myPostings.add(newPosting);
     }
   }
 
+
+
   Future<void> getSavedPostingsFromFirestore() async {
     List<String> savedPostingIDs = List<String>.from(snapshot['savedPostingIDs']) ?? [];
-    for(String postingID in savedPostingIDs) {
-      Posting newPosting = Posting(id: postingID);
+    for(int i=0; i<savedPostingIDs.length; i++) {
+      Posting newPosting = Posting(id: savedPostingIDs[i]);
       await newPosting.getPostingInfoFromFirestore();
       await newPosting.getFirstImageFromStorage();
+      print("Error here3");
       this.savedPostings.add(newPosting);
+      print("Got saved postings from firestore");
     }
+    print("Complete");
   }
 
   Future<void> getMyRRPostingsFromFirestore() async {
@@ -411,7 +418,6 @@ class User extends Contact {
     }
     //adds if not already added to the list<Posting>
     this.myRRPostings.add(posting);
-    //now adds all posting ids where rr is sent to firestore
     List<String> myRRPostingIDs = [];
     this.myRRPostings.forEach((rentResumePosting) {
       myRRPostingIDs.add(rentResumePosting.id);

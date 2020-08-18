@@ -328,6 +328,9 @@ class _MyPostingListTileState extends State<MyPostingListTile> {
                   fontWeight: FontWeight.bold
               ),
             ),
+            /*AutoSizeText(
+              _posting.interestedUsers[0].getFullName(),
+            )*/
           ],
         )
       ),

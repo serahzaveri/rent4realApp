@@ -33,6 +33,7 @@ class Posting {
   List<String> amenities;
   List<Booking> bookings;
   List<Review> reviews;
+  List<User> interestedUsers;
 
   Map<String, int> beds;
   Map<String, int> bathrooms;
@@ -46,6 +47,7 @@ class Posting {
     this.amenities = [];
     this.bookings = [];
     this.reviews = [];
+    this.interestedUsers = [];
     this.beds = {};
     this.bathrooms = {};
     this.rating = 0;
@@ -67,7 +69,6 @@ class Posting {
     this.beds = Map<String, int>.from(snapshot['beds']) ?? {};
     String hostID = snapshot['hostID'] ?? "";
     this.host = Contact(id: hostID);
-
     this.imageNames = List<String>.from(snapshot['imageNames']) ?? [];
     this.price = snapshot['price'].toDouble() ?? 0.0;
     this.rating = snapshot['rating'].toDouble() ?? 2.5;
@@ -181,6 +182,31 @@ class Posting {
   Future<void> getHostFromFirestore() async {
     await this.host.getContactInfoFromFirestore();
     await this.host.getImageFromStorage();
+  }
+
+
+
+  // adds to saved posting when red heart icon is clicked
+  Future<void> addInterestedUser(User interestedUser) async {
+    this.interestedUsers.add(interestedUser);
+    List<String> interested = [];
+    this.interestedUsers.forEach((intUser) {
+      interested.add(intUser.id);
+    });
+    await Firestore.instance.document('postings/${this.id}').updateData({
+      'interested users': interested,
+    });
+  }
+
+  Future<void> getInterestedUsersFromFirestore() async {
+    DocumentSnapshot snapshot = await Firestore.instance.collection('postings').document(this.id).get();
+    List<String> interestedUsersIDs = List<String>.from(snapshot['interested users']) ?? [];
+    for(int i=0; i<interestedUsersIDs.length; i++) {
+      User newUser = User(id: interestedUsersIDs[i]);
+      await newUser.getUserInfoFromFirestore();
+      await newUser.getImageFromStorage();
+      this.interestedUsers.add(newUser);
+    }
   }
 
   String getIsFurnished() {
