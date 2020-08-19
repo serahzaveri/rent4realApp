@@ -96,7 +96,7 @@ class MyLeasePage extends StatelessWidget {
                 }).toList(),
                 onChanged: (_) {}
                 ),
-            Text("Choose user to send lease", style: TextStyle(fontSize: 30),),
+            //Text("Choose user to send lease", style: TextStyle(fontSize: 30),),
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 80.0, 30.0, 20.0),
               child: MaterialButton(

@@ -69,6 +69,7 @@ class _SignUpPageState extends State<SignUpPage> {
         AppConstants.currentUser.lastName = _lastNameController.text;
         AppConstants.currentUser.city = _cityController.text;
         AppConstants.currentUser.country = _countryController.text;
+        AppConstants.progressUpdate = 0; //sets progress of rentResume back to 0
         AppConstants.currentUser.addUserToFirestore().whenComplete(() {
           AppConstants.currentUser.addImageToFirestore(_imageFile).whenComplete(() {
             FirebaseAuth.instance.signInWithEmailAndPassword(

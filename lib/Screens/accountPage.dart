@@ -142,21 +142,21 @@ class _AccountPageState extends State<AccountPage> {
                 onPressed: () {
                   Navigator.pushNamed(context, PersonalInfoPage.routeName);
                 },
-                child: AccountPageListTile(text: 'Personal Information', iconData: Icons.person,)
+                child: AccountPageListTile(text: 'Personal Information', iconData: Icons.person, percent: null,)
               ),
               Visibility(
                 visible: _isRentResumeVisible,
                 child: MaterialButton (
                     height: MediaQuery.of(context).size.height / 9.0,
                     onPressed: _myRentResume,
-                    child: AccountPageListTile(text: ('My Rent Resume ( ' + AppConstants.progressUpdate.toString() +'% complete)'), iconData: Icons.picture_as_pdf,),
+                    child: AccountPageListTile(text: 'My Rent Resume ', iconData: Icons.picture_as_pdf, percent: AppConstants.progressUpdate,),
 
                 ),
               ),
               MaterialButton(
                   height: MediaQuery.of(context).size.height / 9.0,
                   onPressed: _changeHosting,
-                  child: AccountPageListTile(text: _hostingTitle, iconData: Icons.home,)
+                  child: AccountPageListTile(text: _hostingTitle, iconData: Icons.home, percent: null,)
               ),
               MaterialButton(
                   height: MediaQuery.of(context).size.height / 9.0,
@@ -168,12 +168,12 @@ class _AccountPageState extends State<AccountPage> {
                         )
                     );
                   },
-                  child: AccountPageListTile(text: 'How this works', iconData: Icons.device_unknown,)
+                  child: AccountPageListTile(text: 'How this works', iconData: Icons.device_unknown, percent: null,)
               ),
               MaterialButton(
                   height: MediaQuery.of(context).size.height / 9.0,
                   onPressed: _logout,
-                  child: AccountPageListTile(text: 'Logout', iconData: null,)
+                  child: AccountPageListTile(text: 'Logout', iconData: null, percent: null,)
               ),
             ],
           ),
@@ -188,19 +188,27 @@ class AccountPageListTile extends StatelessWidget {
 
   final String text;
   final IconData iconData;
+  final int percent;
 
-  AccountPageListTile({Key key, this.text, this.iconData}): super(key: key);
+  AccountPageListTile({Key key, this.text, this.iconData, this.percent}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print(this.text);
+    print(this.percent);
     return ListTile(
       contentPadding: EdgeInsets.all(0.0),
-      leading: Text(
+      leading: this.percent == null ? Text('') : CircularPercentIndicator(
+        percent: this.percent.toDouble() / 100,
+        progressColor: Colors.red,
+        center: new Text(this.percent.toString() + '%'),
+        backgroundColor: Colors.grey,
+        radius: 50.0,
+        lineWidth: 5.0,
+      ),
+      title:  Text(
         this.text,
         style: TextStyle(
           fontSize: 20.0,
-          fontWeight: FontWeight.normal,
         ),
       ),
       trailing: Icon(
