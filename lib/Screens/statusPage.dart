@@ -17,7 +17,19 @@ class _StatusPageState extends State<StatusPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AppConstants.currentUser.myRRPostings.length==0 ? Container(child: Text('No rent resumes sent to landlord yet', style: TextStyle(fontSize: 22.0),),) :
+      body: AppConstants.currentUser.myRRPostings.length==0 ? Container(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Icon(Icons.priority_high, size: 100.0, color: Colors.redAccent,),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text('No rent resumes sent to landlord yet', style: TextStyle(fontSize: 20.0),),
+              )
+            ],
+          ),
+      ) :
       ListView.builder(
         itemCount: AppConstants.currentUser.myRRPostings.length,
         shrinkWrap: true,
