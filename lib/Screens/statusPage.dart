@@ -24,7 +24,7 @@ class _StatusPageState extends State<StatusPage> {
             children: <Widget>[
               Icon(Icons.priority_high, size: 100.0, color: Colors.redAccent,),
               Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Text('No rent resumes sent to landlord yet', style: TextStyle(fontSize: 20.0),),
               )
             ],
