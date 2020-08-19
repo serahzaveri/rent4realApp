@@ -6,6 +6,7 @@ import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Models/sharedPreferencesHelper.dart';
 import 'package:househunter/Screens/hostHomePage.dart';
 import 'package:househunter/Screens/loginPage.dart';
+import 'package:househunter/Screens/payMyRent.dart';
 import 'package:househunter/Screens/personalInfoPage.dart';
 import 'package:househunter/Screens/rentResume.dart';
 import 'package:househunter/Screens/viewProfilePage.dart';
@@ -159,7 +160,14 @@ class _AccountPageState extends State<AccountPage> {
               ),
               MaterialButton(
                   height: MediaQuery.of(context).size.height / 9.0,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PayMyRent(),
+                        )
+                    );
+                  },
                   child: AccountPageListTile(text: 'How this works', iconData: Icons.device_unknown,)
               ),
               MaterialButton(

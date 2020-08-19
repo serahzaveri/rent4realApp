@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:househunter/Models/AppConstants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -13,6 +14,7 @@ class MyLeasePage extends StatelessWidget {
   MyLeasePage({Key key}) : super(key: key);
 
   final pdf = pw.Document();
+  String chosenListing;
 
   writeOnPdf(){
     pdf.addPage(
@@ -86,6 +88,15 @@ class MyLeasePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text("Choose a listing", style: TextStyle(fontSize: 30),),
+            new DropdownButton(
+                hint: Text('Select listing'),
+                value: chosenListing,
+                items: AppConstants.currentUser.getListOfMyPostings().map((String value) {
+                  return new DropdownMenuItem<String>(value: value, child: new Text(value),);
+                }).toList(),
+                onChanged: (_) {}
+                ),
+            Text("Choose user to send lease", style: TextStyle(fontSize: 30),),
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 80.0, 30.0, 20.0),
               child: MaterialButton(

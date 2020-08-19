@@ -156,6 +156,15 @@ class User extends Contact {
     }
   }
 
+  List<String> getListOfMyPostings() {
+    List<String> addressOfPostings = [];
+    int numberOfPostings = AppConstants.currentUser.myPostings.length;
+    for(int i=0; i<numberOfPostings; i++) {
+      addressOfPostings.add(AppConstants.currentUser.myPostings[i].getHalfAddress());
+    }
+    return addressOfPostings;
+  }
+
 
 
   Future<void> getSavedPostingsFromFirestore() async {
