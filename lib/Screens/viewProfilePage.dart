@@ -6,6 +6,7 @@ import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Models/reviewObjects.dart';
 import 'package:househunter/Models/userObjects.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
+import 'package:househunter/Screens/viewRentResume.dart';
 import 'package:househunter/Views/TextWidgets.dart';
 import 'package:househunter/Views/formWidgets.dart';
 import 'package:househunter/Views/listWidgets.dart';
@@ -84,7 +85,9 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
               ),
               MaterialButton(
                 color: Colors.blueAccent,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ViewRentResume(user: _user,)));
+                },
                 child: Text(
                   'View MyRentResume',
                   style: TextStyle(
