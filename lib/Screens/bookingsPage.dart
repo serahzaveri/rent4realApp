@@ -54,6 +54,7 @@ class _BookingsPageState extends State<BookingsPage> {
         padding: const EdgeInsets.fromLTRB(25, 50, 25, 0),
         child: Column(
           children: <Widget>[
+            /*
             Padding(
               padding: const EdgeInsets.only(top: 25.0, bottom: 35.0),
               child: Row(
@@ -79,7 +80,44 @@ class _BookingsPageState extends State<BookingsPage> {
                     return CalendarMonthWidget(monthIndex: index, bookedDates: this._bookedDates, selectDate: _selectDate, getSelectedDates: _getSelectedDates,);
                   },
                 ),
+              ),*/
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 25.0),
+              child: Container(
+                child: Text(
+                  'No bookings yet',
+                style: TextStyle(
+                  fontSize: 22.0
+                ),
+                )
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 25.0),
+              child: Container(
+                color: Colors.yellowAccent,
+                  child: Text(
+                    'Filed Maintenace Requests',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 25.0),
+              child: Container(
+                color: Colors.redAccent,
+                  child: Text(
+                    'Payment History',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20.0, 25.0, 0.0, 15.0),
               child: Row(

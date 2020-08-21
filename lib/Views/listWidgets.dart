@@ -211,12 +211,13 @@ class MessageListTile extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
+                /*
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => ViewProfilePage(contact: AppConstants.currentUser.createContactFromUser(),),
                     )
-                );
+                );*/
               },
               child: CircleAvatar(
                 backgroundImage: AppConstants.currentUser.displayImage,

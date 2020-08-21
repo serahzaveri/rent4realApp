@@ -34,7 +34,9 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
       //if we are viewing someone else's profile
       this._user = widget.contact.createUserFromContact();
       this._user.getUserInfoFromFirestore().whenComplete(() {
-        setState(() {});
+        this._user.getImageFromStorage().whenComplete(() {
+          setState(() {});
+        });
       });
     }
     super.initState();
@@ -48,7 +50,7 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(35, 50, 35, 25),
+          padding: const EdgeInsets.fromLTRB(35, 25, 35, 25),
           child: Column(
             //mainAxisAlignment centers the children vertically
             mainAxisAlignment: MainAxisAlignment.start,
@@ -62,10 +64,10 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                   Container(
                     width: MediaQuery.of(context).size.width * 3 / 5,
                     child: AutoSizeText(
-                      'Hi, my name is ${_user.firstName}',
+                      'Hi, my name is ${_user.getFullName()}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 30,
+                        fontSize: 22,
                       ),
                       maxLines: 2,
                     ),
@@ -80,43 +82,112 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 50.0),
+              MaterialButton(
+                color: Colors.blueAccent,
+                onPressed: () {},
                 child: Text(
-                  'About Me:',
+                  'View MyRentResume',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25.0
+                    color: Colors.white,
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 50.0),
+                padding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
+                child: Text(
+                  'About Me:',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0
+                  ),
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: AutoSizeText(
+                  'I am a student at ${_user.school} studying ${_user.program}. I am currently in my ${_user.yearOfSchool}.',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                  maxLines: 5,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: Text(
+                  'Date of Birth',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0
+                  ),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.calendar_today),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0),
+                        child: AutoSizeText(
+                          '${_user.dateOfBirth}',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
                 child: Text(
                   'Location',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 25.0
+                      fontSize: 20.0
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
-                child: Row(
+                child: Column(
                   children: <Widget>[
-                    Icon(Icons.home),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15.0),
-                      child: AutoSizeText(
-                        'Lives in ${_user.city}, ${_user.country}',
-                        style: TextStyle(
-                          fontSize: 20.0,
+                    Row(
+                      children: <Widget>[
+                        Icon(Icons.home),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: AutoSizeText(
+                            'Lives in ${_user.city}, ${_user.country}',
+                            style: TextStyle(
+                              fontSize: 20.0,
+                            ),
+                          ),
                         ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.airplanemode_active),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15.0),
+                            child: AutoSizeText(
+                              'From ${_user.homeCountry}',
+                              style: TextStyle(
+                                fontSize: 20.0,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 )
               ),
+              /*
               Padding(
                 padding: const EdgeInsets.only(top: 50.0),
                 child: Text(
@@ -158,7 +229,7 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                     }
                   },
                 )
-              ),
+              ),*/
             ],
           ),
         ),
