@@ -3,18 +3,32 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/postingObjects.dart';
+import 'package:househunter/Models/userObjects.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'PdfPreviewScreen.dart';
 
 // this page is used for displaying the lease
-class MyLeasePage extends StatelessWidget {
+class MyLeasePage extends StatefulWidget {
 
   MyLeasePage({Key key}) : super(key: key);
 
+  @override
+  _MyLeasePageState createState() => _MyLeasePageState();
+
+}
+
+class _MyLeasePageState extends State<MyLeasePage> {
+
   final pdf = pw.Document();
-  String chosenListing;
+
+  String chosenListingID;
+  Posting chosenPosting = Posting();
+  String chosenUserID;
+  bool isVisible = false;
+
 
   writeOnPdf(){
     pdf.addPage(
@@ -87,16 +101,55 @@ class MyLeasePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Choose a listing", style: TextStyle(fontSize: 30),),
-            new DropdownButton(
-                hint: Text('Select listing'),
-                value: chosenListing,
-                items: AppConstants.currentUser.getListOfMyPostings().map((String value) {
-                  return new DropdownMenuItem<String>(value: value, child: new Text(value),);
+            Padding(
+              padding: const EdgeInsets.only(top: 15.0),
+              child: Text("Choose a listing", style: TextStyle(fontSize: 30),),
+            ),
+            new DropdownButton<String>(
+                hint: Text('Select Posting'),
+                value: chosenListingID,
+                icon: Icon(Icons.arrow_downward),
+                iconSize: 24,
+                items: AppConstants.currentUser.myPostings.map((Posting posting) {
+                  return new DropdownMenuItem<String>(value: posting.id, child: new Text(posting.getHalfAddress()),);
                 }).toList(),
-                onChanged: (_) {}
+                onChanged: (String chosenPostingID) {
+                  setState(() {
+                    chosenListingID = chosenPostingID;
+                    print(chosenListingID);
+                    chosenPosting.id = chosenListingID;
+                    chosenPosting.getInterestedUsersFromFirestore().whenComplete(() {
+                      print('Posting info received from firestore');
+                      setState(() {
+                        isVisible = true;
+                      });
+                    });
+                  });
+                }
                 ),
-            //Text("Choose user to send lease", style: TextStyle(fontSize: 30),),
+            Padding(
+              padding: const EdgeInsets.only(top: 15.0),
+              child: Text("Choose User", style: TextStyle(fontSize: 30),),
+            ),
+            Visibility(
+              visible: isVisible,
+              child: new DropdownButton<String>(
+                  hint: Text('Select User'),
+                  value: chosenUserID,
+                  icon: Icon(Icons.arrow_downward),
+                  iconSize: 24,
+                  items: chosenPosting.interestedUsers.map((User user) {
+                    return new DropdownMenuItem<String>(value: user.id, child: new Text(user.getFullName()),);
+                  }).toList(),
+                  onChanged: (String chosenUser) {
+                    setState(() {
+                      chosenUserID = chosenUser;
+                      print(chosenUserID);
+                    });
+                  }
+              ),
+            ),
+
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 80.0, 30.0, 20.0),
               child: MaterialButton(
