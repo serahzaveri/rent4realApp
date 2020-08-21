@@ -190,6 +190,7 @@ class Posting {
 
   // adds to saved posting when red heart icon is clicked
   Future<void> addInterestedUser(User interestedUser) async {
+    await this.getInterestedUsersFromFirestore();
     this.interestedUsers.add(interestedUser);
     List<String> interested = [];
     this.interestedUsers.forEach((intUser) {

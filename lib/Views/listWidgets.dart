@@ -6,10 +6,12 @@ import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Models/messagingObjects.dart';
 import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Models/reviewObjects.dart';
+import 'package:househunter/Models/userObjects.dart';
 import 'package:househunter/Screens/viewPostingsPage.dart';
 import 'package:househunter/Screens/viewProfilePage.dart';
 
 class ReviewListTile extends StatefulWidget{
+
   final Review review;
 
   ReviewListTile({this.review, Key key}): super(key: key);
@@ -309,38 +311,74 @@ class _MyPostingListTileState extends State<MyPostingListTile> {
   @override
   void initState() {
     this._posting = widget.posting;
+    for(int i=0; i<this._posting.interestedUsers.length; i++){
+      this._posting.interestedUsers[i].getImageFromStorage().whenComplete(() {print('Got this users diplay image'); setState(() {});});
+    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.all(15.0),
-      leading: Padding(
-        padding: const EdgeInsets.only(left: 10.0),
-        child: Column(
-          children: <Widget>[
-            AutoSizeText(
-              _posting.getHalfAddress() ?? "",
-              maxLines: 2,
-              minFontSize: 20.0,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        ListTile(
+          contentPadding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
+          leading: Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Column(
+                children: <Widget>[
+                  AutoSizeText(
+                    _posting.getHalfAddress() ?? "",
+                    maxLines: 2,
+                    minFontSize: 20.0,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ],
+              )
+          ),
+          trailing: AspectRatio(
+            aspectRatio: 3/2,
+            child: Image(
+              image: _posting.displayImages.first,
+              fit: BoxFit.fitWidth,
             ),
-            /*AutoSizeText(
-              _posting.interestedUsers[0].getFullName(),
-            )*/
-          ],
-        )
-      ),
-      trailing: AspectRatio(
-        aspectRatio: 3/2,
-        child: Image(
-          image: _posting.displayImages.first,
-          fit: BoxFit.fitWidth,
+          ),
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 5.0),
+          child: Text(
+            'Interested users',
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        _posting.interestedUsers.length == 0 ? Container(
+          child: Text('No interested users yet',
+          style: TextStyle(
+            fontSize: 14.0
+          ),),
+        ) : ListView.builder(
+          itemCount: _posting.interestedUsers.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return ListTile(
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ViewProfilePage(contact: _posting.interestedUsers[index].createContactFromUser(),),
+                  )
+              ),
+              leading: CircleAvatar(backgroundImage: _posting.interestedUsers[index].displayImage,),
+              title: Text(_posting.interestedUsers[index].getFullName()),
+            );
+          },
+        )
+      ],
     );
   }
 }
