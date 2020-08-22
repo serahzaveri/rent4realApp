@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Models/userObjects.dart';
+import 'package:househunter/Screens/payMyRent.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -176,7 +177,14 @@ class _MyLeasePageState extends State<MyLeasePage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 20.0),
               child: MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PayMyRent(),
+                      )
+                  );
+                },
                 child: Text(
                   'Upload your own Lease',
                   style: TextStyle(

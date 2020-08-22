@@ -19,6 +19,8 @@ import 'package:househunter/Views/TextWidgets.dart';
 import 'package:househunter/Views/formWidgets.dart';
 import 'package:househunter/Views/listWidgets.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'conversationPage.dart';
 
@@ -119,14 +121,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                           MaterialButton(
                             color: Colors.redAccent,
                             onPressed: () {
-                              /*Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => BookPostingPage(posting: this._posting,),
-                                  )
-                              );*/
-
-                              showAlertDialog(context, _posting);
+                              _datesModalBottomSheet(context);
                             },
                             child: Text(
                               'Submit Rent Resume',
@@ -422,7 +417,127 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
     }
   }
 
-}
+  void _datesModalBottomSheet(BuildContext context) {
+
+    DateTime startDate;
+    DateTime endDate;
+
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return Container(
+                  height: MediaQuery.of(context).size.height * 0.35,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 25.0),
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 25.0),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                  child: Text(
+                                    'Preferable Lease dates',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 24.0,
+                                        fontWeight: FontWeight.bold
+                                    ),
+                                  ),
+                              ),
+                              Spacer(), // will takes the width space between text and material button
+                              IconButton(
+                                  icon: Icon(Icons.cancel, color: Colors.orange, size: 25,),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  }
+                              )
+                            ],
+                          ),
+                        ),
+                       Row(
+                         children: <Widget>[
+                           Text(
+                                'Start Date',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                ),
+                           ),
+                           Padding(
+                                padding: const EdgeInsets.only(left: 15.0),
+                                child: FloatingActionButton(onPressed: () {
+                                  showMonthPicker(
+                                      context: context,
+                                      //first and last dates set the calendar boundaries
+                                      firstDate: DateTime(DateTime.now().year, DateTime.now().month),
+                                      lastDate: DateTime(DateTime.now().year + 2,),
+                                      //dates chosen when calendar opens
+                                      initialDate: startDate ?? DateTime.now(),
+                                      locale: Locale("en")
+                                  ).then((date) {
+                                    setState(() {
+                                      startDate = date;
+                                    });
+                                    });
+                                  },
+                                  child: Icon(Icons.calendar_today),
+                                ),
+                           ),
+                           Padding(
+                                padding: const EdgeInsets.only(left: 25.0),
+                                child: Text(
+                                    'End Date',
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                    )
+                                ),
+                           ),
+                           Padding(
+                                padding: const EdgeInsets.only(left: 15.0),
+                                child: FloatingActionButton(onPressed: () {
+                                  showMonthPicker(
+                                      context: context,
+                                      //first and last dates set the calendar boundaries
+                                      firstDate: DateTime(DateTime.now().year, DateTime.now().month),
+                                      lastDate: DateTime(DateTime.now().year + 2,),
+                                      //dates chosen when calendar opens
+                                      initialDate: endDate ?? DateTime.now(),
+                                      locale: Locale("en")
+                                  ).then((date) {
+                                    setState(() {
+                                      endDate = date;
+                                    });
+                                  });
+                                },
+                                  child: Icon(Icons.calendar_today),
+                                ),
+                              ),
+                            ],
+                          ),
+                        Spacer(),
+                        MaterialButton(
+                          color: Colors.redAccent,
+                          onPressed: () {
+                            showAlertDialog(context, _posting);
+                          },
+                          child: Text(
+                            'Submit Rent Resume',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+                );
+              }
+          );
+        }
 
   //alert dialog shown to user to acknowledge that reset password email has been sent
   showAlertDialog(BuildContext context, Posting posting) {
@@ -510,6 +625,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
       );
     }
   }
+}
 
 
 
