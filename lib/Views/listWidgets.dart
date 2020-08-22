@@ -407,6 +407,10 @@ class _StatusListTileState extends State<StatusListTile> {
 
   @override
   Widget build(BuildContext context) {
+    String key = AppConstants.currentUser.datesWithListings[_posting.id];
+    if(key == null) {
+      key = 'Not initialized';
+    }
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPostingsPage(posting: _posting,)));
@@ -430,6 +434,29 @@ class _StatusListTileState extends State<StatusListTile> {
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0),
+                  child: Text(
+                    "Dates",
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0),
+                  child: Text(
+                    key,
+                    style: TextStyle(
+                      fontSize: 14.0,
                     ),
                   ),
                 ),

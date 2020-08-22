@@ -16,6 +16,7 @@ class _StatusPageState extends State<StatusPage> {
 
   @override
   Widget build(BuildContext context) {
+    AppConstants.currentUser.getUserInfoFromFirestore();
     return Scaffold(
       body: AppConstants.currentUser.myRRPostings.length==0 ? Container(
         child: Column(

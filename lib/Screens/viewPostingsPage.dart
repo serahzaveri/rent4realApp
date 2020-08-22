@@ -19,6 +19,7 @@ import 'package:househunter/Views/TextWidgets.dart';
 import 'package:househunter/Views/formWidgets.dart';
 import 'package:househunter/Views/listWidgets.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -421,6 +422,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
 
     DateTime startDate;
     DateTime endDate;
+    String dates;
 
     showModalBottomSheet(
         context: context,
@@ -479,6 +481,13 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                                   ).then((date) {
                                     setState(() {
                                       startDate = date;
+                                      if(startDate != null && endDate != null) {
+                                        var formatter= new DateFormat('yyyy-MM');
+                                        String sD = formatter.format(startDate);
+                                        String eD = formatter.format(endDate);
+                                        dates = sD + " - " + eD;
+                                        print(dates);
+                                      }
                                     });
                                     });
                                   },
@@ -508,6 +517,13 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                                   ).then((date) {
                                     setState(() {
                                       endDate = date;
+                                      if(startDate != null && endDate != null) {
+                                        var formatter= new DateFormat('yyyy-MM');
+                                        String sD = formatter.format(startDate);
+                                        String eD = formatter.format(endDate);
+                                        dates = sD + " - " + eD;
+                                        print(dates);
+                                      }
                                     });
                                   });
                                 },
@@ -520,7 +536,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                         MaterialButton(
                           color: Colors.redAccent,
                           onPressed: () {
-                            showAlertDialog(context, _posting);
+                            showAlertDialog(context, _posting, dates);
                           },
                           child: Text(
                             'Submit Rent Resume',
@@ -540,7 +556,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
         }
 
   //alert dialog shown to user to acknowledge that reset password email has been sent
-  showAlertDialog(BuildContext context, Posting posting) {
+  showAlertDialog(BuildContext context, Posting posting, String dates) {
     // set up the button
     Widget okButton = FlatButton(
       child: Text("OK"),
@@ -608,6 +624,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
     else if(AppConstants.progressUpdate == 100) {
       AppConstants.currentUser.addMyRRPosting(posting);
       posting.addInterestedUser(AppConstants.currentUser);
+      AppConstants.currentUser.updateDatesWithListings(posting.id, dates);
       print('Posting added to myRRPostings');
       showDialog(
         context: context,

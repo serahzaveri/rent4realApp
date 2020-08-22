@@ -88,6 +88,7 @@ class User extends Contact {
   List<Posting> savedPostings;
   List<Posting> myPostings;
   List<Posting> myRRPostings;
+  Map<String, String> datesWithListings;
 
   User({String id="", String firstName = "", String lastName = "", this.email = "", MemoryImage displayImage,
     this.city = "", this.country = "", this.contactNumber="", this.dateOfBirth="", this.gender="", this.school="", this.program="",
@@ -103,6 +104,7 @@ class User extends Contact {
     this.savedPostings = [];
     this.myPostings = [];
     this.myRRPostings = [];
+    this.datesWithListings = {};
   }
 
   Future<void> getUserInfoFromFirestore() async {
@@ -134,6 +136,7 @@ class User extends Contact {
     this.priorLandlordNumber = snapshot['prior landlord number'] ?? "";
     this.progressBar = snapshot['progressBar'] ?? 0;
     AppConstants.progressUpdate = snapshot['progressBar'] ?? 0;
+    this.datesWithListings = new Map<String, String>.from(snapshot['datesWithListings']) ?? {};
   }
 
 
@@ -230,6 +233,7 @@ class User extends Contact {
     };
     await Firestore.instance.document('users/${this.id}').updateData(data);
   }
+
 
   Future<void> updateUserInFirestore() async {
     Map<String,dynamic> data = {
@@ -435,6 +439,13 @@ class User extends Contact {
     });
     await Firestore.instance.document('users/${this.id}').updateData({
       'myRRPostingIDs': myRRPostingIDs,
+    });
+  }
+
+  Future<void> updateDatesWithListings(String postingID, String dates) async {
+    this.datesWithListings[postingID] = dates;
+    await Firestore.instance.document('users/${this.id}').updateData({
+      'datesWithListings': this.datesWithListings,
     });
   }
 
