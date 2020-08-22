@@ -136,7 +136,6 @@ class User extends Contact {
     this.priorLandlordNumber = snapshot['prior landlord number'] ?? "";
     this.progressBar = snapshot['progressBar'] ?? 0;
     AppConstants.progressUpdate = snapshot['progressBar'] ?? 0;
-    this.datesWithListings = new Map<String, String>.from(snapshot['datesWithListings']) ?? {};
   }
 
 
@@ -178,11 +177,8 @@ class User extends Contact {
       Posting newPosting = Posting(id: savedPostingIDs[i]);
       await newPosting.getPostingInfoFromFirestore();
       await newPosting.getFirstImageFromStorage();
-      print("Error here3");
       this.savedPostings.add(newPosting);
-      print("Got saved postings from firestore");
     }
-    print("Complete");
   }
 
   Future<void> getMyRRPostingsFromFirestore() async {
@@ -193,6 +189,11 @@ class User extends Contact {
       await newPosting.getFirstImageFromStorage();
       this.myRRPostings.add(newPosting);
     }
+  }
+
+
+  Future<void> getDatesWithListingsFromFirestore() async {
+    this.datesWithListings = Map<String, String>.from(snapshot['datesWithListings']) ?? {};
   }
 
   Future<void> addUserToFirestore() async {

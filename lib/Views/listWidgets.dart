@@ -407,8 +407,12 @@ class _StatusListTileState extends State<StatusListTile> {
 
   @override
   Widget build(BuildContext context) {
-    String key = AppConstants.currentUser.datesWithListings[_posting.id];
-    if(key == null) {
+    AppConstants.currentUser.getDatesWithListingsFromFirestore();
+    String key = "";
+    if( AppConstants.currentUser.datesWithListings[_posting.id] != null) {
+      key = AppConstants.currentUser.datesWithListings[_posting.id];
+    }
+    else{
       key = 'Not initialized';
     }
     return GestureDetector(
