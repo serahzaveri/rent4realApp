@@ -28,8 +28,10 @@ class PdfPreviewScreen extends StatelessWidget {
               ),
               backgroundColor: Colors.white,
               actions: <Widget>[
+                //send button for lease results in navigation to bookings page
                 IconButton(icon: Icon(Icons.send, color: Colors.blue), onPressed: () {
                   Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => HostHomePage(index: 0,)));
                 })
               ],
             ),
