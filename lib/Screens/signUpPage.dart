@@ -110,7 +110,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('assets/images/background_no_text.jpg')
+                        image: AssetImage('assets/images/finalCropped.jpg')
                     ),
                   ),
                 ),
@@ -126,11 +126,11 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       child: MaterialButton(
                           padding: EdgeInsets.all(0.0),
-                          color: Colors.pinkAccent,
+                          color: Colors.deepOrange,
                           child: Text(
                             'Back',
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize: 16.0,
                               color: Colors.black,
                             ),
                           ),
@@ -157,14 +157,14 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Column(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
+                          padding: const EdgeInsets.fromLTRB(40, 25, 40, 0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'First name',
                               prefixIcon: Icon(Icons.person_outline),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _firstNameController,
                             validator: (text) {
@@ -177,14 +177,14 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
+                          padding: const EdgeInsets.fromLTRB(40, 25, 40, 0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Last name',
                               prefixIcon: Icon(Icons.person_outline),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _lastNameController,
                             validator: (text) {
@@ -197,14 +197,14 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
+                          padding: const EdgeInsets.fromLTRB(40, 25, 40, 0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Email',
                               prefixIcon: Icon(Icons.email),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _emailController,
                             validator: (text) {
@@ -217,14 +217,14 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
+                          padding: const EdgeInsets.fromLTRB(40, 25, 40, 0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Password',
                               prefixIcon: Icon(Icons.lock_outline),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _passwordController,
                             validator: (text) {
@@ -238,14 +238,14 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
+                          padding: const EdgeInsets.fromLTRB(40, 25, 40, 0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Confirm Password',
                               prefixIcon: Icon(Icons.lock_outline),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _password2Controller,
                             obscureText: true,
@@ -259,14 +259,14 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
+                          padding: const EdgeInsets.fromLTRB(40, 25, 40, 0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'City',
                               prefixIcon: Icon(Icons.edit_location),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _cityController,
                             validator: (text) {
@@ -279,14 +279,14 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
+                          padding: const EdgeInsets.fromLTRB(40, 25, 40, 0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Country',
                               prefixIcon: Icon(Icons.edit_location),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _countryController,
                             validator: (text) {
@@ -327,16 +327,16 @@ class _SignUpPageState extends State<SignUpPage> {
                       'Submit',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
+                        fontSize: 18.0,
                         color: Colors.black,
                       ),
                     ),
-                    color: Colors.blue,
+                    color: Colors.deepOrangeAccent,
                     //We get the height of the screen so the buttons adjust to size of phone
-                    height: MediaQuery.of(context).size.height / 15,
+                    height: MediaQuery.of(context).size.height / 18,
                     minWidth: double.infinity,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)
+                        borderRadius: BorderRadius.circular(15)
                     ),
                   ),
                 ),

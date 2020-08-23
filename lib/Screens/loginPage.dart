@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: AssetImage('assets/images/finalBackground.jpg')
+                            image: AssetImage('assets/images/final.jpg')
                         ),
                     ),
                   ),
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                               prefixIcon: Icon(Icons.person_outline),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             validator: (text) {
                               if(!text.contains('@')) {
@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                               prefixIcon: Icon(Icons.lock_outline),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             //obscure text hides the text for password
                             obscureText: true,
@@ -145,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 25 , 5),
+                    padding: const EdgeInsets.fromLTRB(40, 30, 40 , 5),
                     child: MaterialButton(
                       onPressed: () {
                         _signIn();
@@ -154,16 +154,16 @@ class _LoginPageState extends State<LoginPage> {
                         'Login',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
+                          fontSize: 18.0,
                           color: Colors.black,
                         ),
                       ),
-                      color: Colors.lightBlue,
+                      color: Colors.deepOrangeAccent,
                       //We get the height of the screen so the buttons adjust to size of phone
                       height: MediaQuery.of(context).size.height / 15,
                       minWidth: double.infinity,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)
+                          borderRadius: BorderRadius.circular(15)
                       ),
                     ),
                   ),
@@ -177,13 +177,13 @@ class _LoginPageState extends State<LoginPage> {
                         'Dont have an account? Sign Up',
                         style: TextStyle(
                           //fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
+                          fontSize: 17.0,
                           color: Colors.black,
                         ),
                       ),
                       //color: Colors.grey,
                       //We get the height of the screen so the buttons adjust to size of phone
-                      height: MediaQuery.of(context).size.height / 17,
+                      height: MediaQuery.of(context).size.height / 18,
                       minWidth: double.infinity,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)
@@ -200,7 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                         'Forgot Passsword',
                         style: TextStyle(
                           //fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
+                          fontSize: 17.0,
                           color: Colors.black,
                         ),
                       ),

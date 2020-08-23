@@ -61,7 +61,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('assets/images/background_no_text.jpg')
+                        image: AssetImage('assets/images/finalCropped.jpg')
                     ),
                   ),
                 ),
@@ -73,7 +73,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   child: Text(
                     'Reset Password',
                     style: TextStyle(
-                      fontSize: 40.0,
+                      fontSize: 36.0,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -92,7 +92,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               prefixIcon: Icon(Icons.person_outline),
                               ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             validator: (text) {
                               if (!text.contains('@')) {
@@ -107,7 +107,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     )
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 25, 5),
+                  padding: const EdgeInsets.fromLTRB(20, 30, 25, 5),
                   child: MaterialButton(
                     onPressed: () {
                       _submit();
@@ -116,17 +116,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       'Submit',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
+                        fontSize: 18.0,
                         color: Colors.black,
                       ),
                     ),
-                    color: Colors.lightBlue,
+                    color: Colors.deepOrangeAccent,
                     //We get the height of the screen so the buttons adjust to size of phone
-                    height: MediaQuery.of(context).size.height / 15,
+                    height: MediaQuery.of(context).size.height / 18,
                     minWidth: double.infinity,
                     //shape of the submit button
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(15),
                         //colors of border of the button
                         /*side: BorderSide(
                           color: Colors.blueAccent,
