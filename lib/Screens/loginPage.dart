@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                           padding: const EdgeInsets.fromLTRB(50, 5, 50 , 10),
                           child: TextFormField(
                             decoration: InputDecoration(
-                              labelText: 'Email / Username',
+                              labelText: 'Email ID',
                               prefixIcon: Icon(Icons.person_outline),
                             ),
                             style: TextStyle(

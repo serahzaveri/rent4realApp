@@ -31,8 +31,8 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _password2Controller = TextEditingController();
-  TextEditingController _cityController = TextEditingController();
-  TextEditingController _countryController = TextEditingController();
+  String _city;
+  String _country;
   String _error;
   File _imageFile;
 
@@ -52,7 +52,13 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void _submit() async {
     FirebaseUser firebaseUser;
-    if(!_formKey.currentState.validate() || this._imageFile == null) { return; }
+    if(!_formKey.currentState.validate()) { return; }
+    if(_imageFile == null) {
+      setState(() {
+        _error = 'Picture required';
+      });
+      return;
+    }
     String email = _emailController.text;
     String password = _passwordController.text;
     try{
@@ -67,8 +73,8 @@ class _SignUpPageState extends State<SignUpPage> {
         AppConstants.currentUser.id = userID;
         AppConstants.currentUser.firstName = _firstNameController.text;
         AppConstants.currentUser.lastName = _lastNameController.text;
-        AppConstants.currentUser.city = _cityController.text;
-        AppConstants.currentUser.country = _countryController.text;
+        AppConstants.currentUser.city = _city;
+        AppConstants.currentUser.country = _country;
         AppConstants.progressUpdate = 0; //sets progress of rentResume back to 0
         AppConstants.currentUser.addUserToFirestore().whenComplete(() {
           AppConstants.currentUser.addImageToFirestore(_imageFile).whenComplete(() {
@@ -213,7 +219,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               }
                               return null;
                             },
-                            textCapitalization: TextCapitalization.words,
+                            textCapitalization: TextCapitalization.none,
                           ),
                         ),
                         Padding(
@@ -259,50 +265,70 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(40, 25, 40, 0),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'City',
-                              prefixIcon: Icon(Icons.edit_location),
+                          padding: const EdgeInsets.fromLTRB(80, 35, 45, 0),
+                          child: new DropdownButtonFormField<String>(
+                            hint: _city == null
+                                ? Text(
+                                'Choose a city',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                              ),
+                            ) : Text(
+                              _city,
+                              style: TextStyle(
+                                fontSize: 18.0,
+                              ),
                             ),
-                            style: TextStyle(
-                              fontSize: 18.0,
-                            ),
-                            controller: _cityController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid city";
-                              }
-                              return null;
-                            },
-                            textCapitalization: TextCapitalization.words,
+                            validator: (_city) => _city == null ? 'field required' : null,
+                            isExpanded: true,
+                            icon: Icon(Icons.arrow_downward),
+                            iconSize: 18,
+                            onChanged: (String newValue) {setState(() {
+                              _city = newValue;
+                            });},
+                            items: <String>['Montreal',].map((String value) {
+                              return new DropdownMenuItem<String>(
+                                value: value,
+                                child: new Text(value),
+                              );
+                            }).toList(),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(40, 25, 40, 0),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'Country',
-                              prefixIcon: Icon(Icons.edit_location),
+                          padding: const EdgeInsets.fromLTRB(80, 35, 45, 0),
+                          child: new DropdownButtonFormField<String>(
+                            hint: _country == null
+                                ? Text(
+                              'Choose a country',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                              ),
+                            ) : Text(
+                              _country,
+                              style: TextStyle(
+                                fontSize: 18.0,
+                              ),
                             ),
-                            style: TextStyle(
-                              fontSize: 18.0,
-                            ),
-                            controller: _countryController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid country";
-                              }
-                              return null;
-                            },
-                            textCapitalization: TextCapitalization.words,
+                            validator: (_country) => _country == null ? 'field required' : null,
+                            isExpanded: true,
+                            icon: Icon(Icons.arrow_downward),
+                            iconSize: 18,
+                            onChanged: (String newValue) {setState(() {
+                              _country = newValue;
+                            });},
+                            items: <String>['Canada',].map((String value) {
+                              return new DropdownMenuItem<String>(
+                                value: value,
+                                child: new Text(value),
+                              );
+                            }).toList(),
                           ),
                         ),
                       ],
                     )
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
+                  padding: const EdgeInsets.fromLTRB(25, 40, 25, 0),
                   child: MaterialButton(
                     onPressed: _chooseImage,
                     child: CircleAvatar(

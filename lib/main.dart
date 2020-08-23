@@ -93,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     Timer(Duration(seconds: 2), () {
       //we navigate to the LoginPage screen
+      if(!mounted) return;
       Navigator.pushNamed(context, LoginPage.routeName);
     });
     super.initState();

@@ -81,105 +81,107 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 80, 15, 0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(bottom: 15.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                MaterialButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ViewProfilePage(contact: AppConstants.currentUser.createContactFromUser(),),
-                        )
-                    );
-                  },
-                  child: CircleAvatar(
-                    backgroundColor: Colors.black,
-                    radius: MediaQuery.of(context).size.width / 9.5,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(15, 80, 15, 0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(bottom: 15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewProfilePage(contact: AppConstants.currentUser.createContactFromUser(),),
+                          )
+                      );
+                    },
                     child: CircleAvatar(
-                      backgroundImage: AppConstants.currentUser.displayImage,
-                      radius: MediaQuery.of(context).size.width / 10,
+                      backgroundColor: Colors.black,
+                      radius: MediaQuery.of(context).size.width / 9.5,
+                      child: CircleAvatar(
+                        backgroundImage: AppConstants.currentUser.displayImage,
+                        radius: MediaQuery.of(context).size.width / 10,
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      AutoSizeText(
-                        AppConstants.currentUser.getFullName(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        AutoSizeText(
+                          AppConstants.currentUser.getFullName(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                          ),
                         ),
-                      ),
-                      AutoSizeText(
-                        AppConstants.currentUser.email,
-                        style: TextStyle(
-                          fontSize: 15,
+                        AutoSizeText(
+                          AppConstants.currentUser.email,
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
+                ],
+              ),
+            ),
+            ListView (
+              shrinkWrap: true,
+              children: <Widget>[
+                MaterialButton(
+                  height: MediaQuery.of(context).size.height / 9.0,
+                  onPressed: () {
+                    Navigator.pushNamed(context, PersonalInfoPage.routeName);
+                  },
+                  child: AccountPageListTile(text: 'Personal Information', iconData: Icons.person, percent: null,)
+                ),
+                Visibility(
+                  visible: _isRentResumeVisible,
+                  child: MaterialButton (
+                      height: MediaQuery.of(context).size.height / 9.0,
+                      onPressed: _myRentResume,
+                      child: AccountPageListTile(text: 'My Rent Resume ', iconData: Icons.picture_as_pdf, percent: AppConstants.progressUpdate,),
+
+                  ),
+                ),
+                MaterialButton(
+                    height: MediaQuery.of(context).size.height / 9.0,
+                    onPressed: _changeHosting,
+                    child: AccountPageListTile(text: _hostingTitle, iconData: Icons.home, percent: null,)
+                ),
+                MaterialButton(
+                    height: MediaQuery.of(context).size.height / 9.0,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PayMyRent(),
+                          )
+                      );
+                    },
+                    child: AccountPageListTile(text: 'How this works', iconData: Icons.device_unknown, percent: null,)
+                ),
+                MaterialButton(
+                    height: MediaQuery.of(context).size.height / 9.0,
+                    onPressed: _logout,
+                    child: AccountPageListTile(text: 'Logout', iconData: null, percent: null,)
                 ),
               ],
             ),
-          ),
-          ListView (
-            shrinkWrap: true,
-            children: <Widget>[
-              MaterialButton(
-                height: MediaQuery.of(context).size.height / 9.0,
-                onPressed: () {
-                  Navigator.pushNamed(context, PersonalInfoPage.routeName);
-                },
-                child: AccountPageListTile(text: 'Personal Information', iconData: Icons.person, percent: null,)
-              ),
-              Visibility(
-                visible: _isRentResumeVisible,
-                child: MaterialButton (
-                    height: MediaQuery.of(context).size.height / 9.0,
-                    onPressed: _myRentResume,
-                    child: AccountPageListTile(text: 'My Rent Resume ', iconData: Icons.picture_as_pdf, percent: AppConstants.progressUpdate,),
+          ],
+        ),
 
-                ),
-              ),
-              MaterialButton(
-                  height: MediaQuery.of(context).size.height / 9.0,
-                  onPressed: _changeHosting,
-                  child: AccountPageListTile(text: _hostingTitle, iconData: Icons.home, percent: null,)
-              ),
-              MaterialButton(
-                  height: MediaQuery.of(context).size.height / 9.0,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PayMyRent(),
-                        )
-                    );
-                  },
-                  child: AccountPageListTile(text: 'How this works', iconData: Icons.device_unknown, percent: null,)
-              ),
-              MaterialButton(
-                  height: MediaQuery.of(context).size.height / 9.0,
-                  onPressed: _logout,
-                  child: AccountPageListTile(text: 'Logout', iconData: null, percent: null,)
-              ),
-            ],
-          ),
-        ],
       ),
-
     );
   }
 }
