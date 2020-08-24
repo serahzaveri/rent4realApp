@@ -94,14 +94,7 @@ class _AccountPageState extends State<AccountPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   MaterialButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ViewProfilePage(contact: AppConstants.currentUser.createContactFromUser(),),
-                          )
-                      );
-                    },
+                    onPressed: () {},
                     child: CircleAvatar(
                       backgroundColor: Colors.black,
                       radius: MediaQuery.of(context).size.width / 9.5,
@@ -120,7 +113,7 @@ class _AccountPageState extends State<AccountPage> {
                           AppConstants.currentUser.getFullName(),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 25,
+                            fontSize: 23,
                           ),
                         ),
                         AutoSizeText(
@@ -201,7 +194,7 @@ class AccountPageListTile extends StatelessWidget {
       contentPadding: EdgeInsets.all(0.0),
       leading: this.percent == null ? Text('') : CircularPercentIndicator(
         percent: this.percent.toDouble() / 100,
-        progressColor: Colors.red,
+        progressColor: Colors.redAccent,
         center: new Text(this.percent.toString() + '%'),
         backgroundColor: Colors.grey,
         radius: 50.0,
@@ -210,7 +203,7 @@ class AccountPageListTile extends StatelessWidget {
       title:  Text(
         this.text,
         style: TextStyle(
-          fontSize: 20.0,
+          fontSize: 18.0,
         ),
       ),
       trailing: Icon(

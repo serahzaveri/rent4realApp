@@ -21,12 +21,13 @@ class _RentResumePagePageState extends State<RentResumePage> {
 
   final _formKey = GlobalKey<FormState>();
   int _progressBar =  0;
+  DateTime _selectedDate;
+  String _dob;
   TextEditingController _firstNameController;
   TextEditingController _lastNameController;
   TextEditingController _emailController;
   TextEditingController _contactNumberController = TextEditingController();
-  TextEditingController _dateOfBirthController = TextEditingController();
-  TextEditingController _genderController = TextEditingController();
+  String _gender;
   TextEditingController _schoolController = TextEditingController();
   TextEditingController _programController = TextEditingController();
   TextEditingController _yearController = TextEditingController();
@@ -57,10 +58,10 @@ class _RentResumePagePageState extends State<RentResumePage> {
     if(_contactNumberController.text != ""){
       _progressBar += 5;
     }
-    if(_dateOfBirthController.text != ""){
+    if(_dob != null){
       _progressBar += 5;
     }
-    if(_genderController.text != ""){
+    if(_gender != null){
       _progressBar += 5;
     }
     if(_schoolController.text != ""){
@@ -116,8 +117,8 @@ class _RentResumePagePageState extends State<RentResumePage> {
     AppConstants.currentUser.lastName = _lastNameController.text;
     AppConstants.currentUser.email = _emailController.text;
     AppConstants.currentUser.contactNumber = _contactNumberController.text;
-    AppConstants.currentUser.dateOfBirth = _dateOfBirthController.text;
-    AppConstants.currentUser.gender = _genderController.text;
+    AppConstants.currentUser.dateOfBirth = _dob;
+    AppConstants.currentUser.gender = _gender;
     AppConstants.currentUser.school = _schoolController.text;
     AppConstants.currentUser.program = _programController.text;
     AppConstants.currentUser.yearOfSchool = _yearController.text;
@@ -141,14 +142,26 @@ class _RentResumePagePageState extends State<RentResumePage> {
     });
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1960, 8),
+        lastDate: DateTime.now());
+    if (picked != null)
+      setState(() {
+        _selectedDate = picked;
+      });
+  }
+
   @override
   void initState() {
     _firstNameController = TextEditingController(text: AppConstants.currentUser.firstName);
     _lastNameController = TextEditingController(text: AppConstants.currentUser.lastName);
     _emailController = TextEditingController(text: AppConstants.currentUser.email);
     _contactNumberController = TextEditingController(text: AppConstants.currentUser.contactNumber);
-    _dateOfBirthController = TextEditingController(text: AppConstants.currentUser.dateOfBirth);
-    _genderController = TextEditingController(text: AppConstants.currentUser.gender);
+    _dob = AppConstants.currentUser.dateOfBirth;
+    _gender = AppConstants.currentUser.gender;
     _schoolController = TextEditingController(text: AppConstants.currentUser.school);
     _programController = TextEditingController(text: AppConstants.currentUser.program);
     _yearController = TextEditingController(text: AppConstants.currentUser.yearOfSchool);
@@ -176,28 +189,43 @@ class _RentResumePagePageState extends State<RentResumePage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: Colors.deepOrange, size: 25.0),
           onPressed: (){
             _saveInfo();
             Navigator.pushNamed(context, GuestHomePage.routeName);
           }
-          //onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
           'My Rent Resume',
           style: TextStyle(
             color: Colors.black,
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
           )
         ),
         backgroundColor: Colors.white,
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.save, color: Colors.blue), onPressed: _saveInfo)
+          MaterialButton(
+            onPressed: _saveInfo,
+            color: Colors.deepOrange,
+            child: Text(
+              'Save',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 15.0,
+              ),
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15)
+            ),
+          ),
+          //IconButton(icon: Icon(Icons.save, color: Colors.blue), onPressed: _saveInfo)
         ],
       ),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
+            padding: const EdgeInsets.fromLTRB(40, 25, 40, 0),
             child: Column(
               //mainAxisAlignment centers the children vertically
               mainAxisAlignment: MainAxisAlignment.start,
@@ -209,7 +237,7 @@ class _RentResumePagePageState extends State<RentResumePage> {
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: new LinearPercentIndicator(
-                            width: MediaQuery.of(context).size.width - 80,
+                            width: MediaQuery.of(context).size.width - 100,
                             animation: true,
                             animationDuration: 2000,
                             lineHeight: 20.0,
@@ -219,7 +247,7 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               style: new TextStyle(fontSize: 12.0),
                             ),
                             backgroundColor: Colors.grey,
-                            progressColor: Colors.blue,
+                            progressColor: Colors.redAccent,
                             linearStrokeCap: LinearStrokeCap.roundAll,
                           ),
                         ),
@@ -231,15 +259,9 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               icon: const Icon(Icons.person),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _firstNameController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid first name";
-                              }
-                              return null;
-                            },
                             textCapitalization: TextCapitalization.words,
                           ),
                         ),
@@ -251,15 +273,9 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               icon: const Icon(Icons.person),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _lastNameController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid last name";
-                              }
-                              return null;
-                            },
                             textCapitalization: TextCapitalization.words,
                           ),
                         ),
@@ -271,75 +287,96 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               icon: const Icon(Icons.mail_outline),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid email ID";
-                              }
-                              return null;
-                            },
+                            enabled: false,
                             controller: _emailController,
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                          child: Text(
+                            'Email ID cant be changed',
+                            style: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 10.0,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 12.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Cell Phone',
                               icon: const Icon(Icons.phone),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             keyboardType: TextInputType.number,
                             controller: _contactNumberController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid contact number";
-                              }
-                              return null;
-                            },
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'Date of Birth',
-                              icon: const Icon(Icons.calendar_today),
-                            ),
-                            style: TextStyle(
-                              fontSize: 20.0,
-                            ),
-                            controller: _dateOfBirthController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid date of birth";
-                              }
-                              return null;
-                            },
-                            textCapitalization: TextCapitalization.words,
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(right: 15.0),
+                                child: Icon(Icons.calendar_today, color: Colors.black45,),
+                              ),
+                              _dob == null ? Text(
+                                'Date of Birth',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.black54,
+                                ),
+                              ) : Text(
+                                _dob,
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                              Spacer(),
+                              RaisedButton(
+                                onPressed: () {
+                                  _selectDate(context).whenComplete(() {
+                                    _dob = _selectedDate.toLocal().toString().split(' ')[0];
+                                  });
+                                },
+                                child: Text('Select date'),
+                              ),
+                            ],
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                                labelText: 'Gender',
-                              icon: const Icon(Icons.arrow_drop_down),
+                          padding: const EdgeInsets.only(top: 20.0, left: 25.0),
+                          child: new DropdownButtonFormField<String>(
+                            hint: _gender == null
+                                ? Text(
+                              'Pick Gender',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                              ),
+                            ) : Text(
+                              'Gender:  $_gender',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                              ),
                             ),
-                            style: TextStyle(
-                              fontSize: 20.0,
-                            ),
-                            controller: _genderController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please choose an option";
-                              }
-                              return null;
-                            },
-                            textCapitalization: TextCapitalization.words,
+                            validator: (_gender) => _gender == null ? 'field required' : null,
+                            isExpanded: true,
+                            icon: Icon(Icons.arrow_downward),
+                            iconSize: 18,
+                            onChanged: (String newValue) {setState(() {
+                              _gender = newValue;
+                            });},
+                            items: <String>['Cis male', 'Cis female', 'Transgender', 'Intersex', 'Non-binary', 'Other', 'Prefer not to say'].map((String value) {
+                              return new DropdownMenuItem<String>(
+                                value: value,
+                                child: new Text(value),
+                              );
+                            }).toList(),
                           ),
                         ),
                         Padding(
@@ -350,15 +387,9 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               icon: const Icon(Icons.school),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _schoolController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid last name";
-                              }
-                              return null;
-                            },
                             textCapitalization: TextCapitalization.words,
                           ),
                         ),
@@ -370,15 +401,9 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               icon: const Icon(Icons.school),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _programController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid last name";
-                              }
-                              return null;
-                            },
                             textCapitalization: TextCapitalization.words,
                           ),
                         ),
@@ -390,15 +415,9 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               icon: const Icon(Icons.school),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _yearController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid last name";
-                              }
-                              return null;
-                            },
                             textCapitalization: TextCapitalization.words,
                           ),
                         ),
@@ -410,15 +429,9 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               icon: const Icon(Icons.local_airport),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _homeCountryController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid last name";
-                              }
-                              return null;
-                            },
                             textCapitalization: TextCapitalization.words,
                           ),
                         ),
@@ -430,15 +443,9 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               icon: const Icon(Icons.warning),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _emergencyContactNameController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid emergency contact";
-                              }
-                              return null;
-                            },
                             textCapitalization: TextCapitalization.words,
                           ),
                         ),
@@ -450,15 +457,9 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               icon: const Icon(Icons.person_pin),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _relationshipController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid relationship to emergency contact";
-                              }
-                              return null;
-                            },
                             textCapitalization: TextCapitalization.words,
                           ),
                         ),
@@ -470,36 +471,34 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               icon: const Icon(Icons.warning),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             keyboardType: TextInputType.number,
                             controller: _emergencyContactNumberController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid contact number";
-                              }
-                              return null;
-                            },
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                          child: Text(
+                            'If you are living with your parents write parents address and rent as 0. Also add parents name and number for landlord details',
+                            style: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 10.0,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Present address',
                               icon: const Icon(Icons.add_location),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _presentAddressController,
                             maxLines: 3,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid present address";
-                              }
-                              return null;
-                            },
                             textCapitalization: TextCapitalization.sentences,
                           ),
                         ),
@@ -511,16 +510,10 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               icon: const Icon(Icons.attach_money),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             keyboardType: TextInputType.number,
                             controller: _presentRentController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid rent amount";
-                              }
-                              return null;
-                            },
                           ),
                         ),
                         Padding(
@@ -531,17 +524,10 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               icon: const Icon(Icons.person_pin),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _presentLandlordNameController,
-                            maxLines: 3,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid prior address";
-                              }
-                              return null;
-                            },
-                            textCapitalization: TextCapitalization.sentences,
+                            textCapitalization: TextCapitalization.words,
                           ),
                         ),
                         Padding(
@@ -552,16 +538,10 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               icon: const Icon(Icons.phone),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             keyboardType: TextInputType.number,
                             controller: _presentLandlordNumberController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid number";
-                              }
-                              return null;
-                            },
                           ),
                         ),
                         Padding(
@@ -572,16 +552,10 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               icon: const Icon(Icons.add_location),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _priorAddressController,
                             maxLines: 3,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid prior address";
-                              }
-                              return null;
-                            },
                             textCapitalization: TextCapitalization.sentences,
                           ),
                         ),
@@ -593,16 +567,10 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               icon: const Icon(Icons.attach_money),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             keyboardType: TextInputType.number,
                             controller: _priorRentController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid rent amount";
-                              }
-                              return null;
-                            },
                           ),
                         ),
                         Padding(
@@ -613,17 +581,10 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               icon: const Icon(Icons.person_pin),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _priorLandlordNameController,
-                            maxLines: 3,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid prior address";
-                              }
-                              return null;
-                            },
-                            textCapitalization: TextCapitalization.sentences,
+                            textCapitalization: TextCapitalization.words,
                           ),
                         ),
                         Padding(
@@ -634,16 +595,10 @@ class _RentResumePagePageState extends State<RentResumePage> {
                               icon: const Icon(Icons.phone),
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             keyboardType: TextInputType.number,
                             controller: _priorLandlordNumberController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid number";
-                              }
-                              return null;
-                            },
                           ),
                         ),
                       ],

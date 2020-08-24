@@ -68,17 +68,28 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: AppBarText(text: 'Personal Information'),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.save, color: Colors.white), onPressed: _saveInfo)
-        ],
+      appBar: new AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.deepOrangeAccent, size: 25.0),
+            onPressed: () {
+              Navigator.pop(context);
+            }
+            ),
+        title: Text(
+          'Personal Information',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.white,
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it in the middle of the parent.
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
+            padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
             child: Column(
               //mainAxisAlignment centers the children vertically
               mainAxisAlignment: MainAxisAlignment.start,
@@ -88,13 +99,13 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                     child: Column(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.only(top: 10.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: 'First name'
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _firstNameController,
                             validator: (text) {
@@ -113,7 +124,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                 labelText: 'Last name'
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _lastNameController,
                             validator: (text) {
@@ -132,49 +143,70 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                 labelText: 'Email ID'
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
+                            // email ID cant be changed so enabled is false
                             enabled: false,
                             controller: _emailController,
                           ),
                         ),
-
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                          child: Text(
+                            'Email ID cant be changed',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10.0,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: 'City'
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _cityController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid city";
-                              }
-                              return null;
-                            },
-                            textCapitalization: TextCapitalization.words,
+                            // city cant be changed rn since it is only available in Montreal so enabled is false
+                            enabled: false,
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                          child: Text(
+                            'Not editable since currently available in Montreal only',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10.0,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: 'Country'
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _countryController,
-                            validator: (text) {
-                              if(text.isEmpty) {
-                                return "Please enter a valid country";
-                              }
-                              return null;
-                            },
+                            // country cant be changed rn since it is only available in Canada so enabled is false
+                            enabled: false,
                             textCapitalization: TextCapitalization.words,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                          child: Text(
+                            'Not editable since currently available in Canada only',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10.0,
+                            ),
                           ),
                         ),
                       ],
@@ -196,7 +228,26 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                     ),
                   ),
                 ),
-
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 35),
+                  child: MaterialButton(
+                    onPressed: _saveInfo,
+                    child: Text(
+                      'Update',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                        color: Colors.black,
+                      ),
+                    ),
+                    color: Colors.deepOrangeAccent,
+                    height: MediaQuery.of(context).size.height / 18,
+                    minWidth: double.infinity,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

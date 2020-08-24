@@ -295,6 +295,17 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                          child: Text(
+                            'Currently available in Montreal only',
+                            style: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 12.0,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Padding(
                           padding: const EdgeInsets.fromLTRB(80, 35, 45, 0),
                           child: new DropdownButtonFormField<String>(
                             hint: _country == null
@@ -326,6 +337,17 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ],
                     )
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: Text(
+                    'Currently available in Canada only',
+                    style: TextStyle(
+                      color: Colors.redAccent,
+                      fontSize: 12.0,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(25, 40, 25, 0),
