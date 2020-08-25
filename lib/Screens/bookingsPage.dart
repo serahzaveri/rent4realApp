@@ -18,7 +18,6 @@ class BookingsPage extends StatefulWidget {
 class _BookingsPageState extends State<BookingsPage> {
 
   Future userFuture;
-
   List<Posting> postingsWithBookings = [];
 
   @override

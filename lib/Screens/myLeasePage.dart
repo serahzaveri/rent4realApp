@@ -95,7 +95,10 @@ class _MyLeasePageState extends State<MyLeasePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text("Lease"),
+        title: Text(
+            "Send lease",
+        ),
+        backgroundColor: Colors.deepOrangeAccent,
       ),
       body: Container(
         width: double.infinity,
@@ -105,63 +108,115 @@ class _MyLeasePageState extends State<MyLeasePage> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 15.0),
-              child: Text("Choose a listing", style: TextStyle(fontSize: 30),),
-            ),
-            new DropdownButton<String>(
-                hint: Text('Select Posting'),
-                value: chosenListingID,
-                icon: Icon(Icons.arrow_downward),
-                iconSize: 24,
-                items: AppConstants.currentUser.myPostings.map((Posting posting) {
-                  return new DropdownMenuItem<String>(value: posting.id, child: new Text(posting.getHalfAddress()),);
-                }).toList(),
-                onChanged: (String chosenPostingID) {
-                  setState(() {
-                    chosenListingID = chosenPostingID;
-                    print(chosenListingID);
-                    chosenPosting.id = chosenListingID;
-                    chosenPosting.getInterestedUsersFromFirestore().whenComplete(() {
-                      print('Posting info received from firestore');
-                      setState(() {
-                        isVisible = true;
-                      });
-                    });
-                  });
-                }
+              child: Text(
+                "Step 1: Choose a listing",
+                style: TextStyle(
+                    fontSize: 22,
+                  fontWeight: FontWeight.bold
                 ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 15.0),
-              child: Text("Choose User", style: TextStyle(fontSize: 30),),
+              child: Container(
+                width: MediaQuery.of(context).size.width / 1.5,
+                child: new DropdownButton<String>(
+                    hint: Text(
+                        'Select Posting',
+                      style: TextStyle(
+                        fontSize: 18.0
+                      ),
+                    ),
+                    isExpanded: true, //makes the arrow at the absolute end
+                    value: chosenListingID,
+                    icon: Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    items: AppConstants.currentUser.myPostings.map((Posting posting) {
+                      return new DropdownMenuItem<String>(value: posting.id, child: new Text(posting.getHalfAddress()),);
+                    }).toList(),
+                    onChanged: (String chosenPostingID) {
+                      setState(() {
+                        chosenListingID = chosenPostingID;
+                        chosenPosting.id = chosenListingID;
+                        chosenPosting.getInterestedUsersFromFirestore().whenComplete(() {
+                          setState(() {
+                            isVisible = true;
+                          });
+                        });
+                      });
+                    }
+                    ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 25.0),
+              child: Text(
+                "Step 2: Choose User",
+                style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold
+                ),
+              ),
             ),
             Visibility(
               visible: isVisible,
-              child: new DropdownButton<String>(
-                  hint: Text('Select User'),
-                  value: chosenUserID,
-                  icon: Icon(Icons.arrow_downward),
-                  iconSize: 24,
-                  items: chosenPosting.interestedUsers.map((User user) {
-                    return new DropdownMenuItem<String>(value: user.id, child: new Text(user.getFullName()),);
-                  }).toList(),
-                  onChanged: (String chosenUser) {
-                    setState(() {
-                      chosenUserID = chosenUser;
-                      print(chosenUserID);
-                      interestUser.id = chosenUser;
-                      interestUser.getUserInfoFromFirestore();
-                      interestUser.getDatesWithListingsFromFirestore();
-                      print('User side complete');
-                    });
-                  }
+              child: Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 1.5,
+                  child: new DropdownButton<String>(
+                      hint: Text('Select User'),
+                      value: chosenUserID,
+                      isExpanded: true, //makes the arrow at the absolute end
+                      icon: Icon(Icons.arrow_downward),
+                      iconSize: 24,
+                      items: chosenPosting.interestedUsers.map((User user) {
+                        return new DropdownMenuItem<String>(value: user.id, child: new Text(user.getFullName()),);
+                      }).toList(),
+                      onChanged: (String chosenUser) {
+                        setState(() {
+                          chosenUserID = chosenUser;
+                          print(chosenUserID);
+                          interestUser.id = chosenUser;
+                          interestUser.getUserInfoFromFirestore();
+                          interestUser.getDatesWithListingsFromFirestore();
+                          print('User side complete');
+                        });
+                      }
+                  ),
+                ),
               ),
             ),
-
+            Visibility(
+              visible: !isVisible,
+                child: SizedBox(
+                  height: 25.0,
+                  width: 25.0,
+                  child: CircularProgressIndicator(),
+                )
+            ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(30.0, 80.0, 30.0, 20.0),
+              padding: const EdgeInsets.only(top: 25.0),
+              child: Text(
+                "Step 3: View & Send lease ",
+                style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 35.0),
               child: MaterialButton(
                 onPressed: () async {
-                  if(chosenListingID == null) {return ;}
-                  if(chosenUserID == null) {return ;}
+                  if(chosenListingID == null) {
+                    showAlertDialog(context);
+                    return ;
+                  }
+                  if(chosenUserID == null) {
+                    showAlertDialog(context);
+                    return ;
+                  }
                   writeOnPdf();
                   await savePdf();
                   Directory documentDirectory = await getApplicationDocumentsDirectory();
@@ -182,7 +237,7 @@ class _MyLeasePageState extends State<MyLeasePage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 20.0),
+              padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
               child: MaterialButton(
                 onPressed: () {
                   Navigator.push(
@@ -208,5 +263,32 @@ class _MyLeasePageState extends State<MyLeasePage> {
 
     );
   }
+
+  //alert dialog shown to user to acknowledge that reset password email has been sent
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop(); //disables alert dialog
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Details incomplete"),
+      content: Text("Please choose listing and user before viewing & sending sample lease "),
+      actions: [
+        okButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
   }
+
 
