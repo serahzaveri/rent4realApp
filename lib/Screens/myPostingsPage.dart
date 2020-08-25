@@ -45,7 +45,7 @@ class _MyPostingsPageState extends State<MyPostingsPage> {
                     color: Colors.grey,
                     width: 1.0,
                   ),
-                  borderRadius: BorderRadius.circular(5.0),
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
                 child: index == AppConstants.currentUser.myPostings.length ?
                 CreatePostingListTile() :

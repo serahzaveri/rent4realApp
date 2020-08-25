@@ -17,33 +17,14 @@ class BookingsPage extends StatefulWidget {
 
 class _BookingsPageState extends State<BookingsPage> {
 
-  List<DateTime> _bookedDates = [];
-  List<DateTime> _allBookedDates = [];
-  Posting _selectedPosting;
-
-  List<DateTime> _getSelectedDates() {
-    return [];
-  }
-
-  void _selectDate(DateTime date) {}
-
-  void _selectAPosting(Posting posting) {
-    _selectedPosting = posting;
-    this._bookedDates = posting.getAllBookedDates();
-    setState(() {});
-  }
-
-  void _clearSelectedPosting() {
-    this._bookedDates = _allBookedDates;
-    this._selectedPosting = null;
-    setState(() {
-    });
-  }
+  List<Posting> postingsWithBookings = [];
 
   @override
   void initState() {
-    this._bookedDates = AppConstants.currentUser.getAllBookedDates();
-    this._allBookedDates = AppConstants.currentUser.getAllBookedDates();
+    //gets postings of landlord and updates all posting with bookings
+    AppConstants.currentUser.getMyPostingsFromFirestore();
+    //gets all posting that have bookings
+    postingsWithBookings = AppConstants.currentUser.getPostingsWithBookings();
     super.initState();
   }
 
@@ -54,48 +35,39 @@ class _BookingsPageState extends State<BookingsPage> {
         padding: const EdgeInsets.fromLTRB(25, 50, 25, 0),
         child: Column(
           children: <Widget>[
-            /*
             Padding(
-              padding: const EdgeInsets.only(top: 25.0, bottom: 35.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Text('Sun'),
-                  Text('Mon'),
-                  Text('Tue'),
-                  Text('Wed'),
-                  Text('Thu'),
-                  Text('Fri'),
-                  Text('Sat')
-                ],
-              ),
-            ),
-            Container(
-                height: MediaQuery.of(context).size.height / 1.9,
-                child: PageView.builder(
-                  //no of months it will display
-                  itemCount: 12,
+              padding: const EdgeInsets.only(top: 5.0, bottom: 25.0),
+              child: this.postingsWithBookings.length !=0 ? ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: this.postingsWithBookings.length,
                   itemBuilder: (context, index) {
-                    return CalendarMonthWidget(monthIndex: index, bookedDates: this._bookedDates, selectDate: _selectDate, getSelectedDates: _getSelectedDates,);
-                  },
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 25.0),
+                      child: InkResponse(
+                      onTap: () {},
+                      child: Container(
+                        child: BookingsListTile(posting: this.postingsWithBookings[index],),
+                      ),
+                      ),
+                    );
+                  }
+                  ) :
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 25.0),
+                child: Container(
+                    child: Text(
+                      'No bookings yet',
+                      style: TextStyle(
+                          fontSize: 22.0
+                      ),
+                    )
                 ),
-              ),*/
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 25.0),
-              child: Container(
-                child: Text(
-                  'No bookings yet',
-                style: TextStyle(
-                  fontSize: 22.0
-                ),
-                )
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 25.0),
               child: Container(
-                color: Colors.yellowAccent,
+                  color: Colors.yellowAccent,
                   child: Text(
                     'Filed Maintenace Requests',
                     style: TextStyle(
@@ -108,7 +80,7 @@ class _BookingsPageState extends State<BookingsPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 25.0),
               child: Container(
-                color: Colors.redAccent,
+                  color: Colors.redAccent,
                   child: Text(
                     'Payment History',
                     style: TextStyle(
@@ -116,58 +88,6 @@ class _BookingsPageState extends State<BookingsPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   )
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20.0, 25.0, 0.0, 15.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Filter by Posting',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  MaterialButton(
-                    onPressed: _clearSelectedPosting,
-                    child: Text(
-                      'Reset',
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-        Padding(
-          padding: const EdgeInsets.only(top: 5.0, bottom: 25.0),
-          child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: AppConstants.currentUser.myPostings.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 25.0),
-                  child: InkResponse(
-                    onTap: () {
-                      _selectAPosting(AppConstants.currentUser.myPostings[index]);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: _selectedPosting == AppConstants.currentUser.myPostings[index] ? Colors.yellow : Colors.grey,
-                          width: 1.0,
-                          ),
-                        borderRadius: BorderRadius.circular(5.0),
-                        ),
-                      child: MyPostingListTile(posting: AppConstants.currentUser.myPostings[index],),
-                      ),
-                    ),
-                  );
-                }
               ),
             ),
           ],

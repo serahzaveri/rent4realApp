@@ -19,8 +19,8 @@ List<SmartSelectOption<String>> numbers = [
 ];
 
 List<SmartSelectOption<String>> personalTitle = [
-  SmartSelectOption<String>(value: 'Landlord', title: 'Landlord seeking lease creation'),
-  SmartSelectOption<String>(value: 'Tenant', title: 'Tenant seeking sublet'),
+  SmartSelectOption<String>(value: 'Landlord seeking lease creation', title: 'Landlord seeking lease creation'),
+  SmartSelectOption<String>(value: 'Tenant seeking sublet', title: 'Tenant seeking sublet'),
 ];
 
 List<SmartSelectOption<String>> leaseType = [

@@ -28,6 +28,7 @@ class _MyLeasePageState extends State<MyLeasePage> {
   String chosenListingID;
   Posting chosenPosting = Posting();
   String chosenUserID;
+  User interestUser = User();
   bool isVisible = false;
 
 
@@ -146,6 +147,10 @@ class _MyLeasePageState extends State<MyLeasePage> {
                     setState(() {
                       chosenUserID = chosenUser;
                       print(chosenUserID);
+                      interestUser.id = chosenUser;
+                      interestUser.getUserInfoFromFirestore();
+                      interestUser.getDatesWithListingsFromFirestore();
+                      print('User side complete');
                     });
                   }
               ),
@@ -155,13 +160,15 @@ class _MyLeasePageState extends State<MyLeasePage> {
               padding: const EdgeInsets.fromLTRB(30.0, 80.0, 30.0, 20.0),
               child: MaterialButton(
                 onPressed: () async {
+                  if(chosenListingID == null) {return ;}
+                  if(chosenUserID == null) {return ;}
                   writeOnPdf();
                   await savePdf();
                   Directory documentDirectory = await getApplicationDocumentsDirectory();
                   String documentPath = documentDirectory.path;
                   String fullPath = "$documentPath/example.pdf";
                   Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => PdfPreviewScreen(path: fullPath,)
+                      builder: (context) => PdfPreviewScreen(path: fullPath, posting: chosenPosting, interestedTenant: interestUser,)
                   ));
                 },
                   child: Text(

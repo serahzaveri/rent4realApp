@@ -22,7 +22,7 @@ class HostHomePage extends StatefulWidget {
 
 class _HostHomePageState extends State<HostHomePage> {
   //Setting it to 4 results it to going directly to the profile page after logging in
-  int _selectedIndex = 4;
+  int _selectedIndex = 1;
 
   final List<String> _pageTitles = [
     'Bookings',
@@ -56,7 +56,7 @@ class _HostHomePageState extends State<HostHomePage> {
   @override
   void initState() {
     //we do this so after creating a post it navigates to the myPostings tab and not profile tab
-    this._selectedIndex = widget.index ?? 4;
+    this._selectedIndex = widget.index ?? 1;
     super.initState();
   }
 

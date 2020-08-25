@@ -48,7 +48,7 @@ class _BookPostingPageState extends State<BookPostingPage> {
     });
     print(this._selectedDates);
   }
-
+  /*
   void _loadBookedDates() {
     _bookedDates = [];
     this._posting.getAllBookingsFromFirestore().whenComplete(() {
@@ -56,21 +56,22 @@ class _BookPostingPageState extends State<BookPostingPage> {
       this._buildCalendarWidgets();
     });
   }
-
+*/
   void _makeBooking() {
+    /*
     if(AppConstants.currentUser.getFullName() == this._posting.host.getFullName()){
       return;
-    }
-    if(this._selectedDates.isEmpty) { return; }
-    this._posting.makeNewBooking(this._selectedDates, context).whenComplete(() {
+    }*/
+    //if(this._selectedDates.isEmpty) { return; }
+    //this._posting.makeNewBooking(this._selectedDates, context).whenComplete(() {
       //Navigator.pop(context);
-    });
+    //});
   }
 
   @override
   void initState() {
     this._posting = widget.posting;
-    this._loadBookedDates();
+    //this._loadBookedDates();
     super.initState();
   }
 

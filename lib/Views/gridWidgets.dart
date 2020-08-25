@@ -53,14 +53,26 @@ class _PostingGridTileState extends State<PostingGridTile> {
           '${_posting.streetNumber} ${_posting.address}',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 17,
+            fontSize: 15,
           ),
         ),
         AutoSizeText(
           _posting.getLeaseInfo(),
         style: TextStyle(
-          fontSize: 16,
+          fontSize: 13,
         ),
+        ),
+        _posting.houseType == "Entire Apartment" ? Text(
+          '${_posting.houseType} -- ${_posting.beds['total']} bedrooms',
+          style: TextStyle(
+            fontSize: 13,
+          ),
+        ) :
+        Text(
+          '${_posting.beds['available']} of ${_posting.beds['available']} bedrooms available',
+          style: TextStyle(
+            fontSize: 13,
+          ),
         ),
         Text('\$${_posting.price} / month'),
         Row(

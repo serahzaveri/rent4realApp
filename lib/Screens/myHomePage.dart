@@ -27,7 +27,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(5.0),
-      child: AppConstants.currentUser.getUpcomingTrips().length==0 ? Column(
+      child: //AppConstants.currentUser.getUpcomingTrips().length==0 ?
+       Column(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(top: 50.0),
@@ -190,7 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ],
-      ) : SingleChildScrollView(
+      ) /* SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -204,6 +205,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
+            /*
             Padding(
               padding: const EdgeInsets.only(top: 15.0, bottom: 25.0),
               child: Container(
@@ -236,7 +238,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
               ),
-            ),
+            ),*/
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 10, 10 , 5),
               child: MaterialButton(
@@ -307,6 +309,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 fontSize: 25,
               ),
             ),
+            /*
             Padding(
               padding: const EdgeInsets.only(top: 15.0, bottom: 25.0),
               child: Container(
@@ -339,10 +342,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
               ),
-            ),
+            ),*/
           ],
         ),
-      ),
+      ),*/
     );
   }
 }

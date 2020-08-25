@@ -72,15 +72,30 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: AppBarText(text: 'Posting information'),
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.deepOrange, size: 25.0),
+            onPressed: (){
+              Navigator.pop(context);
+            }
+        ),
+          title: Text(
+            'Posting information',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              )
+          ),
+        /*
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.save, color: Colors.white),
+              icon: Icon(Icons.favorite_border, color: Colors.white),
               onPressed: () {
                 AppConstants.currentUser.addSavedPosting(this._posting);
               },
           ),
-        ],
+        ],*/
+        backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -108,7 +123,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                           MaterialButton(
-                            color: Colors.blueAccent,
+                            color: Colors.deepOrangeAccent,
                             onPressed: () {
                               startConversation();
                             },
@@ -157,12 +172,13 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                               backgroundColor: Colors.black,
                               child: GestureDetector(
                                 onTap: () {
+                                  /*
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => ViewProfilePage(contact: _posting.host,),
                                       )
-                                  );
+                                  );*/
                                 },
                                 child: CircleAvatar(
                                   backgroundImage: _posting.host.displayImage,
@@ -225,17 +241,17 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                           category: 'Bus time',
                           categoryInfo: _posting.getBusTime(),
                         ),
+                        /*
                         PostingInfoTile(
                           iconData: Icons.train,
                           category: 'Train time',
                           categoryInfo: _posting.getTrainTime(),
-                        ),
+                        ),*/
                         PostingInfoTile(
                           iconData: Icons.speaker_notes,
                           category: 'Lease info',
                           categoryInfo: _posting.getLeaseInfo(),
                         ),
-
                       ],
                     ),
                   ),
@@ -306,6 +322,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                       ),
                     ),
                   ),
+                  /*
                   Text(
                     'Reviews',
                     style: TextStyle(
@@ -342,7 +359,7 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                           }
                         },
                       )
-                  ),
+                  ),*/
                 ],
               )
             )

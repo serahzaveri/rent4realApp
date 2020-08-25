@@ -283,24 +283,27 @@ class Posting {
     }
   }
 
-  Future<void> makeNewBooking(List<DateTime> dates, BuildContext context) async {
+  Future<void> makeNewBooking(String dates, User tenant, BuildContext context) async {
     Map<String,dynamic> bookingData = {
       'dates': dates,
-      'name': AppConstants.currentUser.getFullName(),
-      'userID': AppConstants.currentUser.id,
+      'name': tenant.getFullName(),
+      'userID': tenant.id,
     };
+    // add booking data posting end
     DocumentReference reference = await Firestore.instance.collection('postings/${this.id}/bookings').add(bookingData);
+    // add booking to posting object list of bookings
     Booking newBooking = Booking();
-    newBooking.createBooking(this, AppConstants.currentUser.createContactFromUser(), dates);
+    newBooking.createBooking(this, tenant, dates);
     newBooking.id = reference.documentID;
     this.bookings.add(newBooking);
-    await AppConstants.currentUser.addBookingToFirestore(newBooking, context);
+    //we now call the function to add booking user end
+    await AppConstants.currentUser.addBookingToFirestore(newBooking, context, tenant);
   }
 
-  List<DateTime> getAllBookedDates() {
-    List<DateTime> dates = [];
+  List<String> getAllBookedDates() {
+    List<String> dates = [];
     this.bookings.forEach((booking) {
-      dates.addAll(booking.dates);
+      dates.add(booking.dates);
     });
     return dates;
   }
@@ -331,22 +334,21 @@ class Booking {
 
   String id;
   Posting posting;
-  Contact contact;
-  List<DateTime> dates;
+  User user;
+  String dates;
 
   Booking();
 
-  void createBooking(Posting posting, Contact contact, List<DateTime> dates) {
+  void createBooking(Posting posting, User user, String dates) {
     this.posting = posting;
-    this.contact = contact;
+    this.user = user;
     this.dates = dates;
-    this.dates.sort();
   }
-
+  /*
   Future<void> getBookingFromFirestoreFromUser(Contact contact, DocumentSnapshot snapshot) async {
     this.contact = contact;
-    List<Timestamp> timestamps = List<Timestamp>.from(snapshot['dates']) ?? [];
-    this.dates = [];
+    List<String> timestamps = List<String>.from(snapshot['dates']) ?? [];
+    this.dates = "";
     timestamps.forEach((timestamp) {
       this.dates.add(timestamp.toDate());
     });
@@ -354,35 +356,25 @@ class Booking {
     this.posting = Posting(id: postingID);
     await this.posting.getPostingInfoFromFirestore();
     await this.posting.getFirstImageFromStorage();
-  }
+  }*/
 
   Future<void> getBookingFromFirestoreFromPosting(Posting posting, DocumentSnapshot snapshot) async {
     this.posting = posting;
-    List<Timestamp> timestamps = List<Timestamp>.from(snapshot['dates']) ?? [];
-    this.dates = [];
-    timestamps.forEach((timestamp) {
-      this.dates.add(timestamp.toDate());
-    });
-    String contactID = snapshot['userID'] ?? "";
-    String fullName = snapshot['name'] ?? "";
-    _loadContactInfo(contactID, fullName);
-  }
-
-  void _loadContactInfo(String id, String fullName) {
-    String firstName = "";
-    String lastName = "";
-    firstName = fullName.split(" ")[0];
-    lastName = fullName.split(" ")[1];
-    this.contact = Contact(id: id, firstName: firstName, lastName: lastName);
+    this.dates = snapshot['dates'] ?? "";
+    String tenantID = snapshot['userID'] ?? "";
+    User tenant = User();
+    tenant.id = tenantID;
+    tenant.getUserInfoFromFirestore();
+    print('loaded tenant data of user: ' + tenant.getFullName());
   }
 
   String getFirstDate() {
-    String firstDateTime = dates.first.toIso8601String();
-    return firstDateTime.substring(0, 10);
+    String firstDateTime = dates;
+    return firstDateTime.substring(0, 7);
   }
 
   String getLastDate() {
-    String lastDateTime = dates.last.toIso8601String();
-    return lastDateTime.substring(0, 10);
+    String lastDateTime = dates;
+    return lastDateTime.substring(8, 15);
   }
 }

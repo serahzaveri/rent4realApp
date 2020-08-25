@@ -46,8 +46,22 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: AppBarText(text: 'View Profile'),
+      appBar: new AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.deepOrangeAccent, size: 25.0),
+            onPressed: () {
+              Navigator.pop(context);
+            }
+        ),
+          title: Text(
+            'View Profile',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -84,7 +98,7 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                 ],
               ),
               MaterialButton(
-                color: Colors.blueAccent,
+                color: Colors.deepOrange,
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => ViewRentResume(user: _user,)));
                 },

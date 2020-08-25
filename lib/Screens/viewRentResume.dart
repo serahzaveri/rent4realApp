@@ -22,13 +22,14 @@ class ViewRentResume extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 15.0, top: 35.0),
                 child: Container(
                   width: 50,
+                  /*
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white,
-                  ),
+                  ),*/
                   child: MaterialButton(
                       padding: EdgeInsets.all(0.0),
-                      color: Colors.pinkAccent,
+                      color: Colors.deepOrangeAccent,
                       child: Text(
                         'Back',
                         style: TextStyle(
@@ -46,7 +47,7 @@ class ViewRentResume extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 10.0),
             child: Container(
-              margin: const EdgeInsets.all(15.0),
+              margin: const EdgeInsets.all(5.0),
               padding: const EdgeInsets.all(7.0),
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.black, width: 2.0),
@@ -206,6 +207,7 @@ class ViewRentResume extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 15.0,
                           ),
+                          maxLines: 2,
                         ),
                       ],
                     ),
@@ -236,7 +238,7 @@ class ViewRentResume extends StatelessWidget {
                     child: Row(
                       children: <Widget>[
                         Text(
-                          'Present Address',
+                          'Present Address: ',
                           style: TextStyle(
                               fontSize: 15.0,
                               fontWeight: FontWeight.bold
@@ -247,6 +249,7 @@ class ViewRentResume extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 15.0,
                           ),
+                          maxLines: 3,
                         ),
                       ],
                     ),
@@ -327,6 +330,7 @@ class ViewRentResume extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 15.0,
                           ),
+                          maxLines: 3,
                         ),
                       ],
                     ),

@@ -294,6 +294,7 @@ class MessageListTile extends StatelessWidget {
 }
 
 
+
 class MyPostingListTile extends StatefulWidget {
 
   final Posting posting;
@@ -313,7 +314,15 @@ class _MyPostingListTileState extends State<MyPostingListTile> {
   void initState() {
     this._posting = widget.posting;
     for(int i=0; i<this._posting.interestedUsers.length; i++){
-      this._posting.interestedUsers[i].getImageFromStorage().whenComplete(() {print('Got this users diplay image'); setState(() {});});
+      this._posting.interestedUsers[i].getUserInfoFromFirestore().whenComplete(() {
+        this._posting.interestedUsers[i].getImageFromStorage().whenComplete(() {
+          this._posting.interestedUsers[i].getDatesWithListingsFromFirestore().whenComplete(() {
+            print('Got this users diplay image');
+            setState(() {});
+          });
+        }
+        );
+      });
     }
     super.initState();
   }
@@ -359,10 +368,14 @@ class _MyPostingListTileState extends State<MyPostingListTile> {
           ),
         ),
         _posting.interestedUsers.length == 0 ? Container(
-          child: Text('No interested users yet',
-          style: TextStyle(
-            fontSize: 14.0
-          ),),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15.0, bottom: 8.0),
+            child: Text(
+              'No interested users yet',
+            style: TextStyle(
+              fontSize: 14.0,
+            ),),
+          ),
         ) : ListView.builder(
           itemCount: _posting.interestedUsers.length,
           shrinkWrap: true,
@@ -376,6 +389,7 @@ class _MyPostingListTileState extends State<MyPostingListTile> {
               ),
               leading: CircleAvatar(backgroundImage: _posting.interestedUsers[index].displayImage,),
               title: Text(_posting.interestedUsers[index].getFullName()),
+              subtitle: Text('Dates: ${_posting.interestedUsers[index].datesWithListings[_posting.id]}'),
             );
           },
         )
@@ -422,7 +436,7 @@ class _StatusListTileState extends State<StatusListTile> {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-              color: Colors.black,
+              color: Colors.deepOrangeAccent,
               width: 2.0
           ),
           borderRadius: BorderRadius.circular(10.0),
@@ -441,6 +455,16 @@ class _StatusListTileState extends State<StatusListTile> {
                     ),
                   ),
                 ),
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0),
+                  child: Text(
+                    'Go to Listing',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                )
               ],
             ),
             Row(
@@ -512,6 +536,10 @@ class CreatePostingListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height / 12,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.0),
+        color: Colors.deepOrangeAccent,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -523,7 +551,7 @@ class CreatePostingListTile extends StatelessWidget {
             'Create a posting',
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 20.0
+              fontSize: 18.0
             ),
           )
         ],
@@ -531,4 +559,83 @@ class CreatePostingListTile extends StatelessWidget {
     );
   }
 
+}
+
+class BookingsListTile extends StatefulWidget {
+
+  final Posting posting;
+
+  BookingsListTile({this.posting, Key key}): super(key: key);
+
+  @override
+  _BookingsListTileState createState() => _BookingsListTileState();
+
+}
+
+class _BookingsListTileState extends State<BookingsListTile> {
+
+  Posting _posting;
+
+  @override
+  void initState() {
+    this._posting = widget.posting;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        ListTile(
+          contentPadding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
+          leading: Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Column(
+                children: <Widget>[
+                  AutoSizeText(
+                    _posting.getHalfAddress() ?? "",
+                    maxLines: 2,
+                    minFontSize: 20.0,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ],
+              )
+          ),
+          trailing: AspectRatio(
+            aspectRatio: 3/2,
+            child: Image(
+              image: _posting.displayImages.first,
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+        ),
+        /*
+        Container(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15.0, bottom: 8.0),
+            child: Text(
+              'Tenant: ${_posting.bookings[0].user.getFullName()}',
+              style: TextStyle(
+                fontSize: 14.0,
+              ),
+            ),
+          ),
+        ),*/
+        Container(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15.0, bottom: 8.0),
+            child: Text(
+              'Dates: ${_posting.bookings[0].dates}',
+              style: TextStyle(
+                fontSize: 14.0,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }

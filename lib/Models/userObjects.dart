@@ -145,10 +145,11 @@ class User extends Contact {
     await getMyPostingsFromFirestore();
     await getSavedPostingsFromFirestore();
     await getMyRRPostingsFromFirestore();
-    await getAllBookingsFromFirestore();
+    //await getAllBookingsFromFirestore();
   }
 
   Future<void> getMyPostingsFromFirestore() async {
+    DocumentSnapshot snapshot = await Firestore.instance.collection('users').document(this.id).get();
     List<String> myPostingIDs = List<String>.from(snapshot['myPostingIDs']) ?? [];
     for(String postingID in myPostingIDs) {
       Posting newPosting = Posting(id: postingID);
@@ -158,6 +159,17 @@ class User extends Contact {
       await newPosting.getInterestedUsersFromFirestore();
       this.myPostings.add(newPosting);
     }
+  }
+
+  List<Posting> getPostingsWithBookings() {
+    List<Posting> list = [];
+    for(int i=0; i<AppConstants.currentUser.myPostings.length; i++){
+      if(AppConstants.currentUser.myPostings[i].bookings.length != 0) {
+        list.add(AppConstants.currentUser.myPostings[i]);
+        print('This posting has a booking' + AppConstants.currentUser.myPostings[i].id);
+      }
+    }
+    return list;
   }
 
   List<String> getListOfMyPostings() {
@@ -193,7 +205,8 @@ class User extends Contact {
 
 
   Future<void> getDatesWithListingsFromFirestore() async {
-    this.datesWithListings = Map<String, String>.from(snapshot['datesWithListings']) ?? {};
+    DocumentSnapshot snapshot = await Firestore.instance.collection('users').document(this.id).get();
+    this.datesWithListings = Map<String, String>.from(snapshot.data['datesWithListings']) ?? {};
   }
 
   Future<void> addUserToFirestore() async {
@@ -289,7 +302,7 @@ class User extends Contact {
       'myPostingIDs': myPostingIDs,
     });
   }
-
+  /*
   Future<void> getAllBookingsFromFirestore() async {
     this.bookings = [];
     QuerySnapshot snapshots = await Firestore.instance.collection('users/${this.id}/bookings').getDocuments();
@@ -298,14 +311,16 @@ class User extends Contact {
       await newBooking.getBookingFromFirestoreFromUser(this.createContactFromUser(), snapshot);
       this.bookings.add(newBooking);
     }
-  }
+  }*/
 
-  Future<void> addBookingToFirestore(Booking booking, BuildContext context) async {
+  Future<void> addBookingToFirestore(Booking booking, BuildContext context, User tenant) async {
+    //we add booking data to firestore user end
     Map<String, dynamic> data = {
       'dates': booking.dates,
       'postingID': booking.posting.id,
     };
-    await Firestore.instance.document('users/${this.id}/bookings/${booking.id}').setData(data);
+    await Firestore.instance.document('users/${tenant.id}/bookings/${booking.id}').setData(data);
+    // add booking to user object list of bookings
     this.bookings.add(booking);
     //await addBookingConversation(booking, context);
   }
@@ -376,7 +391,7 @@ class User extends Contact {
       return "$a\_$b";
     }
   }
-
+  /*
   List<DateTime> getAllBookedDates() {
     List<DateTime> allBookedDates = [];
     this.myPostings.forEach((posting) {
@@ -385,7 +400,7 @@ class User extends Contact {
       });
     });
     return allBookedDates;
-  }
+  }*/
 
   //this method is used to determine the heart icon on explore page
   bool isSavedPosting(Posting posting) {
@@ -481,7 +496,7 @@ class User extends Contact {
       'myRRPostingIDs': myRRPostingIDs,
     });
   }
-
+  /*
   List<Booking> getPreviousTrips() {
     List<Booking> previousTrips = [];
     this.bookings.forEach((booking) {
@@ -500,7 +515,7 @@ class User extends Contact {
       }
     });
     return upcomingTrips;
-  }
+  }*/
 
   double getCurrentRating() {
     if(this.reviews.length == 0){ return 4; }

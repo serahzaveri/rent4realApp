@@ -193,7 +193,21 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: AppBarText(text: 'Create a Posting'),
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.deepOrange, size: 25.0),
+            onPressed: (){
+              Navigator.pushNamed(context, HostHomePage.routeName);
+            }
+        ),
+        title: Text(
+          'Create a Posting',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+        ),
+        backgroundColor: Colors.white,
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it in the middle of the parent.
@@ -351,13 +365,13 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
+                          padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 5.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: 'Apartment Number'
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _apartmentNumberController,
                             validator: (text) {
@@ -369,14 +383,14 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
+                          padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 5.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: 'Street Number'
                             ),
                             keyboardType: TextInputType.number,
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _streetNumberController,
                             validator: (text) {
@@ -388,13 +402,13 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
+                          padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 5.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: 'Street Name'
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _streetNameController,
                             validator: (text) {
@@ -406,13 +420,13 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
+                          padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 5.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: 'City'
                             ),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             controller: _cityController,
                             validator: (text) {
@@ -424,7 +438,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
+                          padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 5.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: 'Country'
@@ -442,7 +456,7 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
+                          padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 5.0),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: 'Zip Code'
@@ -620,17 +634,17 @@ class _CreatePostingPageState extends State<CreatePostingPage> {
                             child: Text(
                               'Submit',
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0,
+                                //fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
                                 color: Colors.black,
                               ),
                             ),
-                            color: Colors.blue,
+                            color: Colors.deepOrange,
                             //We get the height of the screen so the buttons adjust to size of phone
                             height: MediaQuery.of(context).size.height / 15,
                             minWidth: double.infinity,
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)
+                                borderRadius: BorderRadius.circular(15)
                             ),
                           ),
                         ),
