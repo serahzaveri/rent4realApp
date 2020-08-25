@@ -584,58 +584,67 @@ class _BookingsListTileState extends State<BookingsListTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        ListTile(
-          contentPadding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
-          leading: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Column(
-                children: <Widget>[
-                  AutoSizeText(
-                    _posting.getHalfAddress() ?? "",
-                    maxLines: 2,
-                    minFontSize: 20.0,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+        color: Colors.deepOrangeAccent,
+        width: 2.0
+        ),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          ListTile(
+            contentPadding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
+            leading: Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Column(
+                  children: <Widget>[
+                    AutoSizeText(
+                      _posting.getHalfAddress() ?? "",
+                      maxLines: 2,
+                      minFontSize: 20.0,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold
+                      ),
                     ),
-                  ),
-                ],
-              )
-          ),
-          trailing: AspectRatio(
-            aspectRatio: 3/2,
-            child: Image(
-              image: _posting.displayImages.first,
-              fit: BoxFit.fitWidth,
+                  ],
+                )
             ),
-          ),
-        ),
-        /*
-        Container(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 15.0, bottom: 8.0),
-            child: Text(
-              'Tenant: ${_posting.bookings[0].user.getFullName()}',
-              style: TextStyle(
-                fontSize: 14.0,
+            trailing: AspectRatio(
+              aspectRatio: 3/2,
+              child: Image(
+                image: _posting.displayImages.first,
+                fit: BoxFit.fitWidth,
               ),
             ),
           ),
-        ),*/
-        Container(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 15.0, bottom: 8.0),
-            child: Text(
-              'Dates: ${_posting.bookings[0].dates}',
-              style: TextStyle(
-                fontSize: 14.0,
+          /*
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15.0, bottom: 8.0),
+              child: Text(
+                'Tenant: ${_posting.bookings[0].user.getFullName()}',
+                style: TextStyle(
+                  fontSize: 14.0,
+                ),
+              ),
+            ),
+          ),*/
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15.0, bottom: 8.0),
+              child: Text(
+                'Dates: ${_posting.bookings[0].dates}',
+                style: TextStyle(
+                  fontSize: 14.0,
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
