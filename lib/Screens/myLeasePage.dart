@@ -37,42 +37,40 @@ class _MyLeasePageState extends State<MyLeasePage> {
         pw.MultiPage(
           pageFormat: PdfPageFormat.a4,
           margin: pw.EdgeInsets.all(32),
-
           build: (pw.Context context){
             return <pw.Widget>  [
               pw.Header(
                   level: 0,
                   child: pw.Text("Lease Document")
               ),
-
               pw.Header(
                   level: 1,
                   child: pw.Text("General Information")
               ),
 
               pw.Paragraph(
-                  text: "These particulars describe most of the rights and obligations of lessors and lessees. They summarize the essential points of the law concerning leases."
+                  text: "These particulars describe most of the rights and obligations of lessors and lessees. They summarize the essential points of the law concerning leases, i.e. articles 1851 to 1978 of the Civil Code of Québec (C.C.Q.). The examples given in the particulars are provided for information purposes and are used to illustrate a rule. To find out the other obligations to which the parties to a lease may be subject, please refer to the Civil Code of Quebec. No right may be exercised with the intent of injuring another or in an excessive and unreasonable manner that is contrary to the requirements of good faith (arts. 6, 7 and 1375 C.C.Q.). The particulars apply to any premises leased for residential purposes, as well as to the services, accessories and dependencies attached to the dwelling, whether or not they are included in the lease of the dwelling or in another lease. Some exceptions apply (arts. 1892 and 1892.1 C.C.Q.)."
               ),
 
               pw.Paragraph(
-                  text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Malesuada fames ac turpis egestas sed tempus urna. Quisque sagittis purus sit amet. A arcu cursus vitae congue mauris rhoncus aenean vel elit. Ipsum dolor sit amet consectetur adipiscing elit pellentesque. Viverra justo nec ultrices dui sapien eget mi proin sed."
+                  text: "These rights and obligations shall be exercised in compliance with the rights recognized by the Charter, which prescribes, among other things, that every person has a right to respect for his or her private life, that every person has a right to the peaceful enjoyment and free disposition of his or her property, except to the extent provided by law, and that a persons home is inviolable. The Charter also prohibits any discrimination and harassment based on race, colour, sex, pregnancy, sexual orientation, civil status, age except as provided by law, religion, political convictions, language, ethnic or national origin, social condition, a handicap or the use of any means to palliate a handicap. The Charter also protects seniors and handicapped persons against any form of exploitation. Any person who is a victim of discrimination or harassment for one of those reasons may file a complaint with the Commission des droits de la personne et des droits de la jeunesse."
               ),
 
               pw.Header(
                   level: 1,
-                  child: pw.Text("Second Heading")
+                  child: pw.Text("Entering into the lease")
               ),
 
               pw.Paragraph(
-                  text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Malesuada fames ac turpis egestas sed tempus urna. Quisque sagittis purus sit amet. A arcu cursus vitae congue mauris rhoncus aenean vel elit. Ipsum dolor sit amet consectetur adipiscing elit pellentesque. Viverra justo nec ultrices dui sapien eget mi proin sed."
+                  text: "A lease is not terminated by the death of the lessor or the lessee (art. 1884 C.C.Q.). A person who was living with the lessee at the time of the lessees death may become the lessee if he or she continues to occupy the dwelling and gives notice to that effect in writing to the lessor within two months after the death. Otherwise, the liquidator of the succession or, if there is no liquidator, an heir may, in the month that follows the expiry of the two-month period, terminate the lease by giving notice of one month to that effect to the lessor. If no one was living with the lessee at the time of his or her death, the liquidator of the succession or, if there is no liquidator, an heir may resiliate the lease by giving the essor two months notice within six months after the death. The resiliation takes effect before the two-month period expires if the liquidator or the heir and the lessor so agree or when the dwelling is re-leased by the lessor during that same period."
               ),
 
               pw.Paragraph(
-                  text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Malesuada fames ac turpis egestas sed tempus urna. Quisque sagittis purus sit amet. A arcu cursus vitae congue mauris rhoncus aenean vel elit. Ipsum dolor sit amet consectetur adipiscing elit pellentesque. Viverra justo nec ultrices dui sapien eget mi proin sed."
+                  text: "Non-payment of rent entitles the lessor to apply to the tribunal for a condemnation forcing the lessee to pay it. Also, if the lessee is over three weeks late in paying the rent, the lessor may obtain the resiliation of the lease and the eviction of the lessee. Frequent late payment of the rent may also warrant the resiliation of the lease if the lessor suffers serious prejudice as a result (arts. 1863 and 1971 C.C.Q.)"
               ),
 
               pw.Paragraph(
-                  text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Malesuada fames ac turpis egestas sed tempus urna. Quisque sagittis purus sit amet. A arcu cursus vitae congue mauris rhoncus aenean vel elit. Ipsum dolor sit amet consectetur adipiscing elit pellentesque. Viverra justo nec ultrices dui sapien eget mi proin sed."
+                  text: "A married or civil union spouse who rents adwelling for the current needs of the family also binds the other spouse for the whole, if they are not separated from bed and board, unless the other spouse has previously informed the lessor of his or her unwillingness to be bound for the debt (arts. 397 and 521.6 C.C.Q.)."
               ),
             ];
           },
