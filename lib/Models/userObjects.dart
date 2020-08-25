@@ -150,6 +150,7 @@ class User extends Contact {
 
   Future<void> getMyPostingsFromFirestore() async {
     DocumentSnapshot snapshot = await Firestore.instance.collection('users').document(this.id).get();
+    this.myPostings = [];
     List<String> myPostingIDs = List<String>.from(snapshot['myPostingIDs']) ?? [];
     for(String postingID in myPostingIDs) {
       Posting newPosting = Posting(id: postingID);

@@ -14,6 +14,7 @@ class PdfPreviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: <Widget>[
           PDFViewerScaffold(
@@ -39,7 +40,7 @@ class PdfPreviewScreen extends StatelessWidget {
                   posting.makeNewBooking(interestedTenant.datesWithListings[posting.id], interestedTenant, context);
                   print('Booking Complete');
                   Navigator.pop(context);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => HostHomePage(index: 0,)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => HostHomePage()));
                 })
               ],
             ),

@@ -172,7 +172,7 @@ class _MyLeasePageState extends State<MyLeasePage> {
                   ));
                 },
                   child: Text(
-                    'Use Sample Lease',
+                    'View Sample Lease',
                     style: TextStyle(
                       fontSize: 18.0,
                       color: Colors.redAccent
