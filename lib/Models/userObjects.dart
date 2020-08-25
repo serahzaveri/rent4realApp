@@ -322,7 +322,7 @@ class User extends Contact {
     };
     await Firestore.instance.document('users/${tenant.id}/bookings/${booking.id}').setData(data);
     // add booking to user object list of bookings
-    this.bookings.add(booking);
+    tenant.bookings.add(booking);
     //await addBookingConversation(booking, context);
   }
 

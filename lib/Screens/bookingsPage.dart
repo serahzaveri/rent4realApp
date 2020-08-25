@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Models/postingObjects.dart';
+import 'package:househunter/Models/userObjects.dart';
 import 'package:househunter/Views/calendarWidgets.dart';
 import 'package:househunter/Views/listWidgets.dart';
 
@@ -30,7 +31,10 @@ class _BookingsPageState extends State<BookingsPage> {
     //gets postings of landlord and updates all posting with bookings
     await AppConstants.currentUser.getMyPostingsFromFirestore().then((value) {
       //gets all posting that have bookings
+      //print("BEFORE");
       postingsWithBookings = AppConstants.currentUser.getPostingsWithBookings();
+      //print("AFTER");
+      //print("Check her:" + postingsWithBookings[0].bookings[0].userID);
     });
   }
 

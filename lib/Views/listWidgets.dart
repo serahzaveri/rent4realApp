@@ -620,18 +620,18 @@ class _BookingsListTileState extends State<BookingsListTile> {
               ),
             ),
           ),
-          /*
+
           Container(
             child: Padding(
               padding: const EdgeInsets.only(left: 15.0, bottom: 8.0),
               child: Text(
-                'Tenant: ${_posting.bookings[0].user.getFullName()}',
+                'Tenant: ${_posting.bookings[0].userID}',
                 style: TextStyle(
                   fontSize: 14.0,
                 ),
               ),
             ),
-          ),*/
+          ),
           Container(
             child: Padding(
               padding: const EdgeInsets.only(left: 15.0, bottom: 8.0),

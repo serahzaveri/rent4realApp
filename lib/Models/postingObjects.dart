@@ -293,7 +293,7 @@ class Posting {
     DocumentReference reference = await Firestore.instance.collection('postings/${this.id}/bookings').add(bookingData);
     // add booking to posting object list of bookings
     Booking newBooking = Booking();
-    newBooking.createBooking(this, tenant, dates);
+    newBooking.createBooking(this, tenant.id, dates);
     newBooking.id = reference.documentID;
     this.bookings.add(newBooking);
     //we now call the function to add booking user end
@@ -334,14 +334,14 @@ class Booking {
 
   String id;
   Posting posting;
-  User user;
+  String userID;
   String dates;
 
   Booking();
 
-  void createBooking(Posting posting, User user, String dates) {
+  void createBooking(Posting posting, String userID, String dates) {
     this.posting = posting;
-    this.user = user;
+    this.userID = userID;
     this.dates = dates;
   }
   /*

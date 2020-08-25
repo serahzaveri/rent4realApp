@@ -174,11 +174,9 @@ class _MyLeasePageState extends State<MyLeasePage> {
                       onChanged: (String chosenUser) {
                         setState(() {
                           chosenUserID = chosenUser;
-                          print(chosenUserID);
                           interestUser.id = chosenUser;
                           interestUser.getUserInfoFromFirestore();
                           interestUser.getDatesWithListingsFromFirestore();
-                          print('User side complete');
                         });
                       }
                   ),
