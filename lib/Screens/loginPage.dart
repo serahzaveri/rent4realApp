@@ -168,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(50, 0, 50 , 0),
+                    padding: const EdgeInsets.fromLTRB(30, 0, 30 , 0),
                     child: MaterialButton(
                       onPressed: () {
                         _signUp();

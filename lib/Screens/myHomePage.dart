@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
               'Process to Book a home',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 25,
+                fontSize: 22,
               ),
             ),
           ),
@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   'Find a listing that meets your criteria',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 18.0
+                  fontSize: 16.0
                 ),
               ),
             ),
@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 'Complete and Submit MyRentResume',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 18.0,
+                  fontSize: 16.0,
                 ),
               ),
             ),
@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
               title: new Text(
                 'Optional: Message landlord for a virtual/physical tour and any other queries regarding listing',
                 style: TextStyle(
-                  fontSize: 18.0,
+                  fontSize: 16.0,
                 ),
               ),
             ),
@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 'Sign lease sent by email from Rent4Real',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 18.0,
+                  fontSize: 16.0,
                 ),
               ),
             ),
@@ -99,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 'Pay 1st month rent and get ready to move in on move in date',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 18.0,
+                  fontSize: 16.0,
                 ),
               ),
             ),
@@ -119,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 'Pay My Rent',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
+                  fontSize: 14.0,
                   color: Colors.black,
                 ),
               ),
@@ -149,14 +149,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     'Maintenance Request',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
+                      fontSize: 14.0,
                       color: Colors.black,
                     ),
                   ),
                   color: Colors.lightBlue,
                   //We get the height of the screen so the buttons adjust to size of phone
                   height: MediaQuery.of(context).size.height / 15,
-                  minWidth: MediaQuery.of(context).size.width / 3,
+                  minWidth: MediaQuery.of(context).size.width / 3.5,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
                   ),
@@ -175,14 +175,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     'Rental Insurance',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
+                      fontSize: 14.0,
                       color: Colors.black,
                     ),
                   ),
                   color: Colors.lightBlue,
                   //We get the height of the screen so the buttons adjust to size of phone
                   height: MediaQuery.of(context).size.height / 15,
-                  minWidth: MediaQuery.of(context).size.width / 3,
+                  minWidth: MediaQuery.of(context).size.width / 3.5,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
                   ),
@@ -230,14 +230,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       'Pay My Rent',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
+                        fontSize: 14.0,
                         color: Colors.redAccent,
                       ),
                     ),
                     color: Colors.amber,
                     //We get the height of the screen so the buttons adjust to size of phone
                     height: MediaQuery.of(context).size.height / 15,
-                    minWidth: MediaQuery.of(context).size.width / 3,
+                    minWidth: MediaQuery.of(context).size.width / 3.5,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)
                     ),
@@ -256,14 +256,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       'View My Lease',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
+                        fontSize: 14.0,
                         color: Colors.redAccent,
                       ),
                     ),
                     color: Colors.amber,
                     //We get the height of the screen so the buttons adjust to size of phone
                     height: MediaQuery.of(context).size.height / 15,
-                    minWidth: MediaQuery.of(context).size.width / 3,
+                    minWidth: MediaQuery.of(context).size.width / 3.5,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)
                     ),
@@ -288,14 +288,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       'Rental Insurance',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
+                        fontSize: 14.0,
                         color: Colors.redAccent,
                       ),
                     ),
                     color: Colors.amber,
                     //We get the height of the screen so the buttons adjust to size of phone
                     height: MediaQuery.of(context).size.height / 15,
-                    minWidth: MediaQuery.of(context).size.width / 3,
+                    minWidth: MediaQuery.of(context).size.width / 3.5,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)
                     ),
@@ -311,17 +311,17 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     },
                     child: Text(
-                      'Renew Lease',
+                      'Renew My Lease',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
+                        fontSize: 14.0,
                         color: Colors.redAccent,
                       ),
                     ),
                     color: Colors.amber,
                     //We get the height of the screen so the buttons adjust to size of phone
                     height: MediaQuery.of(context).size.height / 15,
-                    minWidth: MediaQuery.of(context).size.width / 3,
+                    minWidth: MediaQuery.of(context).size.width / 3.5,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)
                     ),
@@ -345,14 +345,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     'File a Maintenance Request',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20.0,
+                      fontSize: 14.0,
                       color: Colors.white,
                     ),
                   ),
                   color: Colors.deepOrangeAccent,
                   //We get the height of the screen so the buttons adjust to size of phone
                   height: MediaQuery.of(context).size.height / 15,
-                  minWidth: MediaQuery.of(context).size.width / 2,
+                  minWidth: MediaQuery.of(context).size.width / 3,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
                   ),
