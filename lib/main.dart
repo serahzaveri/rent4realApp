@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Models/sharedPreferencesHelper.dart';
 import 'package:househunter/Screens/authenticatePage.dart';
-import 'package:househunter/Screens/bookPostingPage.dart';
 import 'package:househunter/Screens/conversationPage.dart';
 import 'package:househunter/Screens/createPostingPage.dart';
 import 'package:househunter/Screens/forgotPasswordPage.dart';

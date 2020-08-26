@@ -10,7 +10,6 @@ import 'package:househunter/Models/messagingObjects.dart';
 import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Models/reviewObjects.dart';
 import 'package:househunter/Models/userObjects.dart';
-import 'package:househunter/Screens/bookPostingPage.dart';
 import 'package:househunter/Screens/explorePage.dart';
 import 'package:househunter/Screens/guestHomePage.dart';
 import 'package:househunter/Screens/rentResume.dart';

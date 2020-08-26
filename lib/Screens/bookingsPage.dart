@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Models/postingObjects.dart';
-import 'package:househunter/Models/userObjects.dart';
 import 'package:househunter/Screens/payMyRent.dart';
-import 'package:househunter/Views/calendarWidgets.dart';
 import 'package:househunter/Views/listWidgets.dart';
 
 // this page is used for the host end of bookings
