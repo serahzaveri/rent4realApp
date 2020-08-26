@@ -68,7 +68,6 @@ class _MyAppState extends State<MyApp> {
         GuestHomePage.routeName: (context) => GuestHomePage(),
         PersonalInfoPage.routeName: (context) => PersonalInfoPage(),
         ViewProfilePage.routeName: (context) => ViewProfilePage(),
-        BookPostingPage.routeName: (context) => BookPostingPage(),
         ConversationPage.routeName: (context) => ConversationPage(),
         HostHomePage.routeName: (context) => HostHomePage(),
         CreatePostingPage.routeName: (context) => CreatePostingPage(),

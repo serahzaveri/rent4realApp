@@ -27,7 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(5.0),
-      child: //AppConstants.currentUser.getUpcomingTrips().length==0 ?
+      child: AppConstants.currentUser.bookings.length == 0 ?
        Column(
         children: <Widget>[
           Padding(
@@ -191,19 +191,27 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ],
-      ) /* SingleChildScrollView(
+      ) : SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 25.0),
+              padding: const EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 10.0),
               child: Text(
-                'Current home',
+                'Booked Home',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
                 ),
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 20.0),
+              child: Container(
+                  height: MediaQuery.of(context).size.height / 2.5,
+                  width: double.infinity,
+                  child: HomeGridTile(booking: AppConstants.currentUser.bookings[0],),
+                ),
             ),
             /*
             Padding(
@@ -240,73 +248,149 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),*/
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10 , 5),
-              child: MaterialButton(
-                onPressed: () {},
-                child: Text(
-                  'Pay My Rent',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    color: Colors.black,
+              padding: const EdgeInsets.fromLTRB(20, 10, 20 , 5),
+              child: Row(
+                children: <Widget>[
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PayMyRent(),
+                          )
+                      );
+                    },
+                    child: Text(
+                      'Pay My Rent',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                    color: Colors.amber,
+                    //We get the height of the screen so the buttons adjust to size of phone
+                    height: MediaQuery.of(context).size.height / 15,
+                    minWidth: MediaQuery.of(context).size.width / 3,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)
+                    ),
                   ),
-                ),
-                color: Colors.redAccent,
-                //We get the height of the screen so the buttons adjust to size of phone
-                height: MediaQuery.of(context).size.height / 15,
-                minWidth: double.infinity,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)
-                ),
+                  Spacer(),
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PayMyRent(),
+                          )
+                      );
+                    },
+                    child: Text(
+                      'View My Lease',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                    color: Colors.amber,
+                    //We get the height of the screen so the buttons adjust to size of phone
+                    height: MediaQuery.of(context).size.height / 15,
+                    minWidth: MediaQuery.of(context).size.width / 3,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 10, 10 , 5),
-              child: MaterialButton(
-                onPressed: () {},
-                child: Text(
-                  'Rental Insurance',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    color: Colors.black,
+              child: Row(
+                children: <Widget>[
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PayMyRent(),
+                          )
+                      );
+                    },
+                    child: Text(
+                      'Rental Insurance',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                    color: Colors.amber,
+                    //We get the height of the screen so the buttons adjust to size of phone
+                    height: MediaQuery.of(context).size.height / 15,
+                    minWidth: MediaQuery.of(context).size.width / 3,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)
+                    ),
                   ),
-                ),
-                color: Colors.lightBlue,
-                //We get the height of the screen so the buttons adjust to size of phone
-                height: MediaQuery.of(context).size.height / 15,
-                minWidth: double.infinity,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)
-                ),
+                  Spacer(),
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PayMyRent(),
+                          )
+                      );
+                    },
+                    child: Text(
+                      'Renew Lease',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                    color: Colors.amber,
+                    //We get the height of the screen so the buttons adjust to size of phone
+                    height: MediaQuery.of(context).size.height / 15,
+                    minWidth: MediaQuery.of(context).size.width / 3,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 10, 10 , 25),
-              child: MaterialButton(
-                onPressed: () {},
-                child: Text(
-                  'Maintenance Request',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    color: Colors.black,
+              child: Center(
+                child: MaterialButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PayMyRent(),
+                        )
+                    );
+                  },
+                  child: Text(
+                    'File a Maintenance Request',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  color: Colors.deepOrangeAccent,
+                  //We get the height of the screen so the buttons adjust to size of phone
+                  height: MediaQuery.of(context).size.height / 15,
+                  minWidth: MediaQuery.of(context).size.width / 2,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)
                   ),
                 ),
-                color: Colors.lightBlue,
-                //We get the height of the screen so the buttons adjust to size of phone
-                height: MediaQuery.of(context).size.height / 15,
-                minWidth: double.infinity,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)
-                ),
-              ),
-            ),
-            Text(
-              'Previous home\'s',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
               ),
             ),
             /*
@@ -345,7 +429,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),*/
           ],
         ),
-      ),*/
+      ),
     );
   }
 }

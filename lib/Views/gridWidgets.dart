@@ -121,9 +121,10 @@ class _HomeGridTileState extends State<HomeGridTile> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         AspectRatio(
-          aspectRatio: 3/2,
+          aspectRatio: 3.5/2,
           child: Container(
             decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
                 image: DecorationImage(
                   image: _booking.posting.displayImages.first,
                   fit: BoxFit.fill,

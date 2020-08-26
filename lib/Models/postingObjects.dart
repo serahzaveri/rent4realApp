@@ -92,6 +92,7 @@ class Posting {
       "bathrooms": this.bathrooms,
       "beds": this.beds,
       "city": this.city,
+      "interested users": [],
       "country": this.country,
       "zip code": this.zipCode,
       "hostID": AppConstants.currentUser.id,
@@ -344,24 +345,20 @@ class Booking {
     this.userID = userID;
     this.dates = dates;
   }
-  /*
-  Future<void> getBookingFromFirestoreFromUser(Contact contact, DocumentSnapshot snapshot) async {
-    this.contact = contact;
-    List<String> timestamps = List<String>.from(snapshot['dates']) ?? [];
-    this.dates = "";
-    timestamps.forEach((timestamp) {
-      this.dates.add(timestamp.toDate());
-    });
+
+  Future<void> getBookingFromFirestoreFromUser(User user, DocumentSnapshot snapshot) async {
+    this.user = user;
+    this.dates = snapshot['dates'] ?? "";
+    this.userID = user.id;
     String postingID = snapshot['postingID'] ?? "";
     this.posting = Posting(id: postingID);
     await this.posting.getPostingInfoFromFirestore();
     await this.posting.getFirstImageFromStorage();
-  }*/
+  }
 
   Future<void> getBookingFromFirestoreFromPosting(Posting posting, DocumentSnapshot snapshot) async {
     this.posting = posting;
     this.dates = snapshot['dates'] ?? "";
-    //print("This is dates: " + this.dates);
     String tenantID = snapshot['userID'] ?? "";
     this.userID = tenantID;
     //print("This is tenant ID: " + this.userID);

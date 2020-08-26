@@ -145,7 +145,7 @@ class User extends Contact {
     await getMyPostingsFromFirestore();
     await getSavedPostingsFromFirestore();
     await getMyRRPostingsFromFirestore();
-    //await getAllBookingsFromFirestore();
+    await getAllBookingsFromFirestore();
   }
 
   Future<void> getMyPostingsFromFirestore() async {
@@ -303,16 +303,16 @@ class User extends Contact {
       'myPostingIDs': myPostingIDs,
     });
   }
-  /*
+
   Future<void> getAllBookingsFromFirestore() async {
     this.bookings = [];
     QuerySnapshot snapshots = await Firestore.instance.collection('users/${this.id}/bookings').getDocuments();
     for (var snapshot in snapshots.documents) {
       Booking newBooking = Booking();
-      await newBooking.getBookingFromFirestoreFromUser(this.createContactFromUser(), snapshot);
+      await newBooking.getBookingFromFirestoreFromUser(AppConstants.currentUser, snapshot);
       this.bookings.add(newBooking);
     }
-  }*/
+  }
 
   Future<void> addBookingToFirestore(Booking booking, BuildContext context, User tenant) async {
     //we add booking data to firestore user end
@@ -392,16 +392,6 @@ class User extends Contact {
       return "$a\_$b";
     }
   }
-  /*
-  List<DateTime> getAllBookedDates() {
-    List<DateTime> allBookedDates = [];
-    this.myPostings.forEach((posting) {
-      posting.bookings.forEach((booking) {
-        allBookedDates.addAll(booking.dates);
-      });
-    });
-    return allBookedDates;
-  }*/
 
   //this method is used to determine the heart icon on explore page
   bool isSavedPosting(Posting posting) {
