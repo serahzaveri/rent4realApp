@@ -336,7 +336,7 @@ class Booking {
   Posting posting;
   String userID;
   String dates;
-
+  User user;
   Booking();
 
   void createBooking(Posting posting, String userID, String dates) {
@@ -361,20 +361,30 @@ class Booking {
   Future<void> getBookingFromFirestoreFromPosting(Posting posting, DocumentSnapshot snapshot) async {
     this.posting = posting;
     this.dates = snapshot['dates'] ?? "";
+    //print("This is dates: " + this.dates);
     String tenantID = snapshot['userID'] ?? "";
-    User tenant = User();
-    tenant.id = tenantID;
-    tenant.getUserInfoFromFirestore();
-    print('loaded tenant data of user: ' + tenant.getFullName());
+    this.userID = tenantID;
+    //print("This is tenant ID: " + this.userID);
+    this.id = snapshot.documentID;
+    //print("This is booking ID: " + this.id);
+    Contact tenant = Contact();
+    tenant.id = this.userID;
+    tenant.getContactInfoFromFirestore().whenComplete(() {
+      User finalTenant = tenant.createUserFromContact();
+      finalTenant.getUserInfoFromFirestore().whenComplete(() {
+        this.user = finalTenant;
+        print("User creation complete: " + this.user.getFullName());
+      });
+    });
   }
 
   String getFirstDate() {
-    String firstDateTime = dates;
+    String firstDateTime = this.dates;
     return firstDateTime.substring(0, 7);
   }
 
   String getLastDate() {
     String lastDateTime = dates;
-    return lastDateTime.substring(8, 15);
+    return lastDateTime.substring(9, 17);
   }
 }

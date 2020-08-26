@@ -620,12 +620,11 @@ class _BookingsListTileState extends State<BookingsListTile> {
               ),
             ),
           ),
-
           Container(
             child: Padding(
               padding: const EdgeInsets.only(left: 15.0, bottom: 8.0),
               child: Text(
-                'Tenant: ${_posting.bookings[0].userID}',
+                'Tenant: ${_posting.bookings[0].user.getFullName()}',
                 style: TextStyle(
                   fontSize: 14.0,
                 ),
@@ -636,7 +635,29 @@ class _BookingsListTileState extends State<BookingsListTile> {
             child: Padding(
               padding: const EdgeInsets.only(left: 15.0, bottom: 8.0),
               child: Text(
-                'Dates: ${_posting.bookings[0].dates}',
+                'Tenant email ID: ${_posting.bookings[0].user.email}',
+                style: TextStyle(
+                  fontSize: 14.0,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15.0, bottom: 8.0),
+              child: Text(
+                'Lease start date: ${_posting.bookings[0].getFirstDate()}',
+                style: TextStyle(
+                  fontSize: 14.0,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15.0, bottom: 8.0),
+              child: Text(
+                'Lease end date: ${_posting.bookings[0].getLastDate()}',
                 style: TextStyle(
                   fontSize: 14.0,
                 ),

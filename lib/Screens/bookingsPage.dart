@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
 import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Models/userObjects.dart';
+import 'package:househunter/Screens/payMyRent.dart';
 import 'package:househunter/Views/calendarWidgets.dart';
 import 'package:househunter/Views/listWidgets.dart';
 
@@ -31,10 +32,7 @@ class _BookingsPageState extends State<BookingsPage> {
     //gets postings of landlord and updates all posting with bookings
     await AppConstants.currentUser.getMyPostingsFromFirestore().then((value) {
       //gets all posting that have bookings
-      //print("BEFORE");
       postingsWithBookings = AppConstants.currentUser.getPostingsWithBookings();
-      //print("AFTER");
-      //print("Check her:" + postingsWithBookings[0].bookings[0].userID);
     });
   }
 
@@ -74,7 +72,7 @@ class _BookingsPageState extends State<BookingsPage> {
                       ) :
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 25.0),
-                        child: Container(
+                        child: Center(
                             child: Text(
                               'No bookings yet',
                               style: TextStyle(
@@ -85,29 +83,59 @@ class _BookingsPageState extends State<BookingsPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 25.0),
-                      child: Container(
-                          color: Colors.yellowAccent,
-                          child: Text(
-                            'Filed Maintenace Requests',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: MaterialButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PayMyRent(),
+                              )
+                          );
+                        },
+                        child: Text(
+                          'Check Filed Maintenance Requests',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                        color: Colors.amber,
+                        //We get the height of the screen so the buttons adjust to size of phone
+                        height: MediaQuery.of(context).size.height / 15,
+                        minWidth: MediaQuery.of(context).size.width / 3,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)
+                        ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 25.0),
-                      child: Container(
-                          color: Colors.redAccent,
-                          child: Text(
-                            'Payment History',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: MaterialButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PayMyRent(),
+                              )
+                          );
+                        },
+                        child: Text(
+                          'Rent Payment History',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                        color: Colors.amber,
+                        //We get the height of the screen so the buttons adjust to size of phone
+                        height: MediaQuery.of(context).size.height / 15,
+                        minWidth: MediaQuery.of(context).size.width / 3,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)
+                        ),
                       ),
                     ),
                   ],
