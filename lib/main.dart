@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(seconds: 4), () {
       //we navigate to the LoginPage screen
       if(!mounted) return;
       Navigator.pushNamed(context, LoginPage.routeName);
@@ -112,19 +112,8 @@ class _MyHomePageState extends State<MyHomePage> {
               decoration: BoxDecoration(
                   image: DecorationImage(
                       fit: BoxFit.fill,
-                      image: AssetImage('assets/images/finalLogo.png')
+                      image: AssetImage('assets/images/logo.jpg')
                   )
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: Text(
-                '${AppConstants.appName}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-                textAlign: TextAlign.center,
               ),
             ),
             Padding(
