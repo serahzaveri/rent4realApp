@@ -133,22 +133,23 @@ class _HomeGridTileState extends State<HomeGridTile> {
           ),
         ),
         AutoSizeText(
-          '${_booking.posting.city} ${_booking.posting.country}',
+          '${_booking.posting.getHalfAddress()}',
           style: TextStyle(
             fontSize: 16,
+            fontWeight: FontWeight.bold
           ),
         ),
         Text('\$${_booking.posting.price} / month'),
         Text(
           'Lease start: ${_booking.getFirstDate()}',
           style: TextStyle(
-            fontWeight: FontWeight.bold,
+            fontSize: 16,
           ),
         ),
         Text(
           'Lease end: ${_booking.getLastDate()}',
           style: TextStyle(
-            fontWeight: FontWeight.bold,
+            fontSize: 16,
           ),
         ),
       ],

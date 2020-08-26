@@ -28,9 +28,6 @@ class _ReviewListTileState extends State<ReviewListTile> {
   @override
   void initState() {
     this._review = widget.review;
-    this._review.contact.getImageFromStorage().whenComplete(() {
-      setState(() {});
-    });
     super.initState();
   }
 
@@ -421,7 +418,6 @@ class _StatusListTileState extends State<StatusListTile> {
 
   @override
   Widget build(BuildContext context) {
-    AppConstants.currentUser.getDatesWithListingsFromFirestore();
     String key = "";
     if( AppConstants.currentUser.datesWithListings[_posting.id] != null) {
       key = AppConstants.currentUser.datesWithListings[_posting.id];
@@ -441,89 +437,144 @@ class _StatusListTileState extends State<StatusListTile> {
           ),
           borderRadius: BorderRadius.circular(10.0),
         ),
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0),
-                  child: Text(
-                    _posting.getHalfAddress(),
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(15.0, 5.0, 10.0, 10.0),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10.0, top: 10.0),
+                child: Row(
+                  children: <Widget>[
+                      Text(
+                        _posting.getHalfAddress(),
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    Spacer(),
+                   Text(
+                     'Go to Listing',
+                     style: TextStyle(
+                       fontSize: 16.0,
+                     ),
+                   ),
+                  ],
+                ),
+              ),
+              Row(
+                children: <Widget>[
+                  Text(
+                      "Dates: ",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                  ),
+                  Text(
+                      key,
+                      style: TextStyle(
+                        fontSize: 14.0,
+                      ),
                     ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Text('RentResume Status: '),
+                  IconButton(icon: Icon(Icons.check_circle),),
+                ],
+              ),
+              AppConstants.currentUser.bookings == null ? Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        'Lease status: ',
+                        style: TextStyle(
+                            color: Colors.black
+                        ),
+                      ),
+                      Text(
+                        'Waiting for landlord',
+                        style: TextStyle(
+                            color: Colors.red
+                        ),
+                      ),
+                      IconButton(icon: Icon(Icons.blur_circular),),
+                    ],
                   ),
-                ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0),
-                  child: Text(
-                    'Go to Listing',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                    ),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        'Completed',
+                        style: TextStyle(
+                            color: Colors.black
+                        ),
+                      ),
+                      IconButton(icon: Icon(Icons.blur_circular),),
+                    ],
                   ),
-                )
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0),
-                  child: Text(
-                    "Dates",
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                ],
+              ) : AppConstants.currentUser.bookings[0].posting.id == _posting.id ? Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        'Lease status: ',
+                        style: TextStyle(
+                            color: Colors.black
+                        ),
+                      ),
+                      Text(
+                        'Signed',
+                        style: TextStyle(
+                            color: Colors.red
+                        ),
+                      ),
+                      IconButton(icon: Icon(Icons.check_circle),),
+                    ],
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0),
-                  child: Text(
-                    key,
-                    style: TextStyle(
-                      fontSize: 14.0,
-                    ),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        'Completed',
+                        style: TextStyle(
+                            color: Colors.black
+                        ),
+                      ),
+                      IconButton(icon: Icon(Icons.check_circle),),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: Text('RentResume Status: '),
-                ),
-                IconButton(icon: Icon(Icons.check_circle),),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: Text('Lease Status: '),
-                ),
-                Text(
-                    'Waiting for landlord',
-                  style: TextStyle(
-                    color: Colors.red
+                ],
+              ) : Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        'Waiting for landlord',
+                        style: TextStyle(
+                            color: Colors.red
+                        ),
+                      ),
+                      IconButton(icon: Icon(Icons.blur_circular),),
+                    ],
                   ),
-                ),
-                IconButton(icon: Icon(Icons.blur_circular),),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: Text('Complete: '),
-                ),
-                IconButton(icon: Icon(Icons.blur_circular),),
-              ],
-            ),
-          ],
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        'Completed',
+                        style: TextStyle(
+                            color: Colors.black
+                        ),
+                      ),
+                      IconButton(icon: Icon(Icons.blur_circular),),
+                    ],
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

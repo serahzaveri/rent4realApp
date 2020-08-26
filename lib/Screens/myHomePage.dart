@@ -213,40 +213,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: HomeGridTile(booking: AppConstants.currentUser.bookings[0],),
                 ),
             ),
-            /*
-            Padding(
-              padding: const EdgeInsets.only(top: 15.0, bottom: 25.0),
-              child: Container(
-                height: MediaQuery.of(context).size.height / 2.3,
-                width: double.infinity,
-                child: ListView.builder(
-                  itemCount: AppConstants.currentUser.getUpcomingTrips().length,
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    Booking currentBooking = AppConstants.currentUser.getUpcomingTrips()[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 15.0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 1.5,
-                          child: InkResponse(
-                              enableFeedback: true,
-                              child: HomeGridTile(booking: currentBooking,),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ViewPostingsPage(posting: currentBooking.posting,),
-                                    )
-                                );
-                              }
-                          ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),*/
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 20 , 5),
               child: Row(
@@ -393,40 +359,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            /*
-            Padding(
-              padding: const EdgeInsets.only(top: 15.0, bottom: 25.0),
-              child: Container(
-                height: MediaQuery.of(context).size.height / 2.3,
-                width: double.infinity,
-                child: ListView.builder(
-                  itemCount: AppConstants.currentUser.getPreviousTrips().length,
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    Booking currentBooking = AppConstants.currentUser.getPreviousTrips()[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 15.0),
-                      child: Container(
-                          width: MediaQuery.of(context).size.width / 1.5,
-                          child: InkResponse(
-                              enableFeedback: true,
-                              child: HomeGridTile(booking: currentBooking,),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ViewPostingsPage(posting: currentBooking.posting,),
-                                    )
-                                );
-                              }
-                          ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),*/
           ],
         ),
       ),

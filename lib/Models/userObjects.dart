@@ -29,8 +29,6 @@ class Contact {
   Future<MemoryImage> getImageFromStorage() async {
     if (this.displayImage != null) { return displayImage; }
     final String imagePath = "userImages/${this.id}/profile_pic.jpg";
-    print('reached here');
-    print(imagePath);
     final imageData = await FirebaseStorage.instance.ref().child(imagePath).getData(1024*1024);
     this.displayImage = MemoryImage(imageData);
     return this.displayImage;
