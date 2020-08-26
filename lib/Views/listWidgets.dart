@@ -398,8 +398,9 @@ class _MyPostingListTileState extends State<MyPostingListTile> {
 class StatusListTile extends StatefulWidget {
 
   final Posting posting;
+  final Booking booking;
 
-  StatusListTile({this.posting, Key key}): super(key: key);
+  StatusListTile({this.posting, this.booking, Key key}): super(key: key);
 
   @override
   _StatusListTileState createState() => _StatusListTileState();
@@ -408,11 +409,13 @@ class StatusListTile extends StatefulWidget {
 
 class _StatusListTileState extends State<StatusListTile> {
 
+  Booking _booking;
   Posting _posting;
 
   @override
   void initState() {
     this._posting = widget.posting;
+    this._booking = widget.booking;
     super.initState();
   }
 
@@ -485,7 +488,7 @@ class _StatusListTileState extends State<StatusListTile> {
                   IconButton(icon: Icon(Icons.check_circle),),
                 ],
               ),
-              AppConstants.currentUser.bookings == null ? Column(
+              this._booking == null ? Column(
                 children: <Widget>[
                   Row(
                     children: <Widget>[
@@ -516,7 +519,7 @@ class _StatusListTileState extends State<StatusListTile> {
                     ],
                   ),
                 ],
-              ) : AppConstants.currentUser.bookings[0].posting.id == _posting.id ? Column(
+              ) : this._booking.id == _posting.id ? Column(
                 children: <Widget>[
                   Row(
                     children: <Widget>[

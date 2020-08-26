@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:househunter/Models/AppConstants.dart';
+import 'package:househunter/Models/postingObjects.dart';
 import 'package:househunter/Views/listWidgets.dart';
 
 class StatusPage extends StatefulWidget {
@@ -14,6 +15,7 @@ class StatusPage extends StatefulWidget {
 class _StatusPageState extends State<StatusPage> {
 
   Future userFuture;
+  Booking currentBooking;
 
   @override
   void initState() {
@@ -25,7 +27,11 @@ class _StatusPageState extends State<StatusPage> {
   _getData() async {
     //gets the dates the user chose for the listing
     await AppConstants.currentUser.getDatesWithListingsFromFirestore().then((value) {
-      AppConstants.currentUser.getAllBookingsFromFirestore();
+      AppConstants.currentUser.datesWithListings.forEach((key, value) {
+        Posting newPosting = Posting(id: key);
+        newPosting.getAllBookingsFromFirestore();
+      });
+      //AppConstants.currentUser.getAllBookingsFromFirestore();
     });
   }
 
@@ -64,6 +70,8 @@ class _StatusPageState extends State<StatusPage> {
                           padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 15.0),
                           child: StatusListTile(
                             posting: AppConstants.currentUser.myRRPostings[index],
+                            booking: AppConstants.currentUser.myRRPostings[index].bookings.length != 0 ?
+                            AppConstants.currentUser.myRRPostings[index].bookings[0] : null,
                           ),
                         ),
                       );
