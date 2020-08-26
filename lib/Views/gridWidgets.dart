@@ -28,12 +28,15 @@ class _PostingGridTileState extends State<PostingGridTile> {
     this._posting.getFirstImageFromStorage().whenComplete(() {
       setState(() {});
     });
+    this._posting.getAllBookingsFromFirestore().whenComplete(() {
+      setState(() {});
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return this._posting.bookings.length == 0 ? Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -61,6 +64,62 @@ class _PostingGridTileState extends State<PostingGridTile> {
         style: TextStyle(
           fontSize: 13,
         ),
+        ),
+        _posting.houseType == "Entire Apartment" ? Text(
+          '${_posting.houseType} -- ${_posting.beds['total']} bedrooms',
+          style: TextStyle(
+            fontSize: 13,
+          ),
+        ) :
+        Text(
+          '${_posting.beds['available']} of ${_posting.beds['available']} bedrooms available',
+          style: TextStyle(
+            fontSize: 13,
+          ),
+        ),
+        Text('\$${_posting.price} / month'),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            StarRating(
+              size: 18.0,
+              starCount: 5,
+              color: AppConstants.selectedIconColor,
+              borderColor: Colors.grey,
+              onRatingChanged: null,
+              rating: _posting.getCurrentRating(),
+            ),
+          ],
+        )
+      ],
+    ) : Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        AspectRatio(
+          aspectRatio: 3/2,
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                  image: AssetImage('assets/images/no-longer-available.png'),
+                  fit: BoxFit.fill,
+                )
+            ),
+          ),
+        ),
+        AutoSizeText(
+          '${_posting.streetNumber} ${_posting.address}',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 15,
+          ),
+        ),
+        AutoSizeText(
+          _posting.getLeaseInfo(),
+          style: TextStyle(
+            fontSize: 13,
+          ),
         ),
         _posting.houseType == "Entire Apartment" ? Text(
           '${_posting.houseType} -- ${_posting.beds['total']} bedrooms',
