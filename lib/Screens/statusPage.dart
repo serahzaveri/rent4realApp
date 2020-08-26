@@ -27,10 +27,6 @@ class _StatusPageState extends State<StatusPage> {
   _getData() async {
     //gets the dates the user chose for the listing
     await AppConstants.currentUser.getDatesWithListingsFromFirestore().then((value) {
-      AppConstants.currentUser.datesWithListings.forEach((key, value) {
-        Posting newPosting = Posting(id: key);
-        newPosting.getAllBookingsFromFirestore();
-      });
       AppConstants.currentUser.getAllBookingsFromFirestore();
     });
   }

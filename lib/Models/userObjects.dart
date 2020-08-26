@@ -305,8 +305,8 @@ class User extends Contact {
   }
 
   Future<void> getAllBookingsFromFirestore() async {
-    this.bookings = [];
     QuerySnapshot snapshots = await Firestore.instance.collection('users/${this.id}/bookings').getDocuments();
+    this.bookings = [];
     for (var snapshot in snapshots.documents) {
       Booking newBooking = Booking();
       await newBooking.getBookingFromFirestoreFromUser(AppConstants.currentUser, snapshot);
