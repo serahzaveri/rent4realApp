@@ -31,7 +31,7 @@ class _StatusPageState extends State<StatusPage> {
         Posting newPosting = Posting(id: key);
         newPosting.getAllBookingsFromFirestore();
       });
-      //AppConstants.currentUser.getAllBookingsFromFirestore();
+      AppConstants.currentUser.getAllBookingsFromFirestore();
     });
   }
 
@@ -70,8 +70,10 @@ class _StatusPageState extends State<StatusPage> {
                           padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 15.0),
                           child: StatusListTile(
                             posting: AppConstants.currentUser.myRRPostings[index],
-                            booking: AppConstants.currentUser.myRRPostings[index].bookings.length != 0 ?
-                            AppConstants.currentUser.myRRPostings[index].bookings[0] : null,
+                            booking: AppConstants.currentUser.bookings.length == 0 ?
+                            null :
+                            AppConstants.currentUser.bookings[0].posting.id == AppConstants.currentUser.myRRPostings[index].id ?
+                            AppConstants.currentUser.bookings[0] : null,
                           ),
                         ),
                       );

@@ -107,6 +107,9 @@ class _ConversationListTileState extends State<ConversationListTile> {
   @override
   void initState() {
     this._conversation = widget.conversation;
+    this._conversation.otherContact.getImageFromStorage().whenComplete(() {setState(() {
+
+    });});
     super.initState();
   }
 
@@ -519,7 +522,7 @@ class _StatusListTileState extends State<StatusListTile> {
                     ],
                   ),
                 ],
-              ) : this._booking.id == _posting.id ? Column(
+              ) : this._booking.posting.id == _posting.id ? Column(
                 children: <Widget>[
                   Row(
                     children: <Widget>[

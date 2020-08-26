@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
           email: email,
           password: password,
         );
-        print("no error detected");
+        //print("no error detected");
         //this is to keep the user logged in using shared preferences
         SharedPreferencesHelper.saveUserLoggedInSharedPreference(true);
         String userID = firebaseUser.uid;

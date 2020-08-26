@@ -167,7 +167,7 @@ class User extends Contact {
     for(int i=0; i<AppConstants.currentUser.myPostings.length; i++){
       if(AppConstants.currentUser.myPostings[i].bookings.length != 0) {
         list.add(AppConstants.currentUser.myPostings[i]);
-        print('This posting has a booking' + AppConstants.currentUser.myPostings[i].id);
+        //print('This posting has a booking' + AppConstants.currentUser.myPostings[i].id);
       }
     }
     return list;

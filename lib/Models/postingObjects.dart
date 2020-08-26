@@ -149,10 +149,10 @@ class Posting {
 
   Future<MemoryImage> getFirstImageFromStorage() async {
     if (this.displayImages.isNotEmpty) {
-      print("Display images is not empty");
+      //print("Display images is not empty");
       return this.displayImages.first;
     }
-    print("Display images is empty");
+    //print("Display images is empty");
     final String imagePath = "postingImages/${this.id}/${this.imageNames.first}";
     final imageData = await FirebaseStorage.instance.ref().child(imagePath).getData(1024*1024*100);
     this.displayImages.add(MemoryImage(imageData));
@@ -282,6 +282,14 @@ class Posting {
       await newBooking.getBookingFromFirestoreFromPosting(this, snapshot);
       this.bookings.add(newBooking);
     }
+  }
+
+  bool hasBooking(String postingID){
+    Posting newP = Posting(id: postingID);
+    if(newP.bookings.length != 0) {
+      return true;
+    }
+    return false;
   }
 
   Future<void> makeNewBooking(String dates, User tenant, BuildContext context) async {

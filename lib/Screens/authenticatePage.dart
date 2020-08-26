@@ -30,14 +30,14 @@ class _AuthenticatePageState extends State<AuthenticatePage> {
   getUser() async{
     await SharedPreferencesHelper.getUserId().then((value) {
       setState(() {
-        print(value);
+        //print(value);
         isUserID = value;
       });
     });
     AppConstants.currentUser = User(id: isUserID);
     AppConstants.currentUser.getPersonalInfoFromFirestore().whenComplete(() {
-      print('shared preference working');
-      print(AppConstants.currentUser.id);
+      //print('shared preference working');
+      //print(AppConstants.currentUser.id);
       Navigator.pushNamed(context, GuestHomePage.routeName);
     });
   }
