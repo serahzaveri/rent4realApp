@@ -133,7 +133,9 @@ class User extends Contact {
     this.priorLandlordName = snapshot['prior landlord name'] ?? "";
     this.priorLandlordNumber = snapshot['prior landlord number'] ?? "";
     this.progressBar = snapshot['progressBar'] ?? 0;
-    AppConstants.progressUpdate = snapshot['progressBar'] ?? 0;
+    if(AppConstants.currentUser.id == this.id) {
+      AppConstants.progressUpdate = snapshot['progressBar'] ?? 0;
+    }
   }
 
 
