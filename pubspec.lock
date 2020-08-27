@@ -21,7 +21,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.1"
+    version: "2.5.0-nullsafety"
   auto_size_text:
     dependency: "direct main"
     description:
@@ -42,7 +42,7 @@ packages:
       name: boolean_selector
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.1.0-nullsafety"
   cached_network_image:
     dependency: "direct main"
     description:
@@ -50,13 +50,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0-rc.1"
+  characters:
+    dependency: transitive
+    description:
+      name: characters
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0-nullsafety.2"
   charcode:
     dependency: transitive
     description:
       name: charcode
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.3"
+    version: "1.2.0-nullsafety"
+  clock:
+    dependency: transitive
+    description:
+      name: clock
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0-nullsafety"
   cloud_firestore:
     dependency: "direct main"
     description:
@@ -70,7 +84,7 @@ packages:
       name: collection
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.14.12"
+    version: "1.15.0-nullsafety.2"
   convert:
     dependency: transitive
     description:
@@ -99,6 +113,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  fake_async:
+    dependency: transitive
+    description:
+      name: fake_async
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0-nullsafety"
   file:
     dependency: transitive
     description:
@@ -321,14 +342,14 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.6"
+    version: "0.12.10-nullsafety"
   meta:
     dependency: transitive
     description:
       name: meta
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.8"
+    version: "1.3.0-nullsafety.2"
   month_picker_dialog:
     dependency: "direct main"
     description:
@@ -349,7 +370,7 @@ packages:
       name: path
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.4"
+    version: "1.8.0-nullsafety"
   path_parsing:
     dependency: transitive
     description:
@@ -522,7 +543,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.7.0"
+    version: "1.8.0-nullsafety"
   sqflite:
     dependency: transitive
     description:
@@ -543,7 +564,7 @@ packages:
       name: stack_trace
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.3"
+    version: "1.10.0-nullsafety"
   sticky_headers:
     dependency: transitive
     description:
@@ -557,7 +578,7 @@ packages:
       name: stream_channel
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.1.0-nullsafety"
   stream_transform:
     dependency: transitive
     description:
@@ -571,7 +592,7 @@ packages:
       name: string_scanner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.5"
+    version: "1.1.0-nullsafety"
   synchronized:
     dependency: transitive
     description:
@@ -585,21 +606,21 @@ packages:
       name: term_glyph
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0-nullsafety"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.15"
+    version: "0.2.19-nullsafety"
   typed_data:
     dependency: transitive
     description:
       name: typed_data
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.6"
+    version: "1.3.0-nullsafety.2"
   utf:
     dependency: transitive
     description:
@@ -620,7 +641,7 @@ packages:
       name: vector_math
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.8"
+    version: "2.1.0-nullsafety.2"
   xdg_directories:
     dependency: transitive
     description:
@@ -636,5 +657,5 @@ packages:
     source: hosted
     version: "3.6.1"
 sdks:
-  dart: ">=2.8.0 <3.0.0"
+  dart: ">=2.10.0-0.0.dev <2.10.0"
   flutter: ">=1.16.0 <2.0.0"
