@@ -47,6 +47,7 @@ dependencies:
   path_provider: ^1.6.5
   flutter_full_pdf_viewer: ^1.0.6
   month_picker_dialog: ^0.3.2
+  firebase_crashlytics: ^0.1.4+1
 
 dev_dependencies:
   flutter_test:

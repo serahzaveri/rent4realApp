@@ -201,57 +201,59 @@ class _ViewPostingsPageState extends State<ViewPostingsPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 25.0),
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: <Widget>[
-                        PostingInfoTile(
-                          iconData: Icons.home,
-                          category: _posting.houseType,
-                          categoryInfo: '${_posting.getIsFurnished()}',
-                        ),
-                        PostingInfoTile(
-                          iconData: Icons.attach_money,
-                          category: 'Rent',
-                          categoryInfo: '\$ ${_posting.price} / month',
-                        ),
+                    child: Container(
+                      child: ListView(
+                        shrinkWrap: true,
+                        children: <Widget>[
+                          PostingInfoTile(
+                            iconData: Icons.home,
+                            category: _posting.houseType,
+                            categoryInfo: '${_posting.getIsFurnished()}',
+                          ),
+                          PostingInfoTile(
+                            iconData: Icons.attach_money,
+                            category: 'Rent',
+                            categoryInfo: '\$ ${_posting.price} / month',
+                          ),
 
-                        PostingInfoTile(
-                          iconData: Icons.hotel,
-                          category: 'Bedrooms',
-                          categoryInfo: '${_posting.getBedroomText()}bedrooms',
-                        ),
-                        PostingInfoTile(
-                          iconData: Icons.wc,
-                          category: 'Bathrooms',
-                          categoryInfo: _posting.getBathroomText(),
-                        ),
-                        PostingInfoTile(
-                          iconData: Icons.local_laundry_service,
-                          category: 'Washer & Dryer Info',
-                          categoryInfo: _posting.washerDryer,
-                        ),
-                        PostingInfoTile(
-                          iconData: Icons.directions_walk,
-                          category: 'Walking time',
-                          categoryInfo: _posting.getWalkingTime(),
-                        ),
-                        PostingInfoTile(
-                          iconData: Icons.directions_bus,
-                          category: 'Bus time',
-                          categoryInfo: _posting.getBusTime(),
-                        ),
-                        /*
-                        PostingInfoTile(
-                          iconData: Icons.train,
-                          category: 'Train time',
-                          categoryInfo: _posting.getTrainTime(),
-                        ),*/
-                        PostingInfoTile(
-                          iconData: Icons.speaker_notes,
-                          category: 'Lease info',
-                          categoryInfo: _posting.getLeaseInfo(),
-                        ),
-                      ],
+                          PostingInfoTile(
+                            iconData: Icons.hotel,
+                            category: 'Bedrooms',
+                            categoryInfo: '${_posting.getBedroomText()}bedrooms',
+                          ),
+                          PostingInfoTile(
+                            iconData: Icons.wc,
+                            category: 'Bathrooms',
+                            categoryInfo: _posting.getBathroomText(),
+                          ),
+                          PostingInfoTile(
+                            iconData: Icons.local_laundry_service,
+                            category: 'Washer & Dryer Info',
+                            categoryInfo: _posting.washerDryer,
+                          ),
+                          PostingInfoTile(
+                            iconData: Icons.directions_walk,
+                            category: 'Walking time',
+                            categoryInfo: _posting.getWalkingTime(),
+                          ),
+                          PostingInfoTile(
+                            iconData: Icons.directions_bus,
+                            category: 'Bus time',
+                            categoryInfo: _posting.getBusTime(),
+                          ),
+                          /*
+                          PostingInfoTile(
+                            iconData: Icons.train,
+                            category: 'Train time',
+                            categoryInfo: _posting.getTrainTime(),
+                          ),*/
+                          PostingInfoTile(
+                            iconData: Icons.speaker_notes,
+                            category: 'Lease info',
+                            categoryInfo: _posting.getLeaseInfo(),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Text(
