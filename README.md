@@ -1,4 +1,4 @@
-# househunter
+# RENT4REAL
 
 Rent4Real is a startup concept aiming to combine a basic rental app with property management software in a way better suited for students.
 Created using Flutter SDK and Firebase.
