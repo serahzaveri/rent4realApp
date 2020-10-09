@@ -1,22 +1,11 @@
 # househunter
 
-Apartment hosting app 
-Flutter SDK
-cross platform - andoid and ios
+Rent4Real is a startup concept aiming to combine a basic rental app with property management software in a way better suited for students.
+Created using Flutter SDK and Firebase.
+It's a cross platform app for andoid and ios.
 
-suports real time chat appliaction using streambuilder
+Currently in testing mode, using testflight for iOS.
 
-firebase used for storing data
+https://www.youtube.com/watch?v=0xUOxgiq0pw&t=30s&ab_channel=Rent4Real
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+To view and use the app email: serah.zaveri@mail.mcgill.ca
