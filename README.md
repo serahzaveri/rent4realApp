@@ -1,11 +1,10 @@
 # RENT4REAL
 
-Rent4Real is a startup concept aiming to combine a basic rental app with property management software in a way better suited for students.
-Created using Flutter SDK and Firebase.
-It's a cross platform app for andoid and ios.
+Rent4Real is a startup concept aiming to combine a basic rental app with property management software in a way better suited for students.<br/>
+Rent4Real app was created for iOS and Android using Flutter SDK for front end, Firebase for back end and used Google Analytics for testing. <br/>
 
-Currently in testing mode, using testflight for iOS.
+Currently in testing mode, using testflight for iOS.<br/>
 
-https://www.youtube.com/watch?v=0xUOxgiq0pw&t=30s&ab_channel=Rent4Real
-
-To view and use the app email: serah.zaveri@mail.mcgill.ca
+To know more about Rent4Real:	https://youtu.be/dhbzN1bZCf0 <br/>
+To know more about the founders of Rent4Real: https://youtu.be/0xUOxgiq0pw <br/>
+To view the working of the app: <br/>
