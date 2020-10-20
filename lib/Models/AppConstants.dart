@@ -4,7 +4,6 @@ import 'package:househunter/Models/userObjects.dart';
 
 class AppConstants {
   static final String appName = 'Rent4Real';
-  static final String GoogleMapsAPIKey = 'AIzaSyC_zl_ZDYuCLTb20duz8T9VaochcXg3CSM';
   static final Color selectedIconColor = Colors.deepOrange;
   static final Color nonSelectedIconColor = Colors.black;
   //make sure to initialize this at some point
